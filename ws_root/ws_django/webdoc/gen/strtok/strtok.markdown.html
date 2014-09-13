@@ -1,0 +1,195 @@
+<h1>C++ Interview Question: strtok</h1>
+<h2>Question and Notes</h2>
+<pre><code>- If expect a lot of tokens, could speed-up by building a lookup table of
+  the lookup chars.
+- Careful of keeping the original ptr to string through a static pointer
+- Dont use memcpy(...) for copying string -- it is easy to forget the NULL terminator
+</code></pre>
+<h2>Code</h2>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+char* myStrtok (char* str_, const char* delims)
+{
+  size_t delimSize = strlen(delims);
+
+  static size_t strLen = 0;
+  static size_t wBeg = 0;
+  static size_t wEnd = 0;
+  static char* str = 0;
+
+  if(str_ != 0)
+  {
+    str = str_;
+    strLen = strlen(str_);
+    wBeg = 0;
+    wEnd = 0;
+  }
+  else
+  {
+    wBeg = wEnd + 1;
+  }
+
+  if(wBeg &gt;= strLen)
+    return 0;
+
+  size_t loc = wBeg;
+
+  //Forward to first non-delim
+  while( str[loc] != 0 )
+  {
+    bool foundToken = false;
+    for(size_t i = 0; i &lt; delimSize; ++i)
+    {
+      if( str[loc] == delims[i] )
+      {
+        wBeg = loc + 1;
+        foundToken = true;
+      }
+    }
+
+    if( foundToken == false )
+    {
+      wBeg = loc;
+      break;
+    }
+
+    ++loc;
+  }
+
+  //Advance to next delim
+  while( str[loc] != 0 )
+  {
+    for(size_t i = 0; i &lt; delimSize; ++i)
+    {
+      if( str[loc] == delims[i] )
+      {
+        str[loc] = 0;
+        wEnd = loc;
+        return &amp;str[wBeg];
+      }
+    }
+    ++loc;
+  }
+
+  wEnd = loc;
+  return &amp;str[wBeg];
+}
+
+void test_strtok(char* str, char* delims)
+{
+  cout&lt;&lt;endl&lt;&lt;"Orig. str: "&lt;&lt;str&lt;&lt;endl;
+
+  char* str_c1 = new char[ strlen(str)+1 ];
+  char* str_c2 = new char[ strlen(str)+1 ];
+  strcpy(str_c1, str);
+  strcpy(str_c2, str);
+
+  cout&lt;&lt;endl&lt;&lt;"C lib. result:"&lt;&lt;endl;
+  char * pch = 0;
+  pch = strtok (str_c1, delims);
+  while (pch != 0)
+  {
+    cout&lt;&lt;pch&lt;&lt;endl;
+    pch = strtok(0, delims);
+  }
+
+  cout&lt;&lt;endl&lt;&lt;"My result:"&lt;&lt;endl;
+  pch = 0;
+  pch = myStrtok (str_c2, delims);
+  while (pch != 0)
+  {
+    cout&lt;&lt;pch&lt;&lt;endl;
+    pch = myStrtok(0, delims);
+  }
+
+  delete[] str_c1;
+  delete[] str_c2;
+}
+
+int main()
+{
+  cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+  char str_q1[] ="- This, a sample string.";
+  test_strtok(str_q1, " ,.-");
+
+  char str_q2[] ="- This, a sample string";
+  test_strtok(str_q2, " ,.-");
+
+  char str_q3[] ="- This, a sample string.";
+  test_strtok(str_q3, "");
+
+  char str_q4[] ="";
+  test_strtok(str_q4, "");
+
+  char str_q5[] ="";
+  test_strtok(str_q5, "asdasd");
+
+  char str_q6[] =".,.,..,,..,,.";
+  test_strtok(str_q6, ".,");
+
+  cout&lt;&lt;"End"&lt;&lt;endl;
+  return 0;
+}
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>Begin
+
+Orig. str: - This, a sample string.
+
+C lib. result:
+This
+a
+sample
+string
+
+My result:
+This
+a
+sample
+string
+
+Orig. str: - This, a sample string
+
+C lib. result:
+This
+a
+sample
+string
+
+My result:
+This
+a
+sample
+string
+
+Orig. str: - This, a sample string.
+
+C lib. result:
+- This, a sample string.
+
+My result:
+- This, a sample string.
+
+Orig. str:
+
+C lib. result:
+
+My result:
+
+Orig. str:
+
+C lib. result:
+
+My result:
+
+Orig. str: .,.,..,,..,,.
+
+C lib. result:
+
+My result:
+
+End
+</code></pre>

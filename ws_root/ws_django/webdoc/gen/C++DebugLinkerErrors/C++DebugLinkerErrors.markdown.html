@@ -1,0 +1,21 @@
+<p>﻿# C++ Linker Errors Debugging</p>
+<p>C++ compilers generally do not produce very helpful error messages (it is part of the training of a C++ code to learn to <em>interpret</em> the error messages -- one needs to understand that the error message is a <em>symptom</em> that can lead to the error and rarely the error itself, except in the most trivial cases). C++ linkers are worse.</p>
+<p>I had the really funny error today that the linker could not find a function I knew very well was in the library that I was providing. This is what I was getting from the C++ compiler:</p>
+<pre><code>    error LNK2019: unresolved external symbol "public: bool __thiscall imageRead::seqStart(char *,class ATL::CStringT&lt;wchar_t,class StrTraitMFC_DLL&lt;wchar_t,class ATL::ChTraitsCRT&lt;wchar_t&gt; &gt; &gt;)"
+</code></pre>
+<p>The function outlined was <em>definitely</em> in the library, which was properly linked. I checked 10 times.</p>
+<h2>dumpbin.exe to The Rescue</h2>
+<p>Visual studio comes with the very handy <strong>dumpbin.exe</strong> utility. It allows one to see the functions inside a <em>.obj</em> or <em>.lib</em> file. It is usually contained in the following directory:</p>
+<pre><code>    C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin
+</code></pre>
+<p>Here is <a href="http://support.microsoft.com/kb/177429">the microsoft help page for the tool</a>. Here is the usage that helped me find my problem:</p>
+<pre><code>dumpbin.exe /SYMBOLS foo.lib
+dumpbin.exe /SYMBOLS foo.obj
+</code></pre>
+<p>By using dumpbin and grepping for ‘seqStart’, I got the following:</p>
+<pre><code>    public: bool __thiscall imageRead::seqStart(char *,class ATL::CStringT&lt;char,class StrTraitMFC_DLL&lt;char,class ATL::ChTraitsCRT&lt;char&gt; &gt; &gt;))
+</code></pre>
+<p>The linker error indicates that it is looking for the following function:</p>
+<pre><code>    public: bool __thiscall imageRead::seqStart(char *,class ATL::CStringT&lt;wchar_t,class StrTraitMFC_DLL&lt;wchar_t,class ATL::ChTraitsCRT&lt;wchar_t&gt; &gt; &gt;)
+</code></pre>
+<p>… which means that the only difference is that the library code somehow generated wchar CString, and the linker is looking for char CString. My guess is that there is a #define somewhere that defines the behavior of CString, and that it was somehow different in the two libraries. I just replaced a few to those CString with std::string and then the linker error disappeared.</p>

@@ -1,0 +1,9 @@
+"""
+Script to be invoked from the command line to use the tool.
+"""
+
+import sa_utils.code_search.main
+import sys
+
+sa_utils.code_search.main.runFromCmdLineArguments()
+

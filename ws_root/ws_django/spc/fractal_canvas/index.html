@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html lang="en">
+
+<head>
+    <title>Canvas Fractals!</title>
+    <meta name="description" content="Timers in HTML + JavaScript">
+    <meta name="author" content="david">
+    <meta name="content" content="Timers in HTML + JavaScript">
+    <style type="text/css">
+        body {
+            background-color: #F5F5F5;
+        }
+        h1,
+        h2,
+        h3,
+        p {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #080808;
+        }
+        #main_outer {
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            right: 20%;
+            transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+        }
+        #code_input {
+            position: absolute;
+            height: 90%;
+            width: 40%;
+        }
+        button {
+            position: relative;
+            vertical-align: top;
+            width: 100%;
+            padding: 0;
+            font-size: 22px;
+            color: white;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+            background: #3498db;
+            border: 0;
+            border-bottom: 2px solid #2a8bcc;
+            cursor: pointer;
+            -webkit-box-shadow: inset 0 -2px #2a8bcc;
+            box-shadow: inset 0 -2px #2a8bcc;
+        }
+        button:active {
+            top: 1px;
+            outline: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body onload="initEval();">
+
+
+    <div id="debug"></div>
+
+    <div id="main_outer">
+        <canvas id="main_canvas" width="512" height="512"></canvas>
+        <textarea type="text" id="code_input">
+__jscode__
+        </textarea>
+        <button id="submit_code" onclick="submitCode();">Update Fractal</button>
+    </div>
+
+    Permanent link to your fractal: <a id="fractal_url" href="/"><a>
+
+    <script type="text/javascript">
+        var debug = false;
+        var code64 = btoa( $("#code_input").val() );
+
+        function submitCode() {
+            //$("#debug").text($("#code_input").val());
+            var code = $("#code_input").val();
+            var fn = eval(code);
+            canvasStuff(fn);
+            var code64 = btoa( $("#code_input").val() );
+
+            $.ajax({
+                url: "/spc/fractals/in/",
+                type: "POST",
+                data: JSON.stringify({"fractal64": code64}),
+                success: (function(data){
+                    var key = JSON.parse(data)['fractalKey']
+                    var url = "/spc/fractals/" + key
+                    $("#fractal_url").attr("href", url) 
+                    $("#fractal_url").text(url);
+                }),
+                error: (function(){$("#debug").text("Error!");}) 
+            });
+        }
+
+        function initEval() {
+            submitCode();
+        }
+
+        function canvasStuff(fn) {
+            var canvas = document.getElementById('main_canvas');
+            var ctx = canvas.getContext('2d');
+            var dx = canvas.width;
+            var dy = canvas.height;
+
+            dVals = [];
+            var pixel = {};
+            for (var i = 0; i < dx; ++i) {
+                for (var j = 0; j < dy; ++j) {
+
+                    fn(i / dx, j / dy, pixel);
+                    pixel.r = Math.round(Math.abs(pixel.r * 255));
+                    pixel.g = Math.round(Math.abs(pixel.g * 255));
+                    pixel.b = Math.round(Math.abs(pixel.b * 255));
+                    ctx.fillStyle = "rgb(" + pixel.r + "," + pixel.g + "," + pixel.b + ")";
+                    ctx.fillRect(i, j, 1, 1);
+
+                    if (debug && i < 5 && j < 5) {
+                        dVals.push(i.toString() + "_" + j.toString() + ": rgb(" + pixel.r + "," + pixel.g + "," + pixel.b + ")");
+                    }
+
+                }
+            }
+
+            if (debug) {
+                $("#debug").html(dVals.join("<br/>"));
+            }
+        }
+    </script>
+</body>
+
+</html>

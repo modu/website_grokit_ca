@@ -1,0 +1,73 @@
+<html>
+ <head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
+  <script type="application/javascript">
+
+//Canvas size info
+var WIDTH = 300;
+var HEIGHT = 300;
+
+//Canvas context
+var ctx;
+
+// Keyboard
+var rightDown = false;
+var leftDown = false;
+
+//World state
+var x = 150;
+var y = 150;
+var dx = 0;
+var dy = 0;
+
+function onKeyDown(evt) {
+  if (evt.keyCode == 39) rightDown = true;
+  else if (evt.keyCode == 37) leftDown = true;
+}
+
+function onKeyUp(evt) {
+  if (evt.keyCode == 39) rightDown = false;
+  else if (evt.keyCode == 37) leftDown = false;
+}
+
+$(document).keydown(onKeyDown);
+$(document).keyup(onKeyUp);
+
+function init(){
+  var canvas = document.getElementById('canvas');
+  ctx = canvas.getContext('2d');
+  return setInterval(draw,33);
+}
+
+function circle(x,y,r) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI*2, true);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function clear() {
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
+}
+
+function draw() {
+ clear();
+ 
+ if( rightDown == true )
+  dx = dx + 1;
+ if( leftDown == true )
+  dx = dx - 1;
+  
+ circle(x, y, 10);
+ x += dx;
+ y += dy;  
+}
+  </script>
+ </head>
+ <body onload="init();">
+   <canvas id="canvas" width="300" height="300">
+   Your browser does not support canvas<br>
+   This won't work :(
+   </canvas>
+ </body>
+</html>

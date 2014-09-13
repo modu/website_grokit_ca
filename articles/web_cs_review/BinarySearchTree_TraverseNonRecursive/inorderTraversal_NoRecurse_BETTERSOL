@@ -1,0 +1,38 @@
+// Algorithm for an iterative inorder traversal of a
+// binary tree.  Compare this to the simplicity of
+// a recursive inorder traversal (page 483)
+//
+// Assume that the binary tree is pointed to by root_ptr
+
+
+   bool done;
+   binary_tree_node<Item> *root_ptr, *cursor;
+   stack<binary_tree_node<Item> *> s;
+
+   cursor = root_ptr;             //set cursor to root of binary tree
+   done = false;
+
+   while (!done)
+   {
+      if(cursor != NULL)
+      {
+         s.push(cursor);          //place pointer to node on the stack
+                                  //before traversing the node's left subtree
+         cursor = cursor->left(); //traverse the left subtree
+      }
+      else                        //backtrack from the empty subtree and
+                                  //visit the node at the top of the stack;
+                                  //however, if the stack is empty, you are
+                                  //done
+      {
+         if (!s.empty())
+         {
+             cursor = s.top();
+         s.pop();
+             cout << cursor->data();
+             cursor = cursor->right();
+         }
+         else
+             done = true;
+      }
+   }

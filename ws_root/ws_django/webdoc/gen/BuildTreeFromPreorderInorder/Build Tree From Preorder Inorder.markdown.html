@@ -1,0 +1,169 @@
+<h1>C++ Interview Question: Build Tree From Preorder Inorder</h1>
+<h2>Question and Notes</h2>
+<pre><code>//http://www.leetcode.com/2011/04/construct-binary-tree-from-inorder-and-preorder-postorder-traversal.html
+
+- Don't forget to point-out have to delete memory at the end
+</code></pre>
+<h2>Code</h2>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cassert&gt;
+
+using namespace std;
+
+class Node
+{
+public:
+  Node()
+  {
+    left = 0;
+    right = 0;
+    val = -1;
+  }
+
+  virtual ~Node()
+  {
+    delete left;
+    delete right;
+  }
+
+  Node* left;
+  Node* right;
+  int val;
+};
+
+int findValueIndex(int val, const int* array, size_t size)
+{
+  for(size_t i = 0; i &lt; size; ++i)
+  {
+    if(val == array[i])
+      return i;
+  }
+  return -1;
+}
+
+//! This assumes that there are no duplicate values
+Node* buildTree(const int* preorder, const int* inorder, size_t size)
+{
+  if(size &lt;= 0)
+    return 0;
+
+  Node* root = new Node;
+  root-&gt;val = preorder[0];
+
+  if(size &gt; 1)
+  {
+    int inorderRootIndex = findValueIndex(root-&gt;val, inorder, size);
+    //The root is not always contained in the inorder array.
+    if(inorderRootIndex == -1)
+      return root;
+    root-&gt;left = buildTree(&amp;preorder[1], &amp;inorder[0], inorderRootIndex);
+
+    if((size_t)inorderRootIndex + 1 &lt; size)
+    {
+      root-&gt;right = buildTree( 
+        &amp;preorder[inorderRootIndex + 1], 
+        &amp;inorder[inorderRootIndex + 1], 
+        size - inorderRootIndex - 1);
+    }
+  }
+  return root;
+}
+
+//left, root, right
+void inorderTransverse(const Node* root, vector&lt;int&gt;&amp; flatTree_inorder)
+{
+  if(root == 0)
+  {
+    cerr&lt;&lt; "Warning: NULL root" &lt;&lt;endl;
+    return;
+  }
+
+  if(root-&gt;left != 0)
+    inorderTransverse(root-&gt;left, flatTree_inorder);
+
+  //visit
+  flatTree_inorder.push_back( root-&gt;val );
+
+  if(root-&gt;right != 0)
+    inorderTransverse(root-&gt;right, flatTree_inorder);
+}
+
+// root, left, right
+void preorderTransverse(const Node* root, vector&lt;int&gt;&amp; flatTree_preorder)
+{
+  if(root == 0)
+  {
+    cerr&lt;&lt; "Warning: NULL root" &lt;&lt;endl;
+    return;
+  }
+
+  //visit
+  flatTree_preorder.push_back( root-&gt;val );
+
+  if(root-&gt;left != 0)
+    preorderTransverse(root-&gt;left, flatTree_preorder);
+
+  if(root-&gt;right != 0)
+    preorderTransverse(root-&gt;right, flatTree_preorder);
+}
+
+template&lt;class T_&gt;
+void printVect( const vector&lt;T_&gt;&amp; v )
+{
+  for(size_t i = 0; i &lt; v.size(); ++i)
+  {
+    cout&lt;&lt; v[i] &lt;&lt; endl;
+  }
+}
+
+int main()
+{
+  cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+  int preorder[] = {7, 10, 4, 3, 1, 2, 8, 11};
+  int inorder[] = {4, 10, 3, 1, 7, 11, 8, 2};
+  size_t size = sizeof(preorder) / sizeof(int);
+
+  Node* root = buildTree(preorder, inorder, size);
+
+  cout&lt;&lt;"flatTree_inorder"&lt;&lt;endl;
+  vector&lt;int&gt; flatTree_inorder;
+  inorderTransverse(root, flatTree_inorder);
+  printVect( flatTree_inorder );
+  assert( memcmp(inorder, &amp;flatTree_inorder[0], sizeof(inorder)) == 0 );
+
+  cout&lt;&lt;"flatTree_preorder"&lt;&lt;endl;
+  vector&lt;int&gt; flatTree_preorder;
+  preorderTransverse(root, flatTree_preorder);
+  printVect( flatTree_preorder );
+  assert( memcmp(preorder, &amp;flatTree_preorder[0], sizeof(preorder)) == 0 );
+
+  delete root;
+
+  cout&lt;&lt;"End"&lt;&lt;endl;
+  return 0;
+}
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>Begin
+flatTree_inorder
+4
+10
+3
+1
+7
+11
+8
+2
+flatTree_preorder
+7
+10
+4
+3
+1
+2
+8
+11
+End
+</code></pre>

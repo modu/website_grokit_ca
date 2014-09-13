@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../../../static/default.css" type="text/css">
+    <title>{{ webdoc_entry.getTitle }}</title>
+    <meta name="description" content="{{ webdoc_entry.getMetaDescription }}" />
+    <meta name="keywords" content="{{ webdoc_entry.getMetaKeywords }}"/>
+    <meta name="author" content="David" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+<!-- MathJax: see http://docs.mathjax.org/en/latest/start.html
+Example: 
+
+When \\(a \ne 0\\), there are two solutions to \\(ax^2 + bx + c = 0\\) and they are $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$.
+    - Inline: \\(, \\)
+    - Not inline: $$, $$
+-->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config( {tex2jax: {inlineMath: [['\\(','\\)']]},
+                       "HTML-CSS": {scale: 150}});
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2144242-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+
+<body>
+
+<p><a href="http://www.grokit.ca/">(Website now at www.grokit.ca)</a></p>
+
+{{ webdoc_entry.toHtml|safe }}
+
+<h2>Comments</h2>
+
+{{ comments|safe }}
+
+<div id="sidebar_left"> 
+  <h3>Navigation</h3> 
+    <div id="lstsidemenu_main">
+      <p><a href="/">Back to Main</a> </p>
+    </div>
+  <h3>Other Pages</h3> 
+    <div id="lstsidemenu_otherpages">
+      {% for webdoc_entry in webdoc_entries %}
+      <p><a href="/cnt/{{ webdoc_entry.getEntrySubUrl }}">{{ webdoc_entry.getEntrySubUrl }}</a> </p>
+      {% endfor %}
+    </div>
+</div>
+
+<div id="sidebar_right"> 
+<h2>RSS</h2>
+  <a href= "http://feeds.feedburner.com/DavidWebdocFullList">
+  <img src="../../static/rss_128.png" />
+  </a>
+  <a href= "http://feeds.feedburner.com/DavidWebdocFullList">Subscribe to RSS feed</a>
+</div>
+
+{{ ad_html_code|safe }}
+
+<p>Question(s)? You can ask away <a href="https://twitter.com/david_140orless">on twitter </a> @david_140orless.</p>
+
+</body>
+</html>

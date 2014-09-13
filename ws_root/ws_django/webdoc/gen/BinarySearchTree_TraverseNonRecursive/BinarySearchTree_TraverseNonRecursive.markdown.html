@@ -1,0 +1,436 @@
+<h1>C++ Interview Question: Binary Search Tree, Traverse without Recursion</h1>
+<h1>Question</h1>
+<p>Given a binary search tree (BST) with the following node structure:</p>
+<pre><code>    class Node
+    {
+    public:
+
+        Node* left;
+        Node* right;
+        int value;
+    };
+</code></pre>
+<ul>
+<li>
+<p>Write code to navigate the tree in <a href="http://en.wikipedia.org/wiki/Tree_traversal">preorder, postorder and inorder</a> <strong>non-recursively</strong>.</p>
+</li>
+<li>
+<p>For more basic BST questions, see <a href="/cnt/BinarySearchTree">BinarySearchTree</a>.</p>
+</li>
+</ul>
+<h2>References (in Order of Awesomeness)</h2>
+<ul>
+<li><a href="http://algs4.cs.princeton.edu/32bst/">Sedgewick's Algorithms book's website, chapter on BST</a>.</li>
+<li><a href="http://en.wikipedia.org/wiki/Binary_search_tree">BST Wikipedia</a>.</li>
+</ul>
+<h1>Solution(s)</h1>
+<h1>Code</h1>
+<p><strong>[Inserted file: bst_norecurse.cpp.]</strong></p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;deque&gt;
+#include &lt;stack&gt;
+#include &lt;utility&gt;
+#include &lt;cassert&gt;
+
+using namespace std;
+
+class Node
+{
+public:
+
+Node()
+{
+    left = 0;
+    right = 0;
+    value = -1;
+}
+
+Node* left;
+Node* right;
+int value;
+};
+
+class BinarySearchTree
+{
+public:
+
+BinarySearchTree()
+{
+    root = 0;
+}
+
+const Node* getRoot(){
+    return root;
+}
+
+void insert(float v)
+{
+    if(root == 0)
+    {
+        root = new Node;
+        root-&gt;value = v;
+        return;
+    }
+
+    Node* np = root;
+
+    while(1)
+    {
+        if( v &lt; np-&gt;value )
+        {
+            if(np-&gt;left == 0)
+            {
+                np-&gt;left = new Node;
+                np-&gt;left-&gt;value = v;
+                return;
+            }
+            else
+            {
+                np = np-&gt;left;
+            }
+        }
+        else
+        { // &gt;=
+            if(np-&gt;right == 0)
+            {
+                np-&gt;right = new Node;
+                np-&gt;right-&gt;value = v;
+                return;
+            }
+            else
+            {
+                np = np-&gt;right;
+            }
+        }
+    }
+}
+
+const Node* find(float v)
+{
+    const Node* n = root;
+
+    bool progress = true;
+    while (progress)
+    {
+        progress = false;
+        if (v == n-&gt;value)
+        {
+            return n;
+        }
+        else if(v &lt; n-&gt;value &amp;&amp; n-&gt;left != 0)
+        {
+            n = n-&gt;left;
+            progress = true;
+        }
+        else if(v &gt; n-&gt;value &amp;&amp; n-&gt;right != 0)
+        {
+            n = n-&gt;right;
+            progress = true;
+        }
+    }
+
+    return 0;
+}
+
+private:
+
+Node* root;
+};
+
+void levelOrderTraversal(const Node* n) // ~= Breadth First Search (BFS)
+{
+    cout&lt;&lt;"levelOrderTraversal()"&lt;&lt;endl;
+    if(n == 0)
+        return;
+
+    deque&lt;const Node*&gt; queue_node;
+    queue_node.push_back(n);
+
+    while(queue_node.size() &gt; 0)
+    {
+        const Node* nd = queue_node.back();
+        queue_node.pop_back();
+
+        cout&lt;&lt;nd-&gt;value&lt;&lt;endl;
+
+        if(nd-&gt;left != 0)
+            queue_node.push_front(nd-&gt;left);
+        if(nd-&gt;right != 0)
+            queue_node.push_front(nd-&gt;right);
+    }
+}
+
+void preorderTraversal(const Node* n)
+{
+    //preorder: visit, left, right
+    if(n == 0)
+        return;
+
+    cout&lt;&lt; n-&gt;value &lt;&lt; endl;
+
+    if(n-&gt;left != 0)
+        preorderTraversal(n-&gt;left);
+    if(n-&gt;right != 0)
+        preorderTraversal(n-&gt;right);
+}
+
+void postorderTraversal(const Node* n)
+{
+    //postorder: left, right, visit
+    if(n == 0)
+        return;
+
+    if(n-&gt;left != 0)
+        postorderTraversal(n-&gt;left);
+    if(n-&gt;right != 0)
+        postorderTraversal(n-&gt;right);
+
+    cout&lt;&lt; n-&gt;value &lt;&lt; endl;
+}
+
+void preorderTraversal_NoRecurse(Node* n)
+{
+    //preorder: visit, left, right
+    if(n == 0)
+        return;
+
+    stack&lt;Node*&gt; st;
+    st.push(n);
+
+    while(st.size() != 0)
+    {
+        Node* c = st.top();
+        st.pop();
+
+        if(c != 0)
+        {
+            cout&lt;&lt; c-&gt;value &lt;&lt; endl;
+
+            if(c-&gt;right != 0)
+                st.push( c-&gt;right );
+            if(c-&gt;left != 0)
+                st.push( c-&gt;left );
+        }
+    }
+}
+
+// Relevant: discussion in http://leetcode.com/2010/04/binary-search-tree-in-order-traversal.html.
+void inorderTraversal_NoRecurse(Node* root)
+{
+    // inorder: left, visit, right
+    if(root == 0)
+        return;
+
+    stack&lt; pair&lt;bool, Node*&gt; &gt; st;
+    st.push( make_pair(false, root) );
+
+    while(!st.empty())
+    {
+        pair&lt;bool, Node*&gt; pn = st.top();
+
+        st.pop();
+
+        // Mark node as touched.
+        if(pn.first == true)
+        {
+            cout&lt;&lt; pn.second-&gt;value &lt;&lt; endl;
+        }
+        else
+        {
+            pn.first = true;
+
+            if(pn.second-&gt;right != 0)
+                st.push( make_pair(false, pn.second-&gt;right) );
+
+            st.push( pn );
+
+            if(pn.second-&gt;left != 0)
+                st.push( make_pair(false, pn.second-&gt;left) );
+        }
+    }
+}
+
+// Relevant: http://www.leetcode.com/2010/10/binary-tree-post-order-traversal.html.
+void postorderTraversal_NoRecurse(Node* root)
+{
+    // postorder: left, right, visit
+    if(root == 0)
+        return;
+
+    stack&lt; pair&lt;bool, Node*&gt; &gt; st;
+    st.push( make_pair(false, root) );
+
+    while(!st.empty())
+    {
+        pair&lt;bool, Node*&gt; pn = st.top();
+
+        st.pop();
+
+        // Mark node as touched.
+        if(pn.first == true)
+        {
+            cout&lt;&lt; pn.second-&gt;value &lt;&lt; endl;
+        }
+        else
+        {
+            pn.first = true;
+            st.push( pn );
+
+            if(pn.second-&gt;right != 0)
+                st.push( make_pair(false, pn.second-&gt;right) );
+
+            if(pn.second-&gt;left != 0)
+                st.push( make_pair(false, pn.second-&gt;left) );
+        }
+    }     
+}
+
+void inorderTraversal(const Node* n)
+{
+    //inorder: left, visit, right    
+    if(n == 0)
+        return;
+
+    if(n-&gt;left != 0)
+        inorderTraversal(n-&gt;left);
+
+    cout&lt;&lt; n-&gt;value &lt;&lt; endl;
+
+    if(n-&gt;right != 0)
+        inorderTraversal(n-&gt;right);
+}
+
+int main()
+{
+    cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+    BinarySearchTree bst;
+
+    bst.insert(7);
+    bst.insert(3);
+    bst.insert(10);
+    bst.insert(2);
+    bst.insert(4);
+    bst.insert(777);
+    bst.insert(500);
+    bst.insert(1001);
+
+    assert (bst.find(12345) == 0);
+    assert (bst.find(bst.getRoot()-&gt;value) == bst.getRoot());
+    assert (bst.find(bst.getRoot()-&gt;left-&gt;value) == bst.getRoot()-&gt;left);
+    assert (bst.find(bst.getRoot()-&gt;right-&gt;value) == bst.getRoot()-&gt;right);
+    assert (bst.find(bst.getRoot()-&gt;right-&gt;right-&gt;left-&gt;value) == bst.getRoot()-&gt;right-&gt;right-&gt;left);
+
+    cout&lt;&lt;"--levelOrderTraversal:"&lt;&lt;endl;
+
+    levelOrderTraversal(bst.getRoot());
+
+    cout&lt;&lt;"--preorderTraversal:"&lt;&lt;endl;
+
+    preorderTraversal(bst.getRoot());
+
+    cout&lt;&lt;"--preorderTraversal_NoRecurse:"&lt;&lt;endl;
+
+    preorderTraversal_NoRecurse((Node*)bst.getRoot());
+
+    cout&lt;&lt;"--:inorderTraversal:"&lt;&lt;endl;
+
+    inorderTraversal((Node*)bst.getRoot());
+
+    cout&lt;&lt;"--:inorderTraversal_NoRecurse:"&lt;&lt;endl;
+
+    inorderTraversal_NoRecurse((Node*)bst.getRoot());
+
+    cout&lt;&lt;"--:postorderTraversal:"&lt;&lt;endl;
+
+    postorderTraversal((Node*)bst.getRoot());
+
+    cout&lt;&lt;"--:postorderTraversal_NoRecurse:"&lt;&lt;endl;
+
+    postorderTraversal_NoRecurse((Node*)bst.getRoot());
+
+    cout&lt;&lt;"--"&lt;&lt;endl;
+
+    cout&lt;&lt;"End"&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+<h1>Code Output</h1>
+<p><strong>[Inserted file: bst_norecurse.cpp.out.]</strong></p>
+<pre><code>Begin
+--levelOrderTraversal:
+levelOrderTraversal()
+7
+3
+10
+2
+4
+777
+500
+1001
+--preorderTraversal:
+7
+3
+2
+4
+10
+777
+500
+1001
+--preorderTraversal_NoRecurse:
+7
+3
+2
+4
+10
+777
+500
+1001
+--:inorderTraversal:
+2
+3
+4
+7
+10
+500
+777
+1001
+--:inorderTraversal_NoRecurse:
+2
+3
+4
+7
+10
+500
+777
+1001
+--:postorderTraversal:
+2
+4
+3
+500
+1001
+777
+10
+7
+--:postorderTraversal_NoRecurse:
+2
+4
+3
+500
+1001
+777
+10
+7
+--
+End
+</code></pre>
+<h2>Explanation</h2>
+<p><strong>inorderTraversal_NoRecurse</strong> is especially tricky. Non-recursive inorder traversal is very unnatural.</p>
+<p>A way to think of this solution is that it is the same thing as the recursive solution, except that we use the stack to remember what would be stored in the <em>recursion stack</em>. Let's say you have the following tree:</p>
+<pre><code>   7
+  / \
+ 3   10
+</code></pre>
+<p>... in the recursive code, you would have: {recurse left, print value, recurse right}. Since recurse left is picked first, the <em>stack pointer</em> will bring you back to 'print value' when the rest of the call is done. In the non-recursive mode, we store the node in the following order: {10, 7*, 3},  with 7 having a flag that it has already been touched (next time around print the value). This is the equivalent of recursing on node 3, then when it is done visit 7 without recursing and recurse in 10. The stack with a flag can be seen as just a clever way to simulate recursive behavior.</p>
+<p><a href="http://web.cs.wpi.edu/~cs2005/common/iterative.inorder">It is actually possible to do this without adding extra data (besides the stack).</a></p>

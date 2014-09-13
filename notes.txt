@@ -1,0 +1,46 @@
+
+# Idea for Entries
+
+- MathTrick_Sum1ToN
+
+# Todo
+
+## A
+
+- have the option: dext.insertCode('filename')
+- blog post math convention in computer science
+
+## B
+- ws build a class wsite, then dump to html / files (allows all the fun crossref)
+    --> allow cross ref
+
+- make the links point to grokit.ca
+    - post-processor of 'my special vocabulary'
+    
+- able to reference other pahes with # sign
+
+- split the code in parts:
+    1. markdown --> html (gen_web_from_data.py)
+    2. logic --> html (generating tag clouds, ...)
+    3. html --> website
+
+## C
+
+- permalink system
+
+- Automatic translation of files to static server (do not want to have to put '../../static/<url>' everywhere
+    - class names (install eclipse pydev for refactoring)
+- global problems
+    - remove dependency from web item  
+    - change global: use a fn (see code for global in my files)
+    - stop using the global keyword
+
+# GQL Queries
+
+SELECT * FROM WebDocComment WHERE date > DATE('2011-07-06')
+
+# Dependencies
+
+* http://www.djangoproject.com/download/1.1.3/tarball/
+* http://googleappengine.googlecode.com/files/google_appengine_1.4.0.zip
+

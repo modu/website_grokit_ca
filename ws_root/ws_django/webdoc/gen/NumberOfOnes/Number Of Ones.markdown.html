@@ -1,0 +1,103 @@
+<h1>C++ Interview Question: Number Of Ones</h1>
+<h2>Question and Notes</h2>
+<h2>Code</h2>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cassert&gt;
+
+using namespace std;
+
+int nOnes(unsigned int n)
+{
+  int nOnes = 0;
+  while(n &gt; 0)
+  {
+    if((n &amp; 0x1) == 1)
+      ++nOnes;
+    n = n &gt;&gt; 1;
+  }
+  return nOnes;
+}
+
+int nOnes_Fast(unsigned int n)
+{
+  int nOnes = 0;
+  while(n &gt; 0)
+  {
+    n = n &amp; (n - 1);
+    ++nOnes;
+  }
+  return nOnes;
+}
+
+bool isMultipleOfTwo(unsigned int n)
+{
+  if(n &lt;= 1)
+    return false;
+  return (n &amp; (n - 1)) == 0 ? true : false;
+}
+
+int main()
+{
+  cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+  cout&lt;&lt; nOnes(0) &lt;&lt;endl;
+  cout&lt;&lt; nOnes(1) &lt;&lt;endl;
+  cout&lt;&lt; nOnes(2) &lt;&lt;endl;
+  cout&lt;&lt; nOnes(3) &lt;&lt;endl;
+  cout&lt;&lt; nOnes(7) &lt;&lt;endl;
+  cout&lt;&lt; nOnes(255) &lt;&lt;endl;
+  cout&lt;&lt; nOnes(256) &lt;&lt;endl;
+
+  cout&lt;&lt; nOnes_Fast(0) &lt;&lt;endl;
+  cout&lt;&lt; nOnes_Fast(1) &lt;&lt;endl;
+  cout&lt;&lt; nOnes_Fast(2) &lt;&lt;endl;
+  cout&lt;&lt; nOnes_Fast(3) &lt;&lt;endl;
+  cout&lt;&lt; nOnes_Fast(7) &lt;&lt;endl;
+  cout&lt;&lt; nOnes_Fast(255) &lt;&lt;endl;
+  cout&lt;&lt; nOnes_Fast(256) &lt;&lt;endl;
+
+  cout&lt;&lt;"--"&lt;&lt;endl;
+
+  cout&lt;&lt; isMultipleOfTwo(0) &lt;&lt; endl;
+  cout&lt;&lt; isMultipleOfTwo(1) &lt;&lt; endl;
+  cout&lt;&lt; isMultipleOfTwo(2) &lt;&lt; endl;
+  cout&lt;&lt; isMultipleOfTwo(3) &lt;&lt; endl;
+  cout&lt;&lt; isMultipleOfTwo(4) &lt;&lt; endl;
+  cout&lt;&lt; isMultipleOfTwo(200) &lt;&lt; endl;
+  cout&lt;&lt; isMultipleOfTwo(201) &lt;&lt; endl;
+  cout&lt;&lt; isMultipleOfTwo(255) &lt;&lt; endl;
+  cout&lt;&lt; isMultipleOfTwo(256) &lt;&lt; endl;
+
+  cout&lt;&lt;"End"&lt;&lt;endl;
+  return 0;
+}
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>Begin
+0
+1
+1
+2
+3
+8
+1
+0
+1
+1
+2
+3
+8
+1
+--
+0
+0
+1
+0
+1
+0
+0
+0
+1
+End
+</code></pre>

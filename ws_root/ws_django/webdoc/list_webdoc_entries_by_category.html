@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../../static/default.css" type="text/css">
+    <title>List of Content</title>
+    <meta name="description" content="List of all entries on website" />
+    <meta name="keywords" content="Python,Book review,Book reading notes,C++,C#,programming, open-source"/>
+    <meta name="author" content="David" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2144242-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+
+<body>
+
+<h1>List of Content</h1>
+
+<ul>
+
+{% for key, value in dict_category_webentries.items %}
+  <li>
+  <h3>Category: {{ key }}</h3>
+  
+  {% for webdoc_entry in value %}
+    <p><a href="/cnt/{{ webdoc_entry.getEntrySubUrl }}">{{ webdoc_entry.getEntrySubUrl }}</a> ({{ webdoc_entry.getDate }}) </p>
+  {% endfor %}
+  </li>
+  
+{% endfor %}
+
+</ul>
+
+<div id="sidebar_right"> 
+<h2>RSS</h2>
+  <a href= "http://feeds.feedburner.com/DavidWebdocFullList">
+  <img src="../../static/rss_128.png" />
+  </a>
+  <a href= "http://feeds.feedburner.com/DavidWebdocFullList">Subscribe to RSS feed</a>
+</div>
+
+

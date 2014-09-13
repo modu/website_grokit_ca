@@ -1,0 +1,9 @@
+
+{% for key, value in dict_tags_webentries.items %}
+  <h3>Tag: {{ key }}</h3>
+  
+  {% for webdoc_entry in value %}
+    <p><a href="/cnt/{{ webdoc_entry.getEntrySubUrl }}">{{ webdoc_entry.getEntrySubUrl }}</a> ({{ webdoc_entry.getDate }}) </p>
+  {% endfor %}
+  
+{% endfor %}

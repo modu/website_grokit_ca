@@ -1,0 +1,352 @@
+<h1>C++ Interview Question: Quicksort Mergesort</h1>
+<h2>Question and Notes</h2>
+<pre><code>Build the quicksort and mergesort algorithms.
+Discuss the space and time complexity.
+Discuss the impact if quicksort is implemented in-place or not.
+
+Mergesort
+- Know the average, best and worst cases
+- How to do the merge with a O(n) complexity
+--&gt; have to consider that the sub-lists are sorted, so
+    there is no need for an 'all-to-all' elements compare
+    that would cost O(n^2).
+
+Quicksort
+- Remember to handle the case: guarantee converge, guarantee sort
+- Be careful that the pivot is not inserted in a group (or else
+  it is possible that an iteration does not progress)
+- Recursion completion condition: - always progressing?
+
+TODO
+- Quicksort in place
+</code></pre>
+<h2>Code</h2>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;list&gt;
+#include &lt;cassert&gt;
+
+using namespace std;
+
+template&lt;class T_&gt;
+bool isSorted(const T_* array, int size)
+{
+  if(size &lt;= 1)
+    return true;
+  T_ prev = array[0];
+  for(int i = 1; i &lt; size; ++i)
+  {
+    if(prev &gt; array[i])
+      return false;
+    prev = array[i];
+  }
+  return true;
+}
+
+template&lt;class T_&gt;
+void print(const T_* array, int size)
+{
+  cout&lt;&lt;"print(T_* array, int size)"&lt;&lt;endl;
+  for(int i = 0; i &lt; size; ++i)
+  {
+    cout&lt;&lt;array[i]&lt;&lt;endl;
+  }
+}
+
+//! Assumes target has the proper size
+template&lt;class T_&gt;
+void join(const vector&lt;T_&gt;&amp; left, const vector&lt;T_&gt;&amp; right, int pivot, T_* target)
+{
+  int target_pos = 0;
+  for(size_t i = 0; i &lt; left.size(); ++i)
+  {
+    target[target_pos] = left[i];
+    ++target_pos;
+  }
+
+  target[target_pos] = pivot;
+  target_pos++;
+
+  for(size_t i = 0; i &lt; right.size(); ++i)
+  {
+    target[target_pos] = right[i];
+    ++target_pos;
+  }
+}
+
+
+template&lt;class T_&gt;
+class Sorter
+{
+public:
+  virtual void sort(T_* array, int size) const = 0;
+};
+
+Problems:
+- Memory allocation for every recursive call
+- List would be better than vector (push_back is O(1) instead of worst case O(n)),
+  but kept vector to have the same interface in both implementations.
+template&lt;class T_&gt;
+class QuickSorter_Slow : public Sorter&lt;T_&gt;
+{
+public:
+  virtual void sort(T_* array, int size) const
+  {
+    if(size &lt;=1)
+      return;
+    if(size == 2 &amp;&amp; array[0] &lt;= array[1])
+      return;
+
+    const int pivot_pos = size/2;
+    T_ pivot = array[pivot_pos];
+
+    vector&lt;T_&gt; less;
+    vector&lt;T_&gt; more;
+    for(int i = 0; i &lt; size; ++i)
+    {
+      if(i == pivot_pos)
+        continue;
+
+      if( array[i] &lt; pivot )
+        less.push_back( array[i] );
+      else
+        more.push_back( array[i] );
+    }
+    if(less.size() != 0)
+      sort( &amp;less[0], less.size() );
+    if(more.size() != 0)
+      sort( &amp;more[0], more.size() );
+
+    join(less, more, pivot, array);
+  }
+};
+
+
+//Another quicksort, with the join operation not in a separate function
+void quicksort(vector&lt;int&gt;&amp; array)
+{
+  if(array.size() &lt;= 1)
+    return;
+
+  vector&lt;int&gt; l;
+  l.reserve( array.size() / 2 );
+  vector&lt;int&gt; r;
+  r.reserve( array.size() / 2 );
+
+  int pivot = array[ array.size() / 2 ];
+  for(size_t i = 0; i &lt; array.size(); ++i)
+  {
+    //Super important how we treat pivot
+    if( i == array.size() / 2 )
+      continue;
+
+    if(array[i] &lt;= pivot)
+      l.push_back( array[i] );
+    else
+      r.push_back( array[i] );
+  }
+
+  quicksort(l);
+  quicksort(r);
+
+  size_t i = 0;
+  for(; i &lt; l.size(); ++i)
+  {
+    array[i] = l[i];
+  }
+  array[i] = pivot;
+  ++i;
+  for(size_t j = 0; j &lt; r.size(); ++j, ++i)
+  {
+    array[i] = r[j];
+  }
+}
+
+//! 'Inplace' version
+template&lt;class T_&gt;
+class QuickSorter_Fast : public Sorter&lt;T_&gt;
+{
+public:
+  virtual void sort(T_* array, int size) const
+  {
+  }
+};
+
+void mergesort(vector&lt;int&gt;&amp; array)
+{
+  if(array.size() &lt;= 1)
+    return;
+
+  vector&lt;int&gt; l;
+  l.resize( array.size()/2 + array.size()%2 );
+  vector&lt;int&gt; r;
+  r.resize( array.size()/2 );
+
+  size_t l_i = 0;
+  size_t r_i = 0;
+  for(size_t i = 0; i &lt; array.size(); ++i)
+  {
+    if( i &lt; (array.size()/2 + array.size()%2) )
+    {
+      l[l_i] = array[i];
+      ++l_i;
+    }
+    else
+    {
+      r[r_i] = array[i];
+      ++r_i;
+    }
+  }
+
+  mergesort(l);
+  mergesort(r);
+
+  l_i = 0;
+  r_i = 0;
+  for(size_t a_i = 0; a_i &lt; array.size(); ++a_i)
+  {
+    if(l_i &gt;= l.size())
+    {
+      array[a_i] = r[r_i];
+      ++r_i;
+      continue;
+    }
+    if(r_i &gt;= r.size())
+    {
+      array[a_i] = l[l_i];
+      ++l_i;
+      continue;
+    }
+
+    if(l[l_i] &lt;= r[r_i])
+    {
+      array[a_i] = l[l_i];
+      ++l_i;
+    }
+    else
+    {
+      array[a_i] = r[r_i];
+      ++r_i;
+    }
+  }
+}
+
+template&lt;class T_&gt;
+class MergeSort : public Sorter&lt;T_&gt;
+{
+public:
+  virtual void sort(T_* array, int size) const
+  {
+    vector&lt;T_&gt; vArr;
+    vArr.resize( size );
+    memcpy( &amp;vArr[0], array, size*sizeof(T_) );
+    mergesort(vArr);
+    memcpy( array, &amp;vArr[0], size*sizeof(T_) );
+  }
+};
+
+
+void test_sort(const Sorter&lt;int&gt;&amp; sorter)
+{
+  vector&lt;int&gt; arrShort;
+
+  arrShort.push_back(20);
+  arrShort.push_back(7);
+  arrShort.push_back(12);
+  arrShort.push_back(100);
+  arrShort.push_back(1);
+  arrShort.push_back(7);
+  arrShort.push_back(123);
+  arrShort.push_back(3);
+  arrShort.push_back(7);
+  arrShort.push_back(7);
+  arrShort.push_back(2);
+
+  assert( !isSorted( &amp;arrShort[0], arrShort.size() ) );
+  cout&lt;&lt;"Before sort:"&lt;&lt;endl;
+  print( &amp;arrShort[0], arrShort.size() );
+  sorter.sort(&amp;arrShort[0], arrShort.size());
+  cout&lt;&lt;"After sort:"&lt;&lt;endl;
+  print( &amp;arrShort[0], arrShort.size() );
+  assert( isSorted( &amp;arrShort[0], arrShort.size() ) );
+
+  const int arrLongSize = 10000;
+  vector&lt;int&gt; arrLong;
+  arrLong.resize(arrLongSize);
+  for(int i = 0; i &lt; arrLongSize; ++i)
+  {
+    arrLong[i] = rand();
+  }
+  sorter.sort(&amp;arrLong[0], arrLong.size());
+  assert( isSorted( &amp;arrLong[0], arrLong.size() ) );
+  //print( &amp;arrLong[0], arrLong.size() );
+}
+
+int main()
+{
+  cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+  test_sort( QuickSorter_Slow&lt;int&gt;() );
+  //test_sort( QuickSorter_Fast&lt;int&gt;() );
+  test_sort( MergeSort&lt;int&gt;() );
+
+  cout&lt;&lt;"End"&lt;&lt;endl;
+  return 0;
+}
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>Begin
+Before sort:
+print(T_* array, int size)
+20
+7
+12
+100
+1
+7
+123
+3
+7
+7
+2
+After sort:
+print(T_* array, int size)
+1
+2
+3
+7
+7
+7
+7
+12
+20
+100
+123
+Before sort:
+print(T_* array, int size)
+20
+7
+12
+100
+1
+7
+123
+3
+7
+7
+2
+After sort:
+print(T_* array, int size)
+1
+2
+3
+7
+7
+7
+7
+12
+20
+100
+123
+End
+</code></pre>

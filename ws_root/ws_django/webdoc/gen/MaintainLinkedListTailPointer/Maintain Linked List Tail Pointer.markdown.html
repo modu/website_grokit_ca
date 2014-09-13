@@ -1,0 +1,242 @@
+<h1>C++ Interview Question: Maintain Linked List Tail Pointer</h1>
+<h2>Question and Notes</h2>
+<h2>Code</h2>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;cassert&gt;
+
+using namespace std;
+
+class Node;
+static Node* head = 0;
+static Node* tail = 0;
+
+class Node
+{
+public:
+
+  Node(int valueIn = -1)
+  {
+    next = 0;
+    value = valueIn;
+  }
+
+  //virtual if expect inheritance
+  ~Node()
+  {
+    delete next;
+    //would have a 'supervisor class' (class LinkedList) 
+    //to handle this, point out thought about memory leaks
+  }
+
+  void quickNext(int val)
+  {
+    if(next != 0)
+      delete next;
+    next = new Node(val);
+  }
+
+  void print()
+  {
+    cout&lt;&lt;"---"&lt;&lt;endl;
+    Node* n = this;
+    while(n != 0)
+    {
+      cout&lt;&lt; n-&gt;value;
+      if(n == head)
+        cout&lt;&lt;" (head)";
+      if(n == tail)
+        cout&lt;&lt;" (tail)";
+      cout&lt;&lt; endl;
+      n = n-&gt;next;
+    }
+    cout&lt;&lt;"---"&lt;&lt;endl;
+  }
+
+  Node* next;
+  int value;
+};
+
+int deleteNode(Node* delMe)
+{
+  if(head == 0)
+  {
+    cerr&lt;&lt;"deleteNode return -1"&lt;&lt;endl;
+    return -1;
+  }
+
+  if(delMe == head)
+  {
+    if(head == tail)
+      tail = 0;
+    Node* nodeDel = head;
+    head = head-&gt;next;//OK if next == 0
+    nodeDel-&gt;next = 0;
+    delete nodeDel;
+    return 0;
+  }
+  if(delMe == tail)
+  {
+    Node* n = head;
+    while(n-&gt;next != tail)
+    {
+      n = n-&gt;next;
+    }
+    Node* nodeDel = tail;
+    n-&gt;next = 0;
+    delete nodeDel;
+    tail = n;
+    return 0;
+  }
+
+  Node* n = head;
+  while(n-&gt;next != delMe)
+  {
+    n = n-&gt;next;
+  }
+  n-&gt;next = delMe-&gt;next;
+  delMe-&gt;next = 0;
+  delete delMe;
+  return 0;
+}
+
+int insertAfter(Node* node, int value)
+{
+  if(node == 0 &amp;&amp; head == 0)
+  {
+    assert(tail == 0);
+    head = new Node(value);
+    tail = head;
+    return 0;
+  }
+  if(node == 0 &amp;&amp; head != 0)
+  {
+    Node* n = new Node(value);
+    n-&gt;next = head;
+    head = n;
+    return 0;
+  }
+  if(node == tail)
+  {
+    Node* n = new Node(value);
+    tail-&gt;next = n;
+    tail = n;
+    return 0;
+  }
+  if(head == 0)
+    return -1;
+
+  Node* n = new Node(value);
+  Node* temp = node-&gt;next;
+  node-&gt;next = n;
+  n-&gt;next = temp;
+  return 0;
+}
+
+void buildTree()
+{
+  Node* locHead = new Node(1);
+  locHead-&gt;quickNext(2);
+  locHead-&gt;next-&gt;quickNext(3);
+  locHead-&gt;next-&gt;next-&gt;quickNext(4);
+  locHead-&gt;next-&gt;next-&gt;next-&gt;quickNext(5);
+  locHead-&gt;next-&gt;next-&gt;next-&gt;next-&gt;quickNext(6);
+  head = locHead;
+  tail = locHead-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next;
+  locHead-&gt;print();
+}
+
+void testDelete()
+{
+  buildTree();
+
+  deleteNode(head-&gt;next);
+  head-&gt;print();
+  deleteNode(head);
+  head-&gt;print();
+  deleteNode(tail);
+  head-&gt;print();
+  deleteNode(head-&gt;next);
+  head-&gt;print();
+  deleteNode(head);
+  head-&gt;print();
+  deleteNode(head);
+  head-&gt;print();
+
+  cout&lt;&lt;endl&lt;&lt;"==================================="&lt;&lt;endl&lt;&lt;endl;
+}
+
+int main()
+{
+  cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+  //testDelete();
+
+  buildTree();
+
+  insertAfter(0, 0);
+  head-&gt;print();
+  insertAfter(head, 100);
+  head-&gt;print();
+  insertAfter(tail, 200);
+  head-&gt;print();
+  insertAfter(head-&gt;next-&gt;next, 500);
+  head-&gt;print();
+
+  cout&lt;&lt;"End"&lt;&lt;endl;
+  return 0;
+}
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>Begin
+---
+1 (head)
+2
+3
+4
+5
+6 (tail)
+---
+---
+0 (head)
+1
+2
+3
+4
+5
+6 (tail)
+---
+---
+0 (head)
+100
+1
+2
+3
+4
+5
+6 (tail)
+---
+---
+0 (head)
+100
+1
+2
+3
+4
+5
+6
+200 (tail)
+---
+---
+0 (head)
+100
+1
+500
+2
+3
+4
+5
+6
+200 (tail)
+---
+End
+</code></pre>

@@ -1,0 +1,47 @@
+<h1>C++ Interview Question: Swap Without Temporary Variable</h1>
+<h2>Question and Notes</h2>
+<h2>Code</h2>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+//Would not do that in real code, but more readable for the example
+#define xor ^
+
+template&lt;class T&gt;
+void switchInPlace(T&amp; a, T&amp;b)
+{
+  a = a xor b;
+  b = a xor b;
+  a = a xor b;
+}
+#undef xor
+
+void strInverInPlace(char* str)
+{
+  size_t strLen = strlen(str);
+  for(size_t i = 0; i &lt; strLen/2; ++i)
+  {
+    switchInPlace( str[i], str[strLen-i-1] );
+  }
+}
+
+int main()
+{
+  cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+  char str[] = "This is a string to invert.";
+
+  strInverInPlace(str);
+
+  cout&lt;&lt;str&lt;&lt;endl;
+
+  cout&lt;&lt;"End"&lt;&lt;endl;
+  return 0;
+}
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>Begin
+.trevni ot gnirts a si sihT
+End
+</code></pre>

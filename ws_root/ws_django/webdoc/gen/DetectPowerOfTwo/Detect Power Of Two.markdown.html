@@ -1,0 +1,95 @@
+<h1>C++ Interview Question: Detect Power Of Two</h1>
+<p>Given a number, return true if it is a power of two.
+Try to find the most efficient way to detect this.</p>
+<h2>Hint</h2>
+<p>Hint: first come-up with the 'obvious' answer. Then think about how the number is represented in memory. Write a few numbers that are power of two, and a few that are not. Are you noticing anything peculiar?</p>
+<h2>Bigger Hint</h2>
+<p>Let's generate a few numbers modulated by different operations and display their binary representations:</p>
+<pre><code>    for i in range(0, 32+1):
+        print("%s -&gt; (%s),\t\t%s -&gt; (%s),\t\t%s -&gt; (%s),\t\t%s -&gt; (%s)" % (i, bin(i), 2*i, bin(2*i), i**2, bin(i**2), 2**i, bin(2**i)))
+</code></pre>
+<p>... which yields:</p>
+<pre><code>    --------------|-------------------|------------------------|-------------
+    i             |  2*i              | i^2                    | 2^i
+    --------------|-------------------|------------------------|-------------
+    0 -&gt; (0b0),      0 -&gt; (0b0),        0 -&gt; (0b0),               1 -&gt; (0b1)
+    1 -&gt; (0b1),      2 -&gt; (0b10),       1 -&gt; (0b1),               2 -&gt; (0b10)
+    2 -&gt; (0b10),     4 -&gt; (0b100),      4 -&gt; (0b100),             4 -&gt; (0b100)
+    3 -&gt; (0b11),     6 -&gt; (0b110),      9 -&gt; (0b1001),            8 -&gt; (0b1000)
+    4 -&gt; (0b100),    8 -&gt; (0b1000),     16 -&gt; (0b10000),          16 -&gt; (0b10000)
+    5 -&gt; (0b101),    10 -&gt; (0b1010),    25 -&gt; (0b11001),          32 -&gt; (0b100000)
+    6 -&gt; (0b110),    12 -&gt; (0b1100),    36 -&gt; (0b100100),         64 -&gt; (0b1000000)
+    7 -&gt; (0b111),    14 -&gt; (0b1110),    49 -&gt; (0b110001),         128 -&gt; (0b10000000)
+    8 -&gt; (0b1000),   16 -&gt; (0b10000),   64 -&gt; (0b1000000),        256 -&gt; (0b100000000)
+    9 -&gt; (0b1001),   18 -&gt; (0b10010),   81 -&gt; (0b1010001),        512 -&gt; (0b1000000000)
+    10 -&gt; (0b1010),  20 -&gt; (0b10100),   100 -&gt; (0b1100100),       1024 -&gt; (0b10000000000)
+    11 -&gt; (0b1011),  22 -&gt; (0b10110),   121 -&gt; (0b1111001),       2048 -&gt; (0b100000000000)
+    12 -&gt; (0b1100),  24 -&gt; (0b11000),   144 -&gt; (0b10010000),      4096 -&gt; (0b1000000000000)
+    13 -&gt; (0b1101),  26 -&gt; (0b11010),   169 -&gt; (0b10101001),      8192 -&gt; (0b10000000000000)
+    14 -&gt; (0b1110),  28 -&gt; (0b11100),   196 -&gt; (0b11000100),      16384 -&gt; (0b100000000000000)
+    15 -&gt; (0b1111),  30 -&gt; (0b11110),   225 -&gt; (0b11100001),      32768 -&gt; (0b1000000000000000)
+    16 -&gt; (0b10000), 32 -&gt; (0b100000),  256 -&gt; (0b100000000),     65536 -&gt; (0b10000000000000000)
+    17 -&gt; (0b10001), 34 -&gt; (0b100010),  289 -&gt; (0b100100001),     131072 -&gt; (0b100000000000000000)
+    18 -&gt; (0b10010), 36 -&gt; (0b100100),  324 -&gt; (0b101000100),     262144 -&gt; (0b1000000000000000000)
+    19 -&gt; (0b10011), 38 -&gt; (0b100110),  361 -&gt; (0b101101001),     524288 -&gt; (0b10000000000000000000)
+    20 -&gt; (0b10100), 40 -&gt; (0b101000),  400 -&gt; (0b110010000),     1048576 -&gt; (0b100000000000000000000)
+    21 -&gt; (0b10101), 42 -&gt; (0b101010),  441 -&gt; (0b110111001),     2097152 -&gt; (0b1000000000000000000000)
+    22 -&gt; (0b10110), 44 -&gt; (0b101100),  484 -&gt; (0b111100100),     4194304 -&gt; (0b10000000000000000000000)
+    23 -&gt; (0b10111), 46 -&gt; (0b101110),  529 -&gt; (0b1000010001),    8388608 -&gt; (0b100000000000000000000000)
+    24 -&gt; (0b11000), 48 -&gt; (0b110000),  576 -&gt; (0b1001000000),    16777216 -&gt; (0b1000000000000000000000000)
+    25 -&gt; (0b11001), 50 -&gt; (0b110010),  625 -&gt; (0b1001110001),    33554432 -&gt; (0b10000000000000000000000000)
+    26 -&gt; (0b11010), 52 -&gt; (0b110100),  676 -&gt; (0b1010100100),    67108864 -&gt; (0b100000000000000000000000000)
+    27 -&gt; (0b11011), 54 -&gt; (0b110110),  729 -&gt; (0b1011011001),    134217728 -&gt; (0b1000000000000000000000000000)
+    28 -&gt; (0b11100), 56 -&gt; (0b111000),  784 -&gt; (0b1100010000),    268435456 -&gt; (0b10000000000000000000000000000)
+    29 -&gt; (0b11101), 58 -&gt; (0b111010),  841 -&gt; (0b1101001001),    536870912 -&gt; (0b100000000000000000000000000000)
+    30 -&gt; (0b11110), 60 -&gt; (0b111100),  900 -&gt; (0b1110000100),    1073741824 -&gt; (0b1000000000000000000000000000000)
+    31 -&gt; (0b11111), 62 -&gt; (0b111110),  961 -&gt; (0b1111000001),    2147483648 -&gt; (0b10000000000000000000000000000000)
+    32 -&gt; (0b100000),64 -&gt; (0b1000000), 1024 -&gt; (0b10000000000),  4294967296 -&gt; (0b100000000000000000000000000000000)
+</code></pre>
+<p>Observe that multiple of two end by 0. You can detect if a number is a multiple of two by checking the LSB ((i%2) == 0). Power of twos have a leading 1 MSB and all zeros. You can verify that by doing an AND with the number and its complement: (n &amp; (n-1)).</p>
+<h2>Code</h2>
+<pre><code>    #include &lt;iostream&gt;
+    #include &lt;cmath&gt;
+
+    using namespace std;
+
+    bool isPowerOfTwo(unsigned int n)
+    {
+        if(n &lt; 2) return 0;
+        // Note: "return (n &amp; (~n)) == 0;" also works.
+        return (n &amp; (n-1)) == 0;
+    }
+
+    int main()
+    {
+        cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+        cout&lt;&lt;"isPowerOfTwo"&lt;&lt;endl;
+        for(int x = 0; x &lt; 10000; ++x)
+        {
+        if( isPowerOfTwo(x) )
+            cout&lt;&lt;x&lt;&lt;endl;
+        }
+
+        cout&lt;&lt;"End"&lt;&lt;endl;
+        return 0;
+    }
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>    Begin
+    isPowerOfTwo
+    2
+    4
+    8
+    16
+    32
+    64
+    128
+    256
+    512
+    1024
+    2048
+    4096
+    8192
+    End
+</code></pre>

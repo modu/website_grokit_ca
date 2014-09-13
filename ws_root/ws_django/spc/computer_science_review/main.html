@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../../static/default.css" type="text/css">
+    <title>List of All Content</title>
+    <meta name="description" content="List of all entries on website" />
+    <meta name="keywords" content="Academia, Science, Computer Science, Python, Book review, Book reading notes, C++, C#, programming, open-source"/>
+    <meta name="author" content="David" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2144242-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+
+<h1>Computer Science Primer / Interview Questions</h1>
+
+<p>
+Back when I was job hunting, I prepared for coding interview for software engineering positions. I decided that I would publish here the solutions to some common interview questions here.
+</p>
+
+<p>
+Some of the questions I invented, but most of them come or were inspired from those sources:
+</p>
+<ul>
+<li><a href="http://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/098478280X">Cracking the Coding Interview</a></li>
+<li><a href="http://www.amazon.com/Programming-Interviews-Exposed-Secrets-Landing/dp/1118261364">Programming Interviews Exposed</a></li>
+<li><a href="http://algs4.cs.princeton.edu/">Sedgewick's Algorithms book's website</a></li>
+</ul>
+
+<p>
+Here are my suggestions:</br>
+<ul>
+<li> 1. Buy the books.</li>
+<li> 2. Solve as many questions as possible on paper / white board <b>first</b>, then write code + test cases for correctness.</li>
+<li> 3. Have a friend do "simulated interviews" with you.</li>
+<li> 4. Browse Sedgewick's book (link above), it is an astounding resource.</li>
+</ul>
+</p>
+<p>
+The solutions here are a pretty rough dump that I haven't taken the time to curate too well. If you have questions, write them in the comments page (or ask away on twitter @david_140orless). I also have many more that I didn't take the time to export to this website. If there's a lot of interest, I'll add more problems to have a more complete list.
+</p>
+
+<h2>Data Structures</h2>
+
+<p>
+You *have* to know the basic data structures. This is the first and most important thing to review. When asked an interview question, go through this mental list in your head:</br>
+- Do I have to do repetitive look-ups of data? --> Use a hash-table.</br>
+- Do I have to do repetitive look-ups number of occurrences? --> Use a hash-table of 'event to occurrences'.</br>
+- Do I have to do repetitive fetch of min or max values? --> Use a heap.</br>
+- Do I have to list all possible combinations? --> Use a tree.</br>
+- Are there lots of relationships between things? --> Think about using a graph.</br>
+</p>
+
+<h2>Fundamental Techniques</h2>
+
+<p>
+Those patterns come up so frequently in problems that it is worth memorizing:
+</br>
+- Exhaustive search: if you iterate the whole problem space, is the answer obvious? If it is, and the problem space is small, you are done. If the problem space is big, can you use dynamic programming (re-use old comutations if there are a lot of symmetries). If not, figure out a way to simplyfy the problem.</br>
+- Dynammic programming: can you store and re-use part of past computations? This is especially effective for recursive implementations. (Lookup '@lru_cache' in python for examples. Greedy algorithm is just a fancy term for caching past computations.).</br>
+- Would a greedy algorithm be guaranteed to find the answer?</br>
+- Can you divide and conquer?</br>
+- Does the problem require computing a value that express an <i>order</i> or <i>comparative relation</i> between items? --> Maybe sorting will help.</br>
+- How would it look if I applied one of the following data structures: heap, hash, tree, graph.</br>
+</p>
+
+<h2> List of Problems per Category</h2>
+
+<h3>Trees</h3>
+
+Before venturing the the more advanced problems, make sure you understand the basic <a href="/cnt/BinarySearchTree">BinarySearchTree</a> problems (build a BST, different traversals).
+
+{{ csiq_trees | safe }}
+
+<h4>Heaps</h4>
+
+{{ csiq_heap | safe }}
+
+<h3>Linked-List</h3>
+{{ csiq_linkedlist | safe }}
+
+<h3>Hash and Hash-Tables</h3>
+{{ csiq_hash | safe }}
+
+<h3>Graph</h3>
+{{ csiq_graph | safe }}
+
+<h2>Misc Elementary Concepts</h2>
+
+{{ csiq_elementary | safe }}
+{{ binary_search | safe }}
+
+<h2>Sorting</h2>
+
+{{ csiq_sort | safe }}
+
+<h2>Searching and Enumerating State</h2>
+
+Very often problems can be solved by just enumerating all possible states, then evaluating them until a condition is reached. That is most likely not the most efficient solution, but after enumerating a few states you usually notice that there is a shortcut which is the efficient solution that you are looking for.</br>
+
+{{ csiq_combinatorics | safe }}
+
+<h2>Math</h2>
+
+{{ csiq_math | safe }}
+
+<h2>Binary Math</h2>
+
+{{ csiq_binary | safe }}
+
+<h2>Strings</h2>
+
+{{ csiq_string | safe }}
+
+<!-- meh ~~
+<h2>C++ Specific</h2> 
+
+{{ csiq_language | safe }} 
+-->
+
+<h2>Algorithms Recurring Patterns</h2>
+
+Once you are comfortable solving basic problems, you will notice common patterns used over and over again: **Dynamic Programming, Divide and Conquer, Greedy algorithms, Backtracking and Exhaustive Search**. On those topics, you can see <a href="http://macgyverdev.blogspot.com/2014/04/become-better-programmer-with.html">excellent overview here</a>.
+
+<h2>More</h2>
+
+<p>
+You can access the full list of interview questions / solutions <a href="http://www.grokit.ca/tag/Computer%20Science%20Interview%20Question/">here</a> if the above list isn't enough for you.
+</p>
+
+<p>
+Question(s) about the website? You can ask away <a href="https://twitter.com/david_140orless">on twitter </a> @david_140orless.
+</p>
+
+{{ ads | safe }}
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+TODO/*
+dependencies/*
+memories/*
+*.pyc
+*~
+*.zip
+.code_search_cache*

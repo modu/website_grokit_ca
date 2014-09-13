@@ -1,0 +1,80 @@
+<h1>Normalize Code Tabulation (tabs) and line break (EOL, end-of-line, newline, endlines,) With Python Script</h1>
+<p>One of my pet-peeves is to have a hard-time merging code because it is a mix of different endline style and tabulation. When it keeps being converted by different editors, it makes it very hard to track changes in a revision control system.</p>
+<p>This (python 3.2) script will gather all source files recursively, then replace the endline and tabulations to the format specified. It can be used as an interim step before merging code.</p>
+<p>Note that the script uses Unix EOL character, and replace tabs by 4 spaces. If you want another format, just modify the line:</p>
+<pre><code>normalize_endl_and_tabs(file, '\n', '    ')
+</code></pre>
+<p>for:</p>
+<ul>
+<li>Unix and Mac OS X:        <code>'\n'</code></li>
+<li>Mac OS (up to version 9): <code>'\r'</code></li>
+<li>Windows:                  <code>'\r\n'</code></li>
+</ul>
+<h2>The Script</h2>
+<pre><code>import os
+import fnmatch
+
+def getAllFilesRecursively(in_allowedExtensionsGlobList, in_RootDir = '.'):
+  """
+  E.g.: getAllFilesRecursively(['*.txt'], './folder/to/files')
+  E.g.: getAllFilesRecursively(['*.txt', '*.bat'])
+
+  @note This function is ALWAYS recursive.
+  @return List of fullpath string to files matching extensions provided.
+  """
+
+  #Allow user to call using both '*.txt' and ['*.txt']
+  if( type(in_allowedExtensionsGlobList) == type('') ):
+    in_allowedExtensionsGlobList = [in_allowedExtensionsGlobList]
+  assert( type([]) == type(in_allowedExtensionsGlobList) )
+
+  fileList = []
+  for root, subFolders, files in os.walk(in_RootDir):
+    for file in files:
+
+      add = False
+
+      for glob in in_allowedExtensionsGlobList:
+        if fnmatch.fnmatch(file, glob):
+          add = True
+
+      if add:
+        fullPathFile = os.path.join(root, file)
+        normalizedFullPath = os.path.abspath(fullPathFile)
+        fileList.append(normalizedFullPath)
+
+  return fileList
+
+def get_files():
+  files = getAllFilesRecursively(['*.txt', '*.cpp', '*.hpp', '*.c', '*.h', '*.txx', '*.hxx', '*.cxx'], '.')
+  return files
+
+def normalize_endl_and_tabs(file, endl, tab):
+  fh = open(file, 'rb')
+  file_str = fh.read().decode("utf-8")
+  fh.close()
+
+  endl_mark = '__ENDLINE_NORMALIZE_MARK__'
+
+  assert( file_str.find(endl_mark) == -1 )
+
+  file_str = file_str.replace('\t', tab)
+  file_str = file_str.replace('\r\n', endl_mark)
+  file_str = file_str.replace('\n', endl_mark)
+  file_str = file_str.replace('\r', endl_mark)
+  file_str = file_str.replace(endl_mark, endl)
+
+  fh = open(file, 'wb')
+  fh.write(file_str.encode())
+  fh.close()
+
+if __name__ == '__main__':
+  files = get_files()
+
+  for file in files:
+    try:
+      print('Processing: %s' % file)
+      normalize_endl_and_tabs(file, '\t', '  ')
+    except:
+      print('Error: failed for file: %s' % file)
+</code></pre>

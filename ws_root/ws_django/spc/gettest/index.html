@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Test Test</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style type="text/css">
+    </style>
+
+</head>
+<body> 
+
+<div id="main">
+This is a webpage.
+</div>
+
+<script>
+//$("#main").html("no it is not");
+
+$(document).ready(function(){
+    
+    $.ajax({
+        url: 'http://24.19.186.229',
+        dataType: 'jsonp',
+        data: {"data_in": 12345, "toto": "tatata"},
+        success: function(data){
+            var text = data.data.join('<br>');
+            $('#main').html(text);
+            }
+        });
+
+})
+</script>
+</body>
+</html>
+

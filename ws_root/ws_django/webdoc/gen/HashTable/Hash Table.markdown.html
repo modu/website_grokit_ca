@@ -1,0 +1,294 @@
+<h1>C++ Interview Question: Hash Table</h1>
+<h2>Question</h2>
+<p>Implement a hash table.</p>
+<p>Then:</p>
+<ul>
+<li>Discuss the complexity.</li>
+<li>Discuss different ways to handle collision.</li>
+<li>Discuss different hashing strategies.</li>
+<li>Explain how an overly simplistic hashing strategy could be exploited by a hacker.</li>
+</ul>
+<p>References:</p>
+<ul>
+<li>[CormenT_1990](book) - Introduction to Algorithms::12.2<ul>
+<li>Have to be careful when retrieving items: have to have a stored version
+of the key to make sure the right item is returned in case of hash collision.</li>
+</ul>
+</li>
+</ul>
+<h2>Notes</h2>
+<p>Hash tables are simply a way to efficiently retrieve information given a key.</p>
+<p>Let's say you have a billing system with 1 billion customers. Each customer is represented by a unique name (e.g: {Alice, Bob, Sergio, ...}, no duplicates allowed). If you store them in a simple list, every time you lookup an employee, you have to go through every name in your array and check if the name matches, which is O(n):</p>
+<pre><code>    Array of int -&gt; string.
+    [0]: Alice
+    [1]: Bob
+    ...
+    [10^9-1]: Sergio
+</code></pre>
+<p>The claim is that we can do lookups in O(1) using a hash table.</p>
+<p>Wouldn't it be convenient if instead of having to go through the 'n' keys of the array, to have a simple function that maps the name to the integer? For example, convenientFunction("Alice") would yield 0, convenientFunction("Bob") 1, etc. This is the fundamental thing that a hash table does: it uses a <strong>hash function</strong> to map the key to an integer, then references an internal array with that integer.</p>
+<p>However, there are two important problem to solve:</p>
+<ol>
+<li>
+<p>A hash function will have collisions (it is possible that hash("Alice") == hash("Bob")). How do you handle those cases?</p>
+</li>
+<li>
+<p>What size should your internal array be? When should you resize it?</p>
+</li>
+</ol>
+<p>For (1.) the answer is that once you get the key to use in the internal array, you have to do a full comparison of that value against the possible collisions. Therefore, your array maps to <em>list of values</em>.</p>
+<pre><code>    Array of int -&gt; [string].
+    [0]: Maurice
+    [1]: [Alice, Bob]
+    ...
+    [N]: Sergio
+</code></pre>
+<p>(2.) is a bit harder to answer. Evidently, if your internal array is too small, you will have to do n/s operations for a lookup, which is still O(n). So you need to dynamically expand that internal array as the number of items in the hash table grows in order to keep the O(1) performance.</p>
+<h2>Short Review on Hash Function</h2>
+<p>Hash functions are fundamentally simple: they map an large (sometimes infinite) set to a smaller finite set. For example, consider the following function:</p>
+<pre><code>    unsigned int hash(unsigned int value)
+    {
+        return value % 100;
+    }
+</code></pre>
+<p>It takes any number in [0 ... 2^32] and returns a number in [0 ... 100]. You can implement a hash table by using your internal array size instead of the 100 (then any value is mapped to a valid key of you internal array).</p>
+<p>However, in our example, we wanted to convert strings to keys, not integer to keys. You can use a <a href="http://en.wikipedia.org/wiki/Linear_congruential_generator">linear congruential generator</a> in order to map a string to an integer:</p>
+<pre><code>    unsigned int hashString(const string&amp; s)
+    {
+        unsigned int key = 33;
+
+        for(unsigned int i = 0; i &lt; s.size(); ++i)
+        {
+            // % 4294967296 not necessary, but there for the example.
+            key = (1013904223 + key*1664525) % 4294967296;
+        }
+
+        return key % 100;
+    }
+</code></pre>
+<p>Note that the values 1013904223, 1664525 and 4294967296 are not random. The math behind it is not trivial. You want your hash function to have equal probability to yield any key. Not picking those numbers properly will not have that property, which will negatively impact performance.</p>
+<p>@@TODO_C: simple example and explanation of what happens when you pick back numbers.</p>
+<h3>Cryptographic Hash</h3>
+<p>Note that I am not covering <em>cryptographic</em> hashes here. All the functions that I showed here are trivial to <em>reverse</em>: given a key, I can easily find a value that will collide with that key. This is not such a problem in a hash table, but those hash functions could not be used to sign a file for example (it would be trivial to generate a hacked file that passes the hash check).</p>
+<h2>Advanced Topic: Why Does The Internal Array Need to Have A Size that is a Prime Number?</h2>
+<p>This is an advanced topic. Feel free to skip.</p>
+<p>@@TODO_B: [...] will finish this section later...</p>
+<h2>A Gentle Warning: Never Implement your Own</h2>
+<p>It is very important to understand how the internals of a hash-table works. However, never implement your own. There are so many ways to implement a hash table that will see to be right, but hide simple bugs or major performance ramifications. Hash tables are so common that they ship in the standard library of almost every language. There is almost never a good reason to build one in-house.</p>
+<p>In C++, use:</p>
+<pre><code>    #include &lt;unordered_map&gt;
+</code></pre>
+<p>You will need to tell your compiler to use C++11:</p>
+<pre><code>    g++ -std=c++11 hash_table.cpp -o hash_table.cpp.bin
+</code></pre>
+<h2>Code</h2>
+<p>Note that this is a simple, non-complete example. This hash table doesn't resize its internal lookup-table, it would never scale in reality. However, it is simple enough to be a good example of the internals of a hash table without being too complicated.</p>
+<pre><code>    #include &lt;iostream&gt;
+    #include &lt;fstream&gt;
+    #include &lt;string&gt;
+    #include &lt;vector&gt;
+    #include &lt;list&gt;
+    #include &lt;map&gt;
+    #include &lt;cassert&gt;
+
+    using namespace std;
+
+    //! Assumes the data stored has STLVector-like interface 
+    //! (.size(), operator[], ...)
+    template&lt;class T_&gt;
+    class HashTable
+    {
+    public:
+
+    typedef T_ DataType;
+
+    class DataWithKey
+    {
+    public:
+
+        DataWithKey()
+        {
+        key = 0;
+        }
+
+        T_ data;
+        int key;
+    };
+
+    HashTable()
+    {
+        m_size = 9;
+        m_vListIndex.resize(m_size, list&lt;DataWithKey&gt;());
+    }
+
+    size_t hashIntKey(int key) const
+    {
+        //Using the division method
+        return key % m_size;
+    }
+
+    //! Assumes that the data can be interpreted as a string
+    void print() const
+    {
+        int nCollision = 0;
+        cout&lt;&lt;"HashTable of size "&lt;&lt;m_size&lt;&lt;":"&lt;&lt;endl;
+        for(size_t i = 0; i &lt; m_vListIndex.size(); ++i)
+        {
+        if(m_vListIndex[i].size() &gt; 1)
+            nCollision += m_vListIndex[i].size() - 1;
+        for(typename list&lt;DataWithKey&gt;::const_iterator it = m_vListIndex[i].begin();
+            it != m_vListIndex[i].end();
+            ++it)
+        {
+            cout&lt;&lt;"HashTable["&lt;&lt;i&lt;&lt;"]: "&lt;&lt;it-&gt;data&lt;&lt;endl;
+        }
+        }
+
+        cout&lt;&lt;"N.Hash collisions: "&lt;&lt;nCollision&lt;&lt;endl;
+    }
+
+    void add(int key, const T_&amp; data)
+    {
+        size_t posInArray = hashIntKey(key);
+        DataWithKey dk;
+        dk.data = data;
+        dk.key = key;
+        //Collision resolution by chaining
+        list&lt;DataWithKey&gt;&amp; lst = m_vListIndex.at(posInArray);
+        //If key already store, replace data
+        if(lst.size() != 0)
+        {
+        for(typename list&lt;DataWithKey&gt;::iterator it = lst.begin();
+            it != lst.end();
+            ++it)
+        {
+            if(it-&gt;key == key)
+            {
+            it-&gt;data = data;
+            return;
+            }
+        }
+        }
+        //No items with that key, store a new one
+        m_vListIndex[posInArray].push_back(dk);
+    }
+
+    T_&amp; operator[](int key)
+    {
+        size_t posInArray = hashIntKey(key);
+        list&lt;DataWithKey&gt;&amp; lst = m_vListIndex.at(posInArray);
+        assert( lst.size() != 0 );
+
+        for(typename list&lt;DataWithKey&gt;::iterator it = lst.begin();
+            it != lst.end();
+            ++it)
+        {
+        if(it-&gt;key == key)
+        {
+            return it-&gt;data;
+        }
+        }
+
+        //key not found, user requested invalid data
+        add(key, "InvalidEntryAdd"); //@note not sure hot to make work with a complete template system
+        return operator[](key);
+    }
+
+    private:
+    size_t                      m_size;
+    vector&lt; list&lt;DataWithKey&gt; &gt; m_vListIndex;
+    };
+
+    unsigned int hashString(const string&amp; s)
+    {
+        unsigned int key = 33;
+
+        for(unsigned int i = 0; i &lt; s.size(); ++i)
+        {
+            // % 4294967296 not necessary, but there for the example.
+            key = (1013904223 + key*1664525) % 4294967296;
+        }
+
+        return key % 100;
+    }
+
+    int main()
+    {
+        cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+        cout&lt;&lt;"Example hashes:"&lt;&lt;endl;
+        cout&lt;&lt;"    hash(Alice): "&lt;&lt;hashString("Alice")&lt;&lt;endl;
+        cout&lt;&lt;"    hash(Bob): "&lt;&lt;hashString("Bob")&lt;&lt;endl;
+        cout&lt;&lt;"    hash(Montreal): "&lt;&lt;hashString("Montreal")&lt;&lt;endl;
+        cout&lt;&lt;"    hash(Amherst): "&lt;&lt;hashString("Amherst")&lt;&lt;endl;
+
+        HashTable&lt;string&gt; ht;
+        ht.add(1234, string("I am a cow, moo moo."));
+        ht.add(0, string("I am a dog, wan wan."));
+        ht.add(1, string("I am an overlord, bahbahabhmaghuuu."));
+        ht.add(546, string("a"));
+        ht.add(100, string("aa"));
+        ht.add(22, string("aaa"));
+        ht.add(22, string("zzz"));//should replace
+
+        ht.print();
+
+        cout&lt;&lt;ht[22]&lt;&lt;endl;
+
+        cout&lt;&lt;ht[999]&lt;&lt;endl; //does not exist, will create an empty entry and return it
+
+        ht.print();
+
+        //Note: would be better to have interface like: ht[22] = "a", cout&lt;&lt;ht[22] -&gt; "a"
+
+        cout&lt;&lt;"End"&lt;&lt;endl;
+
+        //Check if same 'add on lookup-non-exist' behavior with STL map
+        map&lt;int, string&gt; mTest;
+        mTest[10] = "abcd";
+        cout&lt;&lt;mTest[10]&lt;&lt;endl;
+        cout&lt;&lt;mTest[132]&lt;&lt;endl;
+
+        for(map&lt;int, string&gt;::iterator it = mTest.begin(); it != mTest.end(); ++it)
+        {
+            cout&lt;&lt;"map["&lt;&lt;it-&gt;first&lt;&lt;"]: "&lt;&lt;it-&gt;second&lt;&lt;endl;
+        }
+
+
+
+        return 0;
+    }
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>    Begin
+    Example hashes:
+        hash(Alice): 8
+        hash(Bob): 10
+        hash(Montreal): 25
+        hash(Amherst): 66
+    HashTable of size 9:
+    HashTable[0]: I am a dog, wan wan.
+    HashTable[1]: I am a cow, moo moo.
+    HashTable[1]: I am an overlord, bahbahabhmaghuuu.
+    HashTable[1]: aa
+    HashTable[4]: zzz
+    HashTable[6]: a
+    N.Hash collisions: 2
+    zzz
+    InvalidEntryAdd
+    HashTable of size 9:
+    HashTable[0]: I am a dog, wan wan.
+    HashTable[0]: InvalidEntryAdd
+    HashTable[1]: I am a cow, moo moo.
+    HashTable[1]: I am an overlord, bahbahabhmaghuuu.
+    HashTable[1]: aa
+    HashTable[4]: zzz
+    HashTable[6]: a
+    N.Hash collisions: 3
+    End
+    abcd
+
+    map[10]: abcd
+    map[132]: 
+    g++ -std=c++11 hash_table.cpp -o hash_table.cpp.bin
+</code></pre>

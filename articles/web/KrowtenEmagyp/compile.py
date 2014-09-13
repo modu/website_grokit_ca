@@ -1,0 +1,5 @@
+
+
+def isCustomCompile():
+  return False
+

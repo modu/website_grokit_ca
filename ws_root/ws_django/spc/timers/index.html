@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html lang="en">
+
+<head>
+    <title>Timers!</title>
+    <meta name="description" content="Timers in HTML + JavaScript">
+    <meta name="author" content="david">
+    <meta name="content" content="Timers in HTML + JavaScript">
+    <style type="text/css">
+        body {
+            background-color: #F5F5F5;
+        }
+        h1,
+        h2,
+        h3,
+        p {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #080808;
+        }
+        #timer_done_popup {
+            position: absolute;
+            top: 0%;
+            height: 100%;
+            text-align: center;
+            font-size: 8vw;
+            background: rgba(245, 245, 245, 1.0);
+            border-style: solid;
+            border-width: 5px;
+            opacity: 0.0;
+            z-index: 100;
+            pointer-events: none; // Make sure that it will not block buttons if it is above them.
+            //transform: translateY(-50%);
+            //-ms-transform: translateY(-50%);
+            //-webkit-transform: translateY(-50%);
+        }
+        #timer_outer {
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            right: 20%;
+            transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+        }
+        #button_start {
+            width: 100%;
+            font-size: 5vw;
+        }
+        #button_plus {
+            width: 50%;
+            font-size: 5vw;
+        }
+        #button_minus {
+            width: 49%;
+            font-size: 5vw;
+        }
+        #button_set {
+            top 2%;
+            width: 18%;
+            font-size: 5vw;
+        }
+        #set_time_minutes {
+            width: 80%;
+            font-size: 5vw;
+        }
+        #timer_counter {
+            text-align: center;
+            font-size: 15vw;
+            background: rgba(245, 245, 245, 1.0); // Display over the clock.
+            top: 50%;
+            margin: -4px 0 -4px 0; // Leave no transparent white space between buttons and time display.
+        }
+        #pocket_watch_img {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 300px;
+            height: auto;
+            pointer-events: none; // Make sure that it will not block buttons if it is above them.
+            transform: translateY(-50%) translateX(-50%) rotate(-45deg);
+            -ms-transform: translateY(-50%) translateX(-50%) rotate(-45deg); 
+            -webkit-transform: translateY(-50%) translateX(-50%) rotate(-45deg);
+            opacity: 0.55;
+            z-index:-1;
+
+        }
+        button {
+            position: relative;
+            vertical-align: top;
+            width: 100%;
+            padding: 0;
+            font-size: 22px;
+            color: white;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+            background: #3498db;
+            border: 0;
+            border-bottom: 2px solid #2a8bcc;
+            cursor: pointer;
+            -webkit-box-shadow: inset 0 -2px #2a8bcc;
+            box-shadow: inset 0 -2px #2a8bcc;
+        }
+        button:active {
+            top: 1px;
+            outline: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="timer_outer">
+        <img id="pocket_watch_img" src="../../../../static/pocket_watch.png">
+        <button id="button_start" class="button_style">Start</button>
+        <div id="timer_counter">
+            <div id="timer_counter_str">xx:xx</div>
+            <div id="timer_done_popup"> Ring ring, your timer is done!</div>
+        </div>
+        <button id="button_plus">+</button>
+        <button id="button_minus">-</button>
+        <button id="button_set">Set: </button>
+        <input type="text" id="set_time_minutes" value="5">
+    </div>
+
+    <audio id="timer_expired_audio" src="../../../../static/cat10.wav" preload="auto"></audio>
+
+    <script type="text/javascript">
+        var startTime = null;
+        var timerLen = 3*60;
+
+        var timerExpiredAudio = function() {
+            document.getElementById('timer_expired_audio').play();
+        }
+
+        var timerExpiredVisuals = function(isExpired) {
+            
+            if(typeof(isExpired)==='undefined') isExpired = true;
+
+            var popup = document.getElementById('timer_done_popup');
+            if(isExpired){
+                popup.style.opacity = "0.9";
+            }
+            else{
+                popup.style.opacity = "0.0";
+            }
+        }
+
+        var twoDigitsStr = function(n) {
+            if (n <= 9) {
+                n = '0' + n;
+            }
+            return n;
+        }
+
+        var numToClockStr = function(num) {
+            if (num < 0) {
+                return '00:00';
+            }
+
+            h = Math.floor(num / (60 * 60));
+            m = Math.floor(num / 60) % 60;
+            s = num % 60;
+
+            s = twoDigitsStr(s);
+            m = twoDigitsStr(m);
+
+            str = m + ':' + s
+            if (h > 0) {
+                str = h + ':' + str;
+            }
+
+            return str;
+        }
+
+        var updateTimer = function() {
+            if (startTime != null) {
+                var cTime = Math.floor(timerLen - (new Date().getTime() - startTime) / 1000);
+                var counter_txt = document.getElementById("timer_counter_str");
+                counter_txt.innerHTML = numToClockStr(cTime);
+
+                if (cTime <= 0) {
+                    startTime = null;
+                    timerExpiredAudio();
+                    timerExpiredVisuals();
+                }
+            } else {
+                var counter_txt = document.getElementById("timer_counter_str");
+                counter_txt.innerHTML = numToClockStr(timerLen);
+            }
+        }
+
+        document.getElementById('button_start').addEventListener('click', function(event) {
+            timerExpiredVisuals(false);
+            startTime = new Date().getTime();
+        });
+
+        document.getElementById('button_plus').addEventListener('click', function(event) {
+            timerExpiredVisuals(false);
+            timerLen += 30;
+            updateTimer();
+        });
+
+        document.getElementById('button_minus').addEventListener('click', function(event) {
+            timerExpiredVisuals(false);
+            timerLen -= 30;
+            updateTimer();
+        });
+
+        document.getElementById('button_set').addEventListener('click', function(event) {
+            var nMins = document.getElementById('set_time_minutes').value;
+            timerExpiredVisuals(false);
+            timerLen = parseInt(nMins)*60;
+            updateTimer();
+        });
+
+        updateTimer();
+        setInterval(updateTimer, 100);
+    </script>
+</body>
+
+</html>
+

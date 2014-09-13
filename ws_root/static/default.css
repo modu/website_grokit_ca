@@ -1,0 +1,123 @@
+
+body {
+    margin: 20px 0;
+    margin-left: 225px;
+    margin-right: 225px;
+    background: #F5F5F5;
+}
+
+body, th, td, input, textarea {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #080808;
+}
+
+h1, h2, h3 {
+	margin-top: 0.5em;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: #626456;
+}
+
+h1 {
+	letter-spacing: -.075em;
+	font-size: 2.2em;
+}
+
+h2 {
+	letter-spacing: -.05em;
+	font-size: 1.8em;
+	font-weight: normal;
+	color: #8D8E85;
+}
+
+h3 {
+	font-size: 1.3em;
+}
+
+p {
+	margin-top: 0.5em;
+	line-height: 1.5em;
+	font-size: 1.1em;
+}
+
+a {
+	text-decoration: none;
+	border-bottom: 1px dotted #B8D03B;
+	color: #3C7BCF;
+}
+
+a:hover {
+	border: none;
+	background: #B8D03B;
+	color: #FFFFFF;
+}
+
+pre {
+  border: 1pt solid #AEBDCC;
+  background-color: #F3F5F7;
+  padding: 5pt;
+  font-family: courier, monospace;
+  white-space: pre;
+  /* begin css 3 or browser specific rules */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  /* end css 3 or browser specific rules */
+}
+
+/* <pre class="comment"> */
+pre.comment {
+	background-color:#ecf0f3;
+	color:#333333;
+	padding:15px !important;
+	margin:5px 0px 10px 0px;
+}
+
+#commentssection{
+  margin-top: 15px;
+  border: 1pt solid #FFBDCC;
+}
+
+/*** layout ***/
+
+/* sidebar_left */
+#sidebar_left {
+	position: absolute;
+	top: 25px;
+	left: 15px;
+	width: 175px;
+  font-size: 0.9em;
+  overflow: hidden;
+}
+
+#metainfo {
+	background: #ffffff;
+	color: #487dde;
+}
+
+#lstsidemenu{
+  margin-left: 10px;
+}
+#lstsidemenu_main{
+  margin-left: 10px;
+}
+#lstsidemenu_otherpages{
+  margin-left: 10px;
+}
+/* sidebar_left end */
+
+/* sidebar right */
+#sidebar_right {
+  position: absolute;
+  right: 15px;
+  top: 25px;
+  font-size: 0.9em;
+  width: 175px;
+}
+/* sidebar_left right end */
+
+/*** layout-end ***/
+
+

@@ -1,0 +1,41 @@
+Begin
+Start delete (with no up pointer).
+2
+3
+4
+7
+10
+500
+777
+1001
+Node to delete: 10
+2
+3
+4
+7
+500
+777
+1001
+Node to delete: 3
+2
+4
+7
+500
+777
+1001
+Node to delete: 500
+2
+4
+7
+777
+Node to delete: 2
+4
+7
+777
+Node to delete: 4
+7
+777
+Node to delete: 7
+777
+Node to delete: 777
+0

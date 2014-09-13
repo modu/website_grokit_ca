@@ -1,0 +1,200 @@
+<h1>C++ Interview Question: Heap</h1>
+<h1>Question</h1>
+<p>Implement a <a href="http://en.wikipedia.org/wiki/Heap_(data_structure)">heap data structure</a>.</p>
+<h1>Notes</h1>
+<p>Given that for popMax(), you need to remove the root, put the 'last' element of the tree at root and 'bubble down'. For insert, you put an element at the 'last' position in the tree and "bubble up".</p>
+<ul>
+<li>
+<p>Why is one using bubble up and the other using bubble down? What invariants would it violate if you did it the other way around (e.g. using bubble down in popMax())?</p>
+</li>
+<li>
+<p>Can you use the heap to implement a sorting algorithm? What are the advantages / disadvantages compared to quicksort?</p>
+</li>
+</ul>
+<h1>Code</h1>
+<p><strong>[Inserted file: heap.cpp.]</strong></p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;limits&gt;
+#include &lt;stdexcept&gt;
+#include &lt;cassert&gt;
+
+using namespace std;
+
+class Heap
+{
+public:
+
+    size_t size()
+    {
+        return v.size();
+    }
+
+    int popMax()
+    {
+        if(v.size() == 0)
+            throw runtime_error("Can't pop() empty heap.");
+
+        int ret = v[0];
+
+        // Remove max, put element that occupies the stop "to empty".
+        v[0] = v[v.size()-1];
+        v.pop_back();
+
+        // "Bubble down".
+        int i = 0;
+        while(1)
+        {
+            int l = left(i);
+            int r = right(i);
+
+            int ilargest = -1;
+            if(l == -1 &amp;&amp; r == -1)
+            {
+                return ret;
+            }
+            else if(l == -1)
+            {
+                ilargest = r;
+            }
+            else
+            {
+                ilargest = v[l] &gt; v[r] ? l : r;
+            }
+
+            if(v[i] &lt; v[ilargest])
+            {
+                int t = v[ilargest];
+                v[ilargest] = v[i];
+                v[i] = t;            
+                i = ilargest;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return ret;
+    }
+
+    void insert(int vi)
+    {
+        v.push_back(vi);
+
+        int i = v.size() - 1;
+        int ui = up(i);
+
+        while(ui &gt;= 0)
+        {
+            if( v[i] &gt; v[ui] )
+            {
+                int t = v[ui];
+                v[ui] = v[i];
+                v[i] = t;
+            }
+            else
+            {
+                break;
+            }
+
+            i = ui;
+            ui = up(ui);
+        }        
+    }
+
+    const vector&lt;int&gt;&amp; getV()
+    {
+        return v;
+    }
+
+private:
+
+    int up(int i)
+    {
+        if(i &lt;= 0)
+            return -1;
+
+        i = (i -1)/2;
+
+        return i;
+    }
+
+    int left(int i)
+    {
+        i = 2*i + 1;
+
+        if(i &gt;= v.size())
+            return -1;
+
+        return i;
+    }
+
+    int right(int i)
+    {
+        i = 2*i + 2;
+
+        if(i &gt;= v.size())
+            return -1;
+
+        return i;
+    }
+
+    vector&lt;int&gt; v;
+};
+
+int main()
+{
+    cout&lt;&lt;"begin"&lt;&lt;endl;
+
+    vector&lt;int&gt; testV;
+    testV.push_back(10);
+    testV.push_back(100);
+    testV.push_back(40);
+    testV.push_back(50);
+    testV.push_back(4);
+    testV.push_back(35);
+    testV.push_back(64);
+    testV.push_back(30);
+    testV.push_back(12);
+    testV.push_back(0);
+    testV.push_back(28);
+
+    Heap h;
+    for(int i = 0; i &lt; testV.size(); ++i)
+    {
+        h.insert( testV[i] );
+    }
+
+    cout&lt;&lt;"Heap-as-vector:"&lt;&lt;endl;
+    const vector&lt;int&gt;&amp; v = h.getV();
+
+    for(int i = 0; i &lt; v.size(); ++i)
+    {
+        cout&lt;&lt;v[i]&lt;&lt;" ";
+    }
+    cout&lt;&lt;endl;
+
+    int max = numeric_limits&lt;int&gt;::max();
+    assert( v.size() == testV.size() );
+    while(h.size() &gt; 0)
+    {
+        int pm = h.popMax();
+        cout&lt;&lt;pm&lt;&lt;" ";
+        assert( max &gt; pm ); // Assumes no duplicates.
+        max = pm;
+    }
+    cout&lt;&lt;endl;
+
+    cout&lt;&lt;"end"&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+<h1>Code Output</h1>
+<p><strong>[Inserted file: heap.cpp.out.]</strong></p>
+<pre><code>begin
+Heap-as-vector:
+100 50 64 30 28 35 40 10 12 0 4 
+100 64 50 40 35 30 28 12 10 4 0 
+end
+</code></pre>

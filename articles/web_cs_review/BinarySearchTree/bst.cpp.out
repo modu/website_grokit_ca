@@ -1,0 +1,86 @@
+Begin
+Start delete
+2
+3
+4
+7
+10
+500
+777
+1001
+Node to delete: 10
+2
+3
+4
+7
+500
+777
+1001
+Node to delete: 3
+2
+4
+7
+500
+777
+1001
+Node to delete: 500
+2
+4
+7
+777
+1001
+Node to delete: 2
+4
+7
+777
+1001
+Node to delete: 777
+4
+7
+1001
+Node to delete: 4
+7
+1001
+Node to delete: 7
+1001
+Node to delete: 1001
+End delete
+--levelOrderTraversal:
+levelOrderTraversal()
+7
+3
+10
+2
+4
+777
+500
+1001
+--preorderTraversal:
+7
+3
+2
+4
+10
+777
+500
+1001
+--:postorderTraversal:
+2
+4
+3
+500
+1001
+777
+10
+7
+--:inorderTraversal:
+2
+3
+4
+7
+10
+500
+777
+1001
+--
+End

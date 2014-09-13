@@ -1,0 +1,98 @@
+<h1>C++ Interview Question: Binary Search</h1>
+<h2>Question and Notes</h2>
+<p>Implement a binary search algorithm given a sorted array.</p>
+<ul>
+<li>Be careful what happens if no match found (if the array does not contain the target value, do we successfully return -1?). </li>
+<li>As with all algorithms, make sure that there is <em>progress</em> at every loop / recursive call. A common error when implementing binary search is to have an edge case when the min / max get stuck when they are at a distance of 1 from each other (because then min + (max-min) / 2 == min using integer arithmetic).</li>
+</ul>
+<p>Binary search in one of those problems that are used to illustrate recursive functions in textbook. However, it is a good practice to implement in a loop instead of with a recursive function whenever the complexity of using a loop is not much higher than using recursion. It is <strong>always</strong> possible to implement a recursive function in a loop (think of it that way: all you do when calling a function is putting variables on the stack and repeating operations from the current function, if you put the function's stack in variables and the instructions in a loop, the loop is equivalent to the recursive form).</p>
+<h2>Code</h2>
+<p><strong>[Inserted file: binary_search.cpp.]</strong></p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;cassert&gt;
+
+using namespace std;
+
+//! Assume array is sorted
+int binarySearch_recursive(int* array, int lower, int higher, int target)
+{
+  int pos = (higher - lower)/2 + lower;
+
+  if(array[pos] == target)
+    return pos;
+  else if(lower == higher)
+    return -1;
+  else if (array[pos] &gt; target)
+    return binarySearch_recursive(array, lower, pos, target);
+  else
+    return binarySearch_recursive(array, pos + 1, higher, target);
+
+  return -1;
+}
+
+//! Assume array is sorted
+int binarySearch_array(int* array, int lower, int higher, int target)
+{
+  for(int pos = (higher - lower)/2 + lower; lower != higher; pos = (higher - lower)/2 + lower)
+  {
+    if(array[pos] == target)
+      return pos;
+
+    if( array[pos] &gt; target )
+    {
+      higher = pos;
+    }
+    else
+    {
+      lower = pos + 1;
+    }
+
+    if(array[lower] == target)
+      return lower;
+  }
+
+  return -1;
+}
+
+int main()
+{
+  cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+  int array[] = {-18, -2, 0, 1, 7, 12, 100, 105, 119, 150, 3000};
+
+  assert( 0 == binarySearch_recursive(array, 0, 10, -18) );
+  assert( 1 == binarySearch_recursive(array, 0, 10, -2) );
+  assert( 2 == binarySearch_recursive(array, 0, 10, 0) );
+  assert( 3 == binarySearch_recursive(array, 0, 10, 1) );
+  assert( 4 == binarySearch_recursive(array, 0, 10, 7) );
+  assert( 5 == binarySearch_recursive(array, 0, 10, 12) );
+  assert( 6 == binarySearch_recursive(array, 0, 10, 100) );
+  assert( 7 == binarySearch_recursive(array, 0, 10, 105) );
+  assert( 8 == binarySearch_recursive(array, 0, 10, 119) );
+  assert( 9 == binarySearch_recursive(array, 0, 10, 150) );
+  assert( 10 == binarySearch_recursive(array, 0, 10, 3000) );
+  assert( -1 == binarySearch_recursive(array, 0, 10, 13) );
+  assert( -1 == binarySearch_recursive(array, 0, 10, 123123) );
+  assert( -1 == binarySearch_recursive(array, 0, 10, -123) );
+  assert( -1 == binarySearch_recursive(array, 0, 10, -3) );
+
+  assert( 0 == binarySearch_array(array, 0, 10, -18) );
+  assert( 1 == binarySearch_array(array, 0, 10, -2) );
+  assert( 2 == binarySearch_array(array, 0, 10, 0) );
+  assert( 3 == binarySearch_array(array, 0, 10, 1) );
+  assert( 4 == binarySearch_array(array, 0, 10, 7) );
+  assert( 5 == binarySearch_array(array, 0, 10, 12) );
+  assert( 6 == binarySearch_array(array, 0, 10, 100) );
+  assert( 7 == binarySearch_array(array, 0, 10, 105) );
+  assert( 8 == binarySearch_array(array, 0, 10, 119) );
+  assert( 9 == binarySearch_array(array, 0, 10, 150) );
+  assert( 10 == binarySearch_array(array, 0, 10, 3000) );
+  assert( -1 == binarySearch_array(array, 0, 10, 13) );
+  assert( -1 == binarySearch_array(array, 0, 10, 123123) );
+  assert( -1 == binarySearch_array(array, 0, 10, -123) );
+  assert( -1 == binarySearch_array(array, 0, 10, -3) );
+
+  cout&lt;&lt;"End"&lt;&lt;endl;
+  return 0;
+}
+</code></pre>

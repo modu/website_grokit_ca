@@ -1,0 +1,223 @@
+<h1>C++ Interview Question: C Linked List</h1>
+<h2>Question and Notes</h2>
+<pre><code>Implement a simple linked list in C (not C++).
+It can be compiled on a C++ compiler, but do not use any feature of C++.
+
+Notes:
+  - Be careful at implementation: a generic add and delete that check all cases
+  - How to use malloc(...):
+    StructName* sInst = (StructName*)malloc( sizeof(StructName) );
+</code></pre>
+<h2>Code</h2>
+<pre><code>#include &lt;cstdio&gt;
+#include &lt;cstdlib&gt;
+
+struct LL_Element
+{
+  LL_Element* prev;
+  LL_Element* next;
+
+  float data;
+};
+
+void ll_new(LL_Element* ll)
+{
+  ll-&gt;prev = 0;
+  ll-&gt;next = 0;
+  ll-&gt;data = -1;
+}
+
+void ll_print_node(LL_Element* ll)
+{
+  printf("this: 0x%x\n", ll);
+  printf("prev: 0x%x\n", ll-&gt;prev);
+  printf("next: 0x%x\n", ll-&gt;next);
+  printf("data: %f\n", ll-&gt;data);
+}
+
+void ll_print_seq(LL_Element* ll)
+{
+  int item_no = 0;
+  while(ll-&gt;prev != 0)
+  {
+    ll = ll-&gt;prev;
+  }
+  while(ll != 0)
+  {
+    printf("Item No: %i\n", item_no);
+    ll_print_node(ll);
+    ll = ll-&gt;next;
+    item_no++;
+  }
+}
+
+int ll_add(LL_Element* ll, LL_Element* add)
+{
+  //Case 1: ll at the end
+  if(ll-&gt;next == 0)
+  {
+    ll-&gt;next = add;
+    return 0;
+  }
+
+  //Case 2: ll has a next
+  add-&gt;next = ll-&gt;next;
+  ll-&gt;next-&gt;prev = add;
+  ll-&gt;next = add;
+  add-&gt;prev = ll;
+  return 0;
+}
+
+int ll_del(LL_Element* ll)
+{
+  //ll is only element
+  if(ll-&gt;prev == 0 &amp;&amp; ll-&gt;next == 0)
+  {
+    printf("Error: cannot delete only element.\n");
+    return -1;
+  }
+
+  //ll is between two elements
+  if(ll-&gt;prev != 0 &amp;&amp; ll-&gt;next != 0)
+  {
+    ll-&gt;prev-&gt;next = ll-&gt;next;
+    ll-&gt;next-&gt;prev = ll-&gt;prev;
+    free(ll);
+    return 0;
+  }
+
+  //ll has prev only
+  if(ll-&gt;prev != 0)
+  {
+    ll-&gt;prev-&gt;next = 0;
+    free(ll);
+    return 0;
+  }
+
+  //ll has next only
+  if(ll-&gt;next != 0)
+  {
+    ll-&gt;next-&gt;prev = 0;
+    free(ll);
+    return 0;
+  }
+
+  return -1;
+}
+
+int main()
+{
+  printf("Begin\n");
+
+  LL_Element ll;
+  ll_new(&amp;ll);
+  ll.data = 0;
+
+  LL_Element ll2;
+  ll_new(&amp;ll2);
+  ll2.data = 1;
+
+  LL_Element ll3;
+  ll_new(&amp;ll3);
+  ll3.data = 2;
+
+  LL_Element ll4;
+  ll_new(&amp;ll4);
+  ll4.data = 3;
+
+  //Build list
+  ll_add(&amp;ll, &amp;ll2);
+  ll_add(&amp;ll2, &amp;ll3);
+  ll_add(&amp;ll3, &amp;ll4);
+
+  ll_print_seq(&amp;ll);
+
+  printf("\nAfter insertion:\n");
+  LL_Element* ll_btw_2_and_3 = (LL_Element*)malloc( sizeof(LL_Element) );
+  ll_new(ll_btw_2_and_3);
+  ll_btw_2_and_3-&gt;data = 2.5;
+  ll_add(&amp;ll2, ll_btw_2_and_3);
+  ll_print_seq(&amp;ll);
+
+  printf("\nAfter deletion:\n");
+  ll_del(ll_btw_2_and_3);
+  ll_print_seq(&amp;ll);
+
+  printf("End\n");
+
+  return 0;
+}
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>Begin
+Item No: 0
+this: 0x28ac10
+prev: 0x0
+next: 0x28ac00
+data: 0.000000
+Item No: 1
+this: 0x28ac00
+prev: 0x0
+next: 0x28abf0
+data: 1.000000
+Item No: 2
+this: 0x28abf0
+prev: 0x0
+next: 0x28abe0
+data: 2.000000
+Item No: 3
+this: 0x28abe0
+prev: 0x0
+next: 0x0
+data: 3.000000
+
+After insertion:
+Item No: 0
+this: 0x28ac10
+prev: 0x0
+next: 0x28ac00
+data: 0.000000
+Item No: 1
+this: 0x28ac00
+prev: 0x0
+next: 0x20028a40
+data: 1.000000
+Item No: 2
+this: 0x20028a40
+prev: 0x28ac00
+next: 0x28abf0
+data: 2.500000
+Item No: 3
+this: 0x28abf0
+prev: 0x20028a40
+next: 0x28abe0
+data: 2.000000
+Item No: 4
+this: 0x28abe0
+prev: 0x0
+next: 0x0
+data: 3.000000
+
+After deletion:
+Item No: 0
+this: 0x28ac10
+prev: 0x0
+next: 0x28ac00
+data: 0.000000
+Item No: 1
+this: 0x28ac00
+prev: 0x0
+next: 0x28abf0
+data: 1.000000
+Item No: 2
+this: 0x28abf0
+prev: 0x28ac00
+next: 0x28abe0
+data: 2.000000
+Item No: 3
+this: 0x28abe0
+prev: 0x0
+next: 0x0
+data: 3.000000
+End
+</code></pre>

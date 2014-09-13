@@ -1,0 +1,217 @@
+<h1>C++ Interview Question: Lowest Common Ancestor</h1>
+<h2>Question and Notes</h2>
+<pre><code>http://en.wikipedia.org/wiki/Lowest_common_ancestor
+http://www.leetcode.com/2011/07/lowest-common-ancestor-of-a-binary-tree-part-i.html
+http://www.leetcode.com/2011/07/lowest-common-ancestor-of-a-binary-tree-part-ii.html
+- Assumes a parent pointer exists
+
+- Is not the best solution
+
+@tag code the best solution (see link) -- no parent pointers BUT passes parent around
+</code></pre>
+<h2>Code</h2>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cassert&gt;
+
+using namespace std;
+
+class Node
+{
+public:
+  Node(int val_in = -1)
+  {
+    left = 0;
+    right = 0;
+    parent = 0;
+    val = val_in;
+  }
+
+  //Point-out that virtual will add a
+  //virtual fn pointer to the class (32 or 64 bit larger)
+  //--&gt;probably would not declare virtual in 'real-life'
+  //   until there is a need for it, but shows you know
+  //   your stuff.
+  virtual ~Node()
+  {
+    delete left;
+    delete right;
+  }
+
+  Node* left;
+  Node* right;
+  Node* parent;
+  int val;
+
+  void addLeft(int val)
+  {
+    if(left != 0)
+      delete left;
+    left = new Node(val);
+    left-&gt;parent = this;
+  }
+
+  void addRight(int val)
+  {
+    if(right != 0)
+      delete right;
+    right = new Node(val);
+    right-&gt;parent = this;
+  }
+};
+
+Node* buildTestGraph()
+{
+  Node* root = new Node(3);
+  root-&gt;addLeft(5);
+  root-&gt;left-&gt;addLeft(6);
+  root-&gt;left-&gt;addRight(2);
+  root-&gt;left-&gt;right-&gt;addLeft(7);
+  root-&gt;left-&gt;right-&gt;addRight(4);
+  root-&gt;addRight( 1 );
+  root-&gt;right-&gt;addLeft(0);
+  root-&gt;right-&gt;addRight(8);
+  return root;
+}
+
+bool isExistInChildren(const Node* root, const Node* target)
+{
+  if(target == root)
+    return true;
+
+  if(root-&gt;left != 0)
+  {
+    if(isExistInChildren(root-&gt;left, target))
+      return true;
+  }
+  if(root-&gt;right !=0)
+  {
+    if(isExistInChildren(root-&gt;right, target))
+      return true;
+  }
+
+  return false;
+}
+
+const Node* lowestCommonAncestor_AssumeParents(const Node* root, const Node* node1, const Node* node2)
+{
+  const Node* child = node1;
+  const Node* p1 = node1;
+
+  while(1)
+  {
+    p1 = p1-&gt;parent;
+    if(p1 == root)
+      return root;
+    if(node1 == node2)
+      return p1;
+    if(p1 == node2)
+      return p1;
+
+    bool found = false;
+    if(p1-&gt;left == child)
+    {
+      found = isExistInChildren(p1-&gt;right, node2);
+    }
+    else if (p1-&gt;right == child)
+    {
+      found = isExistInChildren(p1-&gt;left, node2);
+    }
+
+    if(found)
+      return p1;
+
+    child = p1;
+  }
+}
+
+static const int BothLeft = 0;
+static const int BothRight = 1;
+static const int OneLeftOneRight = 2;
+static const int NodeInRoot = 3;
+static const int Error = -1;
+
+int searchNodePos(const Node* root, const Node* node1, const Node* node2)
+{
+  if(node1 == root || node2 == root)
+    return NodeInRoot;
+
+  bool node1Left = false;
+  bool node1Right = false;
+  bool node2Left = false;
+  bool node2Right = false;
+
+  if(root-&gt;left != 0)
+  {
+    node1Left = isExistInChildren(root-&gt;left, node1);
+    node2Left = isExistInChildren(root-&gt;left, node2);
+  }
+
+  if(node1Left &amp;&amp; node2Left)
+    return BothLeft;
+
+  if(root-&gt;right != 0)
+  {
+    node1Right = isExistInChildren(root-&gt;right, node1);
+    node2Right = isExistInChildren(root-&gt;right, node2);
+  }
+
+  if(node1Right &amp;&amp; node2Right)
+    return BothRight;
+
+  if( (node1Right &amp;&amp; node2Left) || (node1Left &amp;&amp; node2Right) )
+  {
+    return OneLeftOneRight;
+  }
+
+  return Error;
+}
+
+//This is a O(n*log(n)) solution with worst case O(n^2).
+const Node* lowestCommonAncestor_noParentPtr(const Node* root, const Node* node1, const Node* node2)
+{
+  int nodesPosInTree = searchNodePos(root, node1, node2);
+  assert( nodesPosInTree != Error );
+
+  if(nodesPosInTree == NodeInRoot)
+    return root;
+  if(nodesPosInTree == OneLeftOneRight)
+    return root;
+  if(nodesPosInTree == BothLeft)
+    return lowestCommonAncestor_noParentPtr(root-&gt;left, node1, node2);
+  if(nodesPosInTree == BothRight)
+    return lowestCommonAncestor_noParentPtr(root-&gt;right, node1, node2);
+
+  return 0;
+}
+
+int main()
+{
+  cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+  Node* root = buildTestGraph();
+
+  assert( lowestCommonAncestor_AssumeParents(root, root-&gt;left, root-&gt;right)-&gt;val == 3 );
+  assert( lowestCommonAncestor_AssumeParents(root, root-&gt;left-&gt;left, root-&gt;left-&gt;right-&gt;left)-&gt;val == 5 );
+  assert( lowestCommonAncestor_AssumeParents(root, root-&gt;left-&gt;right-&gt;left, root-&gt;left-&gt;left)-&gt;val == 5 );
+  assert( lowestCommonAncestor_AssumeParents(root, root-&gt;right-&gt;left, root-&gt;right-&gt;right)-&gt;val == 1 );
+  assert( lowestCommonAncestor_AssumeParents(root, root-&gt;left-&gt;right, root-&gt;right-&gt;left)-&gt;val == 3 );
+  assert( lowestCommonAncestor_AssumeParents(root, root-&gt;left-&gt;right-&gt;left, root-&gt;left-&gt;right)-&gt;val == 2 );
+
+  assert( lowestCommonAncestor_noParentPtr(root, root-&gt;left, root-&gt;right)-&gt;val == 3 );
+  assert( lowestCommonAncestor_noParentPtr(root, root-&gt;left-&gt;left, root-&gt;left-&gt;right-&gt;left)-&gt;val == 5 );
+  assert( lowestCommonAncestor_noParentPtr(root, root-&gt;left-&gt;right-&gt;left, root-&gt;left-&gt;left)-&gt;val == 5 );
+  assert( lowestCommonAncestor_noParentPtr(root, root-&gt;right-&gt;left, root-&gt;right-&gt;right)-&gt;val == 1 );
+  assert( lowestCommonAncestor_noParentPtr(root, root-&gt;left-&gt;right, root-&gt;right-&gt;left)-&gt;val == 3 );
+  assert( lowestCommonAncestor_noParentPtr(root, root-&gt;left-&gt;right-&gt;left, root-&gt;left-&gt;right)-&gt;val == 2 );
+
+  delete root;
+
+  cout&lt;&lt;"End"&lt;&lt;endl;
+  return 0;
+}
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>Begin
+End
+</code></pre>

@@ -1,0 +1,106 @@
+<h1>Google Code Jam: Bullseye</h1>
+<h2>Question</h2>
+<p>This is a solution for the <a href="https://code.google.com/codejam/contest/2418487/dashboard">Bullseye</a> problem from GCJ. Their explanation lacks the mathematic development. </p>
+<p>This is a fairly easy problem if you know that there is a formula that yields the result of a sum:</p>
+<p>$$\sum_{ i \mathop =1}^ni = \frac{n(n+1)}{2}$$</p>
+<p>If you can express the 'black area' as a sum, then you can reduce this long sum by a single equation. Once you have this, you can binary search the problem space which will yield the answer in O(log(n)) time.</p>
+<p><img alt="Solution" src="../../static/bullseye.jpg" /></p>
+<h1>Math and Summation</h1>
+<p>Legend is that a young <a href="http://en.wikipedia.org/wiki/Leonard_Euler">Leonhard Euler</a> was being pesky in class so he was asked to sum numbers from 1 to 10000. To his teacher's dismay, he came up with the answer very quickly. Euler told his teacher that is was rather easy. Let's say you sum 1 to 10, you can organize the numbers in this way: </p>
+<pre><code>1    10
+2    9
+3    8
+4    7
+5    6
+6    5
+7    4
+8    3
+9    2
+10   1
+</code></pre>
+<p>Notice that all the rows sum to 11, and organizing the number this way will have every number twice. So the sum will be 10<em>(row)/2 = 10</em>11/2. If you replace 10 and 11 with variables, you get the formula seen earlier: n*(1+1)/2.</p>
+<p>This begs the questions: if you can reduce sums to an algebraic form, what about sum of powers? It turns out that you can always reduce sum of powers using <a href="http://en.wikipedia.org/wiki/Faulhaber%27s_formula">Faulhaber's formula</a>. So if you ever see a sum of the form:</p>
+<p>$$\sum_{k=1}^n k^p = 1^p + 2^p + 3^p + \cdots + n^p$$</p>
+<p>... know that you can calculate the result of the sum with a simple formula.</p>
+<h2>Code</h2>
+<p><strong>[Inserted file: bullseye.py.]</strong></p>
+<pre><code># solved small, large!
+
+import math
+
+filename = 'tiny.in'
+filename = 'A-small-practice.in'
+filename = 'A-large-practice.in'
+
+fh = open(filename, 'r')
+
+nCases = int(fh.readline())
+
+def getRadius(r, a):
+    return r + 1*a
+
+def areaBlack(r, nCircles):
+    """
+    http://en.wikipedia.org/wiki/Faulhaber%27s_formula
+    http://en.wikipedia.org/wiki/Square_pyramidal_number
+    http://en.wikipedia.org/wiki/Summation
+    """
+    return nCircles*(2*r + 2*nCircles -1)
+
+def howManyCircles(r, mm2Paint):
+
+    nMin = 1
+    nMax = 1e20
+
+    while True:
+
+        evPos = int(nMin + (nMax - nMin)/2) 
+        area = areaBlack(r, evPos)
+
+        if area &lt;= mm2Paint and areaBlack(r, evPos+1) &gt; mm2Paint:
+            break
+
+        if area &gt; mm2Paint:
+            nMax = evPos - 1 
+        else:
+            nMin = evPos + 1
+
+    return evPos
+
+def howManyCirclesSlow(r, mm2Paint):
+
+    mm2T = 0
+    a = 1
+    while mm2T &lt;= mm2Paint:
+
+        ra = getRadius(r, a)
+
+        if a == 1:
+            mm2T += ra**2 - r**2
+        else:
+            ra_ = getRadius(r, a-1)
+            mm2T += ra**2 - ra_**2
+
+        a += 2
+
+    rv = (a-1)/2 -1
+
+    if rv &gt; 0:
+        return rv
+    return 0
+
+S = []
+for i in range(0, nCases):
+    rv = fh.readline().strip()
+    r, t = [int(v) for v in rv.split(' ')]
+
+    nCirc = howManyCircles(r, t)
+
+    st = 'Case #%i: %i' % (i+1, nCirc)
+    print(st)
+    S.append(st)
+
+fh = open(filename.replace('.in', '.out'), 'w')
+fh.write("\n".join(S))
+fh.close()
+</code></pre>

@@ -1,0 +1,143 @@
+<h1>Python Command-Line Parsing, Design Principles And Introspection</h1>
+<p>Python is such a useful language for small 'helper' applications that can be run from the command-line. However, even in a program as small as a 'command line parser/forwarder' (parses the command entered by the user and then run an appropriate function), it not immediately obvious what is the <em>right</em> way to do things.</p>
+<h2>What <strong>NOT</strong> to Do</h2>
+<p>Here is an example of a small script that I wrote in a hurry. It allows running a different command from a program depending on the first argument from the command line.</p>
+<pre><code>import misc.hg_utils
+
+import sys
+
+if sys.argv[1] == 'st':
+  misc.hg_utils.printHgFolders_st()
+elif sys.argv[1] == 'commit':
+  misc.hg_utils.printHgFolders_commit()
+elif sys.argv[1] == 'push':
+  misc.hg_utils.printHgFolders_push()
+else:
+  raise Exception("Unknown command")
+</code></pre>
+<p>This is a very common pattern in code, especially amongst 'old' C coders that are used to long <a href="http://en.wikipedia.org/wiki/Switch-case#C.2C_C.2B.2B.2C_Java.2C_PHP.2C_ActionScript.2C_JavaScript">switch-case structures</a>.</p>
+<p>It <strong>bad</strong> code because:</p>
+<ul>
+<li>
+<p>If someone adds a function or change a function name in the <em>misc.hg_utils</em> module, the parser script (that might not be in the same directory) will have to be changed at the same time. This is a violation of the <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">Don't Repeat Yourself (DRY)</a> principle: "Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.".</p>
+</li>
+<li>
+<p>A lot of copy/paste is involved. Every existing command requires a new 'elif' cause.</p>
+</li>
+</ul>
+<h2>A Little Bit Better</h2>
+<p>This is just to illustrate that in python there are (handy) alternatives to switch-case statements. In this case I use a dictionary of string-functions to contain the available commands and their triggers. Since functions in python are first-class objects, this does not create the same type of problems that a <em>pointer to a function</em> would in C (not type safe, the function needs to be static ...).</p>
+<pre><code>import misc.hg_utils
+
+import sys
+
+commands = {
+  'st': misc.hg_utils.printHgFolders_st,
+  'commit': misc.hg_utils.printHgFolders_commit,
+  'push': misc.hg_utils.printHgFolders_push
+}
+
+if len(sys.argv) &lt; 1 or sys.argv[1] not in commands.keys():
+  raise Exception("Unknown command. Try using: %s" % \
+    commands.keys())
+else:
+  cmd_args = sys.argv[1]
+  print('Running with argument: %s' % cmd_args)
+  functor = commands[cmd_args]
+  functor()
+</code></pre>
+<p>But this solution, however better, still violated the DRY principle.</p>
+<h2>Better</h2>
+<p>The solution is to put the commands description in the module itself:</p>
+<pre><code>#file: hg_utils.py
+#[...] code before
+def get_commands():
+  commands = {
+    'st': command_printHgFolders_st,
+    'commit': command_printHgFolders_commit,
+    'push': command_printHgFolders_push  
+  }
+  return commands
+#[...] code after
+</code></pre>
+<p>The scrip then becomes:</p>
+<pre><code>import misc.hg_utils
+
+import sys
+
+commands = misc.hg_utils.get_commands()
+
+if len(sys.argv) &lt;= 1:
+  raise Exception("No command-line argument provided, try using: %s" % \
+  commands.keys())
+if sys.argv[1] not in commands.keys():
+  raise Exception("Unknown command. Try using: %s" % \
+    commands.keys())
+else:
+  cmd_args = sys.argv[1]
+  print('Running command: %s' % cmd_args)
+  functor = commands[cmd_args]
+  functor()
+</code></pre>
+<p>The 'parser/runner' script is now completely <strong>independent</strong> from the module's code; it will never need to change in order to accomodate for new functions. This code is DRY-OK.</p>
+<h2>Much Better (Current Solution, Thanks to 'A' For Pointing Out Improvements)</h2>
+<p>User '<strong>A</strong>' suggested using the <a href="http://docs.python.org/dev/library/argparse.html">argparse module</a> in order to process the command-line arguments. This, however, requires a recent python distribution (had to upgrade mine): 3.2+ or 2.7.2+.</p>
+<pre><code>import misc.hg_utils
+
+import sys
+import argparse
+
+commands = misc.hg_utils.get_commands()
+
+parser = argparse.ArgumentParser(description='Mercurial (hg) utils.')
+parser.add_argument('command', choices=commands.keys(), help='mercurial command')
+args = parser.parse_args()
+
+cmd_args = args.command
+print('Running command: %s' % cmd_args)
+functor = commands[cmd_args]
+functor()
+</code></pre>
+<p>This way is much simpler, and delegates the error handling and printing usage o a well designed module. When typing <em>python hgstero.py -h</em> you now get:</p>
+<pre><code>usage: hgstero.py [-h] {push,commit,st}
+
+Mercurial (hg) utils.
+
+positional arguments:
+  {push,commit,st}  mercurial command
+
+optional arguments:
+  -h, --help        show this help message and exit
+</code></pre>
+<h2>Introspection: Fancy Solution (Not Necessarily Better Because it Relies on 'Magic')</h2>
+<p>This one is a bit funkier and uses advances features of the python language. Let's say that we have a convention that all the commands in the module are globally visible functions and have a 'command_' prefix in the function's name.</p>
+<p>Then one can use <em>introspection</em> to gather all the commands and return them to the user.</p>
+<pre><code>import misc.hg_utils
+
+import inspect
+
+def get_commands():
+  module_members = inspect.getmembers(misc.hg_utils)
+
+  commands = []
+  for module_member in module_members:
+    name = module_member[0]
+    content = module_member[1]
+    if inspect.isfunction( content ):
+      if len(name) &gt; 8 and name[0:8] == 'command_':
+        commands.append(module_member)
+  return commands
+
+for command in get_commands():      
+  print(command)
+</code></pre>
+<p>The crux of the modification is the use of the <em>inspect</em> module by calling: <strong>inspect.getmembers(misc.hg_utils)</strong>. This allows to check the content of the module, and then to gather all the functions using <strong>inspect.isfunction( content )</strong>.</p>
+<p>This is what is returned to the user:</p>
+<pre><code>('command_printHgFolders', &lt;function command_printHgFolders at 0x0000000001FB96C8&gt;)
+('command_printHgFolders_commit', &lt;function command_printHgFolders_commit at 0x0000000001FB97C8&gt;)
+('command_printHgFolders_push', &lt;function command_printHgFolders_push at 0x0000000001FB9848&gt;)
+('command_printHgFolders_st', &lt;function command_printHgFolders_st at 0x0000000001FB9748&gt;)
+</code></pre>
+<p>The problem with something like that is that it relies on convention. If one coder is not aware of it, he might name a function <em>command_getRootPasswordAndBankAccountNumber()</em> that should not be accessible to the command-line version (did you notice that there is one more function listed than with the previous example?).</p>
+<p>I prefer to not use solutions like this because they involve 'magic': nice usage of the language that are beautiful to the original coder but not to future coders that might not be aware of all the 'tricks' that the senior coder had in its basket when coding the application -- easily leading to disaster.</p>
+<p>Still, it is nice to know how it <em>could</em> be done.</p>

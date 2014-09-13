@@ -1,0 +1,21 @@
+
+<ul>
+
+{% for webdoc_entry in webdoc_entries %}
+  <li> 
+    <p><a href="/cnt/{{ webdoc_entry.getEntrySubUrl }}">{{ webdoc_entry.getEntrySubUrl }}</a> ({{ webdoc_entry.getDate }}) </p>
+  </li>
+  
+{% endfor %}
+
+</ul>
+
+<div id="sidebar_right"> 
+<h2>RSS</h2>
+  <a href= "http://feeds.feedburner.com/DavidWebdocFullList">
+  <img src="../../static/rss_128.png" />
+  </a>
+  <a href= "http://feeds.feedburner.com/DavidWebdocFullList">Subscribe to RSS feed</a>
+</div>
+
+

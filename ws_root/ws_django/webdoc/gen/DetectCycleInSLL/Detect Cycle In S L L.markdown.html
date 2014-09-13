@@ -1,0 +1,170 @@
+<h1>C++ Interview Question: Detect Cycle In S L L</h1>
+<h2>Question and Notes</h2>
+<pre><code>- Be careful: the cycle is not necessary at the beginning!
+- The fast solution is not intuitive (I would not have found it).
+</code></pre>
+<h2>Code</h2>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;cassert&gt;
+
+using namespace std;
+
+class Node;
+bool isCycle(const Node&amp; head);
+
+class Node
+{
+public:
+
+  Node()
+  {
+    next = 0;
+    prev = 0;
+    child = 0;
+    value = -1;
+  }
+
+  virtual ~Node()
+  {
+    if(!isCycle(*this))
+    {
+      delete next;
+      delete child;
+    }
+    else
+    {
+      //Disable memory cleanup: cycles in graph: would need a
+      //class that does the cleanup, not individual nodes.
+      // --&gt; Leak that memory!
+    }
+  }
+
+  void addNext(int val)
+  {
+    next = new Node;
+    next-&gt;prev = this;
+    next-&gt;value = val;
+  }
+
+  void addChild(int val)
+  {
+    child = new Node;
+    child-&gt;prev = this;
+    child-&gt;value = val;
+  }
+
+  void print()
+  {
+    class Node* n = this;
+    while(n != 0)
+    {
+      cout&lt;&lt;n-&gt;value&lt;&lt;endl;
+      if(n-&gt;child != 0)
+        n-&gt;child-&gt;print();
+
+      n = n-&gt;next;
+    }
+  }
+
+  class Node* next;
+  class Node* prev;
+  class Node* child;
+  int value;
+};
+
+void buildListNoCycle(Node&amp; head)
+{
+  head.value = 5;
+  head.addNext( 33 );
+  head.next-&gt;addNext( 17 );
+  head.next-&gt;next-&gt;addNext( 2 );
+  head.next-&gt;next-&gt;next-&gt;addNext( 1 );
+}
+
+void buildListCycle(Node&amp; head)
+{
+  head.value = 5;
+  head.addNext( 33 );
+  head.next-&gt;addNext( 17 );
+  head.next-&gt;next-&gt;addNext( 2 );
+  head.next-&gt;next-&gt;next-&gt;next = head.next;
+}
+
+bool isCycle(const Node&amp; head)
+{
+  const Node* n = &amp;head;
+  if(n-&gt;next == 0)
+    return false;
+  else
+    n = n-&gt;next;
+
+  while(n-&gt;next != 0)
+  {
+    for(const Node* l = &amp;head; l != n; l = l-&gt;next)
+    {
+      if(n-&gt;next == l)
+        return true;
+    }
+
+    n = n-&gt;next;
+  }
+
+  return false;
+}
+
+bool isCycle_fast(const Node&amp; head)
+{
+  const Node* nSlow = &amp;head;
+  const Node* nFast = &amp;head;
+
+  if(nFast-&gt;next != 0 &amp;&amp; nFast-&gt;next-&gt;next != 0)
+  {
+    nFast = nFast-&gt;next-&gt;next;
+  }
+  else
+  {
+    return false;
+  }
+
+  while(nSlow-&gt;next != 0 &amp;&amp; nFast-&gt;next != 0)
+  {
+    if(nSlow == nFast)
+      return true;
+
+    if(nSlow-&gt;next == 0)
+      return false;
+    else
+      nSlow = nSlow-&gt;next;
+
+    if(nFast-&gt;next != 0 &amp;&amp; nFast-&gt;next-&gt;next == 0)
+      return false;
+    else
+      nFast = nFast-&gt;next-&gt;next;
+  }
+
+  return false;
+}
+
+int main()
+{
+  cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+  Node headCycle;
+  buildListCycle( headCycle );
+
+  Node headNoCycle;
+  buildListNoCycle( headNoCycle );
+
+  assert( isCycle(headCycle) == true );
+  assert( isCycle_fast(headCycle) == true );
+  assert( isCycle(headNoCycle) == false );
+  assert( isCycle_fast(headNoCycle) == false );
+
+  cout&lt;&lt;"End"&lt;&lt;endl;
+  return 0;
+}
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>Begin
+End
+</code></pre>

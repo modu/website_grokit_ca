@@ -1,0 +1,168 @@
+<h1>C++ Interview Question: List Flattening</h1>
+<h2>Question and Notes</h2>
+<p>Given a fancy linked-list with a next node as well as a child node, write an algorithm to flatten the list (only next nodes, no more child nodes -- the list must contain all the original elements).</p>
+<h2>Code</h2>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;cassert&gt;
+
+using namespace std;
+
+class node
+{
+public:
+
+  node()
+  {
+    next = 0;
+    prev = 0;
+    child = 0;
+    value = -1;
+  }
+
+  virtual ~node()
+  {
+    delete next;
+    delete child;
+  }
+
+  void addNext(int val)
+  {
+    next = new node;
+    next-&gt;prev = this;
+    next-&gt;value = val;
+  }
+
+  void addChild(int val)
+  {
+    child = new node;
+    child-&gt;prev = this;
+    child-&gt;value = val;
+  }
+
+  void print()
+  {
+    class node* n = this;
+    while(n != 0)
+    {
+      cout&lt;&lt;n-&gt;value&lt;&lt;endl;
+      if(n-&gt;child != 0)
+        n-&gt;child-&gt;print();
+
+      n = n-&gt;next;
+    }
+  }
+
+  class node* next;
+  class node* prev;
+  class node* child;
+  int value;
+};
+
+void build_list(node&amp; head)
+{
+  head.value = 5;
+  head.addNext( 33 );
+  head.next-&gt;addNext( 17 );
+  head.next-&gt;next-&gt;addNext( 2 );
+  head.next-&gt;next-&gt;next-&gt;addNext( 1 );
+
+  head.addChild( 6 );
+  head.child-&gt;addNext( 25 );
+  head.child-&gt;next-&gt;addNext( 6 );
+  head.child-&gt;next-&gt;addChild( 8 );
+  head.child-&gt;next-&gt;next-&gt;addChild( 9 );
+  head.child-&gt;next-&gt;next-&gt;child-&gt;addChild( 7 );
+
+  head.next-&gt;next-&gt;next-&gt;addChild( 2 );
+  head.next-&gt;next-&gt;next-&gt;child-&gt;addNext( 7 );
+  head.next-&gt;next-&gt;next-&gt;child-&gt;addChild( 12 );
+  head.next-&gt;next-&gt;next-&gt;child-&gt;child-&gt;addNext( 5 );
+  head.next-&gt;next-&gt;next-&gt;child-&gt;child-&gt;addChild( 21 );
+  head.next-&gt;next-&gt;next-&gt;child-&gt;child-&gt;child-&gt;addNext( 3 );
+}
+
+void appendAllTo(node* n, node** appendTo)
+{
+  while(n != 0)
+  {
+    (*appendTo)-&gt;addNext( n-&gt;value );
+    //Update append ptr
+    *appendTo = (*appendTo)-&gt;next;
+
+    if(n-&gt;child != 0)
+    {
+      appendAllTo(n-&gt;child, appendTo);
+    }
+    n = n-&gt;next;
+  }
+}
+
+void flattenList(node&amp; lst)
+{
+  //1. Find the node that end list
+  node* appendNode = &amp;lst;
+  while(appendNode-&gt;next != 0)
+  {
+    appendNode = appendNode-&gt;next;
+  }
+
+  //2. Go through list, issue recursive call to all children to 
+  //   append at the end and delete
+  node* n = &amp;lst;
+  while(n != 0)
+  {
+    if(n-&gt;child != 0)
+    {
+      appendAllTo(n-&gt;child, &amp;appendNode);
+      delete n-&gt;child;
+      n-&gt;child = 0;
+    }
+    n = n-&gt;next;
+  }
+}
+
+void linearPrint(const node&amp; nr)
+{
+  const node* n = &amp;nr;
+  while(n != 0)
+  {
+    cout&lt;&lt;n-&gt;value&lt;&lt;", ";
+
+    if( n-&gt;child != 0 )
+      cout&lt;&lt;"(child), ";
+
+    n = n-&gt;next;
+  }
+  cout&lt;&lt;endl;
+}
+
+int main()
+{
+  cout&lt;&lt;"Begin"&lt;&lt;endl;
+
+  node head;
+  build_list( head );
+  //head.print();
+
+  linearPrint( head );
+  flattenList( head );
+  linearPrint( head );
+
+  //Check memory leak
+  //while(1)
+  //{
+  //  node tH;
+  //  build_list( tH );
+  //  flattenList( tH );
+  //}
+
+  cout&lt;&lt;"End"&lt;&lt;endl;
+  return 0;
+}
+</code></pre>
+<h2>Code Output</h2>
+<pre><code>Begin
+5, (child), 33, 17, 2, (child), 1, 
+5, 33, 17, 2, 1, 6, 25, 8, 6, 9, 7, 2, 12, 21, 3, 5, 7, 
+End
+</code></pre>
