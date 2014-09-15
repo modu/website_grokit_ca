@@ -15,6 +15,8 @@ def getInorderNext(n):
             return None
         return bst.BST.leftmostChild(n.right)
     elif not bst.BST.isLeftChild(n, n.parent):
+        if n.right is None:
+            return None
         return bst.BST.leftmostChild(n.right)
     else:
         if n.right is not None:
