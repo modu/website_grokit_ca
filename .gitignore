@@ -2,6 +2,7 @@ TODO/*
 dependencies/*
 memories/*
 *.pyc
+*.swp
 *~
 *.zip
 .code_search_cache*
