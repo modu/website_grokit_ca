@@ -7,9 +7,10 @@ def firstLeftChildUp(n):
         n = n.parent
         if n is None:
             return None
-    return n 
+    return n
 
 def getInorderNext(n):
+    #import pdb;pdb.set_trace()
     if n.parent is None:
         if n.right is None:
             return None
@@ -25,6 +26,8 @@ def getInorderNext(n):
             return firstLeftChildUp(n.parent)
 
 tree = bst.buildRandomBST()
+tree.toGraph()
+"""
 treeArray = tree.asInorderArray()
 print(treeArray)
 
@@ -34,4 +37,4 @@ print(n)
 nn = getInorderNext(n)
 print(nn)
 
-
+"""
