@@ -3,10 +3,11 @@
 import os
 import sys
 import argparse
+import time
 
 template_meta = """
 tags: viewA
-date: 2014-99-99
+date: __time__
 category: auto 
 """
 
@@ -32,12 +33,11 @@ def writeTo(folder, filename, content):
 
 if __name__ == '__main__':
     args = getArgs()
-    print(args)
 
     os.mkdir(args.name)
 
     writeTo(args.name, args.name + '.markdown', template_md.replace('__title__', args.name))
-    writeTo(args.name, args.name + '.meta', template_meta)
+    writeTo(args.name, args.name + '.meta', template_meta.replace('__time__', time.strftime("%Y-%m-%d", time.localtime())))
     writeTo(args.name, 'compile.py', template_compile)
 
 
