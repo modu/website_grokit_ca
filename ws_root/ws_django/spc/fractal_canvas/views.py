@@ -26,8 +26,8 @@ for (x=0,y=0; it < mIt; ++it){
         break;
 }
 
-pixel.r = it/mIt;
-pixel.g = 0.5*it/mIt;
+pixel.r = 0.40*it/mIt;
+pixel.g = 0.95*it/mIt;
 pixel.b = 0.25*it/mIt;
 
 })

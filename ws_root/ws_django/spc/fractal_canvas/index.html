@@ -72,9 +72,10 @@
 __jscode__
         </textarea>
         <button id="submit_code" onclick="submitCode();">Update Fractal</button>
+        <button id="submit_code" onclick="saveCode();">Save Fractal</button>
     </div>
 
-    Permanent link to your fractal: <a id="fractal_url" href="/"><a>
+    Permanent link to your fractal (click 'save' to generate): <a id="fractal_url" href="/"><a>
 
     <script type="text/javascript">
         var debug = false;
@@ -85,6 +86,9 @@ __jscode__
             var code = $("#code_input").val();
             var fn = eval(code);
             canvasStuff(fn);
+        }
+
+        function saveCode() {
             var code64 = btoa( $("#code_input").val() );
 
             $.ajax({
