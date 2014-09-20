@@ -68,9 +68,7 @@
 
     <div id="main_outer">
         <canvas id="main_canvas" width="512" height="512"></canvas>
-        <textarea type="text" id="code_input">
-__jscode__
-        </textarea>
+        <textarea type="text" id="code_input">__jscode__</textarea>
         <button id="submit_code" onclick="submitCode();">Update Fractal</button>
         <button id="submit_code" onclick="saveCode();">Save Fractal</button>
     </div>
@@ -98,10 +96,10 @@ __jscode__
                 success: (function(data){
                     var key = JSON.parse(data)['fractalKey']
                     var url = "/spc/fractals/" + key
-                    $("#fractal_url").attr("href", url) 
+                    $("#fractal_url").attr("href", url)
                     $("#fractal_url").text(url);
                 }),
-                error: (function(){$("#debug").text("Error!");}) 
+                error: (function(){$("#debug").text("Error!");})
             });
         }
 

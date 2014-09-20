@@ -43,7 +43,7 @@ def store_fractal(request):
 
     if request.method == "POST":
 
-        jsonin = json.loads(request.body) 
+        jsonin = json.loads(request.body)
         key = genHash(jsonin["fractal64"])
         models.save(key, jsonin)
         #models.cleanSlate()
