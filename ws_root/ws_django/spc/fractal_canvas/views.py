@@ -12,15 +12,12 @@ import models
 jsCode = """
 (function(i, j, pixel) {
 
-pixel.r = 0;
-pixel.g = 0;
-pixel.b = 0;
-
 i = i*3.5 - 2.5;
 j = j*2 -1;
 
+mIt = 25;
 it = 0;
-for (x=0,y=0; it < 1000; ++it){
+for (x=0,y=0; it < mIt; ++it){
     xt = x*x - y*y + i;
     y = 2*x*y + j;
     x = xt;
@@ -29,7 +26,9 @@ for (x=0,y=0; it < 1000; ++it){
         break;
 }
 
-pixel.r = it/1000;
+pixel.r = it/mIt;
+pixel.g = 0.5*it/mIt;
+pixel.b = 0.25*it/mIt;
 
 })
 """
