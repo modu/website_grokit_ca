@@ -15,7 +15,7 @@ jsCode = """
 i = i*3.5 - 2.5;
 j = j*2 -1;
 
-mIt = 25;
+mIt = 15;
 it = 0;
 for (x=0,y=0; it < mIt; ++it){
     xt = x*x - y*y + i;
