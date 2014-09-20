@@ -42,11 +42,11 @@ def genHash(data):
 def store_fractal(request):
 
     if request.method == "POST":
-        #import pdb; pdb.set_trace()
 
         jsonin = json.loads(request.body) 
         key = genHash(jsonin["fractal64"])
         models.save(key, jsonin)
+        #models.cleanSlate()
 
         return HttpResponse(json.dumps({'fractalKey': key}))
 
