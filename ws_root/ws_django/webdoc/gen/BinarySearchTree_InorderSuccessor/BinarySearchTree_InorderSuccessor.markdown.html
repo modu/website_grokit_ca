@@ -1,5 +1,13 @@
-
-import random
+<h1>CS Interview Question: Binary Search Tree, Find Inorder Successor</h1>
+<h1>Question</h1>
+<p>Given a node from a binary search tree, give the next in-order node.</p>
+<h1>Solution</h1>
+<p>The easiest solution by far would be to go up to the root not, then just output all the nodes in an array inorder. Find the node provided in that array, then simply return the next node.</p>
+<p>However, the real goal of the question is to do it without the extra array. This is possible by inspecting all possible cases in a BST (in terms of node configurations) and then walk to the next inorder node (if any).</p>
+<p>Something that can help tremendously is to picture the recursive nature in tree problems, you are always in on of the following three relationships (where any of the link to child can also be none):</p>
+<p><img alt="Solution" src="../../static/bst_recurse.png" /></p>
+<p><strong>[Inserted file: bst_inordersuccessor.py.]</strong></p>
+<pre><code>import random
 
 import dcore.ds.bst as bst
 
@@ -46,3 +54,6 @@ if __name__ == '__main__':
             assert nn is None
         else:
             assert nn.value == treeArray[pos+1]
+</code></pre>
+<p>The bst.py file (from the dcore repository) allows you to visualize the BST generated:</p>
+<p><img alt="bst" src="../../static/g.dot.png" /></p>

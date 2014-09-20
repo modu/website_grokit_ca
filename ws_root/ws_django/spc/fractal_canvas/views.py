@@ -11,15 +11,26 @@ import models
 
 jsCode = """
 (function(i, j, pixel) {
-    if (i * 100 * i * j * j * j * i * 1000 % 100 > 50) {
-        pixel.r = Math.sin(i * 2 * 3.141592);
-        pixel.g = Math.sin(j * 2 * 3.141592);
-        pixel.b = 0;
-    } else {
-        pixel.r = 0;
-        pixel.g = 0;
-        pixel.b = 0;
-    }
+
+pixel.r = 0;
+pixel.g = 0;
+pixel.b = 0;
+
+i = i*3.5 - 2.5;
+j = j*2 -1;
+
+it = 0;
+for (x=0,y=0; it < 1000; ++it){
+    xt = x*x - y*y + i;
+    y = 2*x*y + j;
+    x = xt;
+
+    if(x*x+y*y > 4)
+        break;
+}
+
+pixel.r = it/1000;
+
 })
 """
 

@@ -3,7 +3,7 @@
 
 # Question
 
-Given a node frim a binary search tree, give the next in-order node.
+Given a node from a binary search tree, give the next in-order node.
 
 # Solution
 
@@ -11,5 +11,12 @@ The easiest solution by far would be to go up to the root not, then just output 
 
 However, the real goal of the question is to do it without the extra array. This is possible by inspecting all possible cases in a BST (in terms of node configurations) and then walk to the next inorder node (if any).
 
+Something that can help tremendously is to picture the recursive nature in tree problems, you are always in on of the following three relationships (where any of the link to child can also be none):
+
+![Solution](../../static/bst_recurse.png)
+
 dext.insertCode('bst_inordersuccessor.py')
 
+The bst.py file (from the dcore repository) allows you to visualize the BST generated:
+
+![bst](../../static/g.dot.png)
