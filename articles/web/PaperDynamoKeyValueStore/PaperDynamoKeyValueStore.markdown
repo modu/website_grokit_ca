@@ -5,7 +5,7 @@ Dynamo is a key-value NoSQL database service that is designed for high availabil
 
 The paper goes over a number of concepts that are useful to generic large-scale distributed systems.
 
-Link to paper: [http://dl.acm.org/citation.cfm?id=1294281](http://dl.acm.org/citation.cfm?id=1294281)
+Link to paper: [http://dl.acm.org/citation.cfm?id=1294281](http://dl.acm.org/citation.cfm?id=1294281).
 
 Advantages:
 
@@ -28,7 +28,7 @@ Key Concepts:
 
 - Consistent hashing to achieve elastic scalability (4.2).
 - Key partitioning and key-data replication on nodes based on preference lists (4.3).
-- Eventual consistency as a tradeoff for higher availability.
+- Eventual consistency as a tradeoff for higher availability (2.1).
 - Vector clocks for conflict resolution (4.4).
 - Quorum, sloppy quorum (hinted handoff) and quorum parametrization (4.5, 4.6).
 - Merkle trees (4.7).
