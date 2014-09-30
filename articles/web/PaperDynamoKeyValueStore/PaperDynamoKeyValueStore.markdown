@@ -7,6 +7,8 @@ The paper goes over a number of concepts that are useful to generic large-scale 
 
 Link to paper: [http://dl.acm.org/citation.cfm?id=1294281](http://dl.acm.org/citation.cfm?id=1294281).
 
+Keywords: key-value stores, large scale distributed systems
+
 Advantages:
 
 - Higher throughput for read/writes than relational database. 
