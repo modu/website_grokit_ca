@@ -5,13 +5,15 @@ Dynamo is a key-value NoSQL database service that is designed for high availabil
 
 The paper goes over a number of concepts that are useful to generic large-scale distributed systems.
 
+Link to paper: [http://dl.acm.org/citation.cfm?id=1294281](http://dl.acm.org/citation.cfm?id=1294281)
+
 Advantages:
 
-* Higher throughput for read/writes than relational database. This is mainly due to using ìeventual consistencyî where a write returns before its data has been replicated to all N copies, allows to return from a read even if the queried node does not have the most recent copy of the data. This is a tradeoff for more availability at the cost of consistency.
+* Higher throughput for read/writes than relational database. This is mainly due to using ‚Äúeventual consistency‚Äù where a write returns before its data has been replicated to all N copies, allows to return from a read even if the queried node does not have the most recent copy of the data. This is a tradeoff for more availability at the cost of consistency.
 
 * Can use nodes of heterogeneous capabilities (will only handle the load it can, allows multiple hardware generations in the same cloud).
 
-* Elastic by default. You can add/remove nodes to the system without affecting the unchanged nodes or systemís availability.
+* Elastic by default. You can add/remove nodes to the system without affecting the unchanged nodes or system‚Äôs availability.
 Distributed by default. Across heterogeneous nodes and distributed to different data centers by default.
 
 Drawbacks:
