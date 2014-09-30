@@ -11,7 +11,7 @@ Advantages:
 
 - Higher throughput for read/writes than relational database. 
  
-This is mainly due to using “eventual consistency” where a write returns before its data has been replicated to all N copies, allows to return from a read even if the queried node does not have the most recent copy of the data. This is a tradeoff for more availability at the cost of consistency.
+  This is mainly due to using “eventual consistency” where a write returns before its data has been replicated to all N copies, allows to return from a read even if the queried node does not have the most recent copy of the data. This is a tradeoff for more availability at the cost of consistency.
 
 - Can use nodes of heterogeneous capabilities (will only handle the load it can, allows multiple hardware generations in the same cloud).
 
