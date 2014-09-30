@@ -19,7 +19,7 @@ Distributed by default. Across heterogeneous nodes and distributed to different 
 Drawbacks:
 
 * Only supports get() and set(key, metadata, data) operations (as opposed to complex query in relational databases).
-Not clear from the paper how to structure data for a service when relational queries are not available.
+** Not clear from the paper how to structure data for a service when relational queries are not available.
 * Requires that client implements merge logic because of the lax consistency requirements. This is somewhat alleviated by the use of vector clocks.
 
 Key Concepts:
