@@ -1,6 +1,8 @@
 TODO/*
 dependencies/*
 memories/*
+app/*
+markdown/*
 *.pyc
 *.swp
 *~

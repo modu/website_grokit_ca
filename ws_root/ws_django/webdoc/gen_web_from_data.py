@@ -4,7 +4,6 @@
 
 TODO
 - [] Be able to process a single document w/o recompiling whole ws
-
 """
 
 import os
