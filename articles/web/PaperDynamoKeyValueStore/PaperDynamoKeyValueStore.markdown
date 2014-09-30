@@ -20,14 +20,20 @@ Drawbacks:
 
 - Only supports get() and set(key, metadata, data) operations (as opposed to complex query in relational databases).
   - Not clear from the paper how to structure data for a service when relational queries are not available.
-- Requires that client implements merge logic because of the lax consistency requirements. This is somewhat alleviated by the use of vector clocks.
+- Requires that client implements merge logic because of the lax consistency requirements.
 
 Key Concepts:
 
-- Consistent hashing to achieve elastic scalability.
+- Consistent hashing to achieve elastic scalability (4.2).
+- Key partitioning and key-data replication on nodes based on preference lists (4.3).
 - Eventual consistency as a tradeoff for higher availability.
-- Vector clocks for conflict resolution.
-- Quorum, sloppy quorum (hinted handoff) and quorum parametrization.
-- Merkle trees
-- Gossip-based membership protocol.
+- Vector clocks for conflict resolution (4.4).
+- Quorum, sloppy quorum (hinted handoff) and quorum parametrization (4.5, 4.6).
+- Merkle trees (4.7).
+- Gossip-based membership protocol (4.8).
 
+## Discussion
+
+The paper does not explain in detail Merkel trees and Gossip-based protocols.
+
+It was not clear to me at first the difference between Dynamo and Amazon S3. Dynamo is for storing/retrieving small objects at very high throughput rates whereas Amazon S3 is used for huge objects that are not queried very frequently.
