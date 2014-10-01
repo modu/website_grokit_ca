@@ -3,12 +3,15 @@
 
 Facebook uses memcache as a key-value cache in between frontend instances and MySQL databases. It is optimized for read-heavy scenarios where heavy read on SQL databases would be prohibitive. Memcache in itself is an in-memory, single computer, key-value cache; this paper explains how Facebook scaled this out to a multi-computer key-value cache with a SQL-backed permanent store.
 
-Their overarching architecture is a client connects to a front-end through a load-balancer, the frontend requests data needed to render the client request (let's say a friend's feed) to many different memcache instances, aggregates all the results and returns the request to the client. This is done through an _all-to-all_ communication pattern, where a typical request will require a frontend to fetch data from many memcache instances. Gets are performed using UDP, but writes and delete use a long-lived TCP connection proxy (called _mcrouter_ internally) which is shared between all threads on a machine.
+Typically, a client connects to a front-end through a load-balancer, the frontend requests data needed to render the client's request (let's say a friend's feed) to many different memcache instances, aggregates all the results and returns the result to the client. This is done through an _all-to-all_ communication pattern, where frontends fetch data from many memcache instances (in theory, one frontend instance could be connected to all memcache instances; memcache instances do not communicate with each-other). 
+
+## Performance
+
+Gets are performed using UDP, but writes and delete use a long-lived TCP connection proxy (called _mcrouter_ internally) which is shared between all threads on a machine.
 
 ## ?? how they scaled and how they partitioned their keys ??
 
 ## ?? diagram of server / memcache / SQL
-
 
 ## Get (success), get (cache miss) and write (figure 1)
 
