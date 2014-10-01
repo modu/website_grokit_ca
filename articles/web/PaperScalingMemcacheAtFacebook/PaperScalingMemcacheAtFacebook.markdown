@@ -5,14 +5,17 @@ Facebook uses memcache as a key-value cache in between frontend instances and My
 
 Typically, a client connects to a front-end through a load-balancer, the frontend requests data needed to render the client's request (let's say a friend's feed) to many different memcache instances, aggregates all the results and returns the result to the client. This is done through an _all-to-all_ communication pattern, where frontends fetch data from many memcache instances (in theory, one frontend instance could be connected to all memcache instances; memcache instances do not communicate with each-other). 
 
-Keywords: key-value stores, large scale distributed systems, distributed cache
+Keywords: key-value stores, memcache, large scale distributed systems, distributed cache
 
 Link to paper: [https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala).
 
 ## Key Concepts
+
 - All-to-all communication pattern.
-- McSqueal thingie.
-- 
+- Sliding window to avoid response overload on massive-keys-requests.
+- Leases to avoid stale set.
+- UDP used for gets (fetch from cache miss on UDP packet lost), TCP for write and deletes.
+- McSqueal thingie??
 
 ## Details
 
