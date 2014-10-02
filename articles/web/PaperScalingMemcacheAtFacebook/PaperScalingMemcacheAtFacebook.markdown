@@ -33,13 +33,15 @@ The paper discussed TCP vs. UDP, with UDP having a ~20% latency benefit using a 
 
 ### ?? how they scaled and how they partitioned their keys ??
 
-Facebook is organized in _regions_ (machines geographically located togeter) and _clusters_ (set of machines in a region).
+Facebook is organized in _regions_ (machines geographically located togeter) and _clusters_ (set of machines in a region). Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
+
+
 
 Key can be replicated to mutiple _clusters_ (Facebook's term for a geographically close cluster of computers), but I can't find any details on the criteria and how a frontend instance gets > 1 cache location from hashing a key.
 
-Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
 
 
+When a write / delete occurs on a database (MySQL), a notification broadcaster (called "McSqueal") is notified and will notify each memcache instance containing the key of the change.
 
 
 
