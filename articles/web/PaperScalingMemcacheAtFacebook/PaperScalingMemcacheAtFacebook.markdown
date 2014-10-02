@@ -13,8 +13,6 @@ When a get issued to a memcache instance is successful ({key, value} pair in mem
 
 On a write (or delete), 
 
-
-
 **???**:
 
 Facebook is organized in _regions_ (machines geographically located togeter) and _clusters_ (set of machines in a region). Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
