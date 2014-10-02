@@ -15,7 +15,7 @@ Link to paper: [https://www.usenix.org/conference/nsdi13/technical-sessions/pres
 - Sliding window to avoid response overload on massive-keys-requests.
 - Leases to avoid stale set.
 - UDP used for gets (fetch from cache miss on UDP packet lost), TCP for write and deletes.
-- McSqueal thingie??
+- Gutter pool: using a fast-expiring cache that is used only temporarily if a main cache fails to alleviate cascading failures (3.3).
 
 ## Details
 
@@ -26,6 +26,8 @@ Gets are performed using UDP, but writes and delete use a long-lived TCP connect
 The paper discussed TCP vs. UDP, with UDP having a ~20% latency benefit using a "try, if fail try again later" model where the client implements the retry logic. AAA section??
 
 ### ?? how they scaled and how they partitioned their keys ??
+
+Key can be replicated to mutiple _clusters_ (Facebook's term for a geographically close cluster of computers), but I can't find any details on the criteria and how a frontend instance gets > 1 cache location from hashing a key.
 
 ### ?? diagram of server / memcache / SQL
 
