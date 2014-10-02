@@ -7,7 +7,7 @@ Typically, a client connects to a front-end through a load-balancer, the fronten
 
 **Keywords**: key-value stores, memcache, large scale distributed systems, distributed cache.
 
-**Link to paper**: [https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala).
+**Link to paper**: [https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala), [full pdf here](https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf).
 
 ## Key Concepts
 
