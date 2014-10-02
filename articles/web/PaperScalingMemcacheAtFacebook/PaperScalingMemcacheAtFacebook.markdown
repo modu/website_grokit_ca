@@ -5,24 +5,6 @@ Facebook uses memcache as a key-value cache in between frontend instances and My
 
 Typically, a client connects to a front-end through a load-balancer, the frontend requests data needed to render the client's request (let's say a friend's feed) to many different memcache instances, aggregates all the results and returns the result to the client. This is done through an _all-to-all_ communication pattern, where frontends fetch data from many memcache instances (in theory, one frontend instance could be connected to all memcache instances; memcache instances do not communicate with each-other). 
 
-Facebook is organized in _regions_ (machines geographically located together) and _clusters_ (set of machines in a region). Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
-
-A cluster contains a set of frontends (web servers that the client directly connects to), memcache instances and MySQL database instances. Each frontend is connected to a number (up to all) of memcache instances through a proxy named _mcrouter_. The memcache instances do not communicate with each other.
-
-Key can be replicated to multiple _clusters_ (Facebook's term for a geographically close cluster of computers), but I can't find any details on the criteria and how a frontend instance gets > 1 cache location from hashing a key.
-
-When a write / delete occurs on a database (MySQL), a notification broadcaster (called "McSqueal") is notified and will notify each memcache instance containing the key of the change. The master / replica MySQL servers are kept in sync using MySQL's replication mechanism.
-
-**Read**:
-
-When a get issued to a memcache instance is successful ({key, value} pair in memory), the value is simply returned to the client. On a cache miss, the client is responsible for fetching the data from the MySQL database and then updating the read key in the memcache instances (see figure 1).
-
-**Write**:
-
-On a write (or delete), the data is first deleted form the MySQL database, then the memcache instances that hold the key to this data are notified. Of course, this means that it is possible for a frontend server to do a valid get on a memcache instance after the data has actually been deleted in the database.
-
-This is _eventual consistency_: it is possible to read stale data, you application just has to deal with it.
-
 **Keywords**: key-value stores, memcache, large scale distributed systems, distributed cache.
 
 **Link to paper**: [https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala).
@@ -36,9 +18,29 @@ This is _eventual consistency_: it is possible to read stale data, you applicati
 - Gutter pool: using a fast-expiring cache that is used only temporarily if a main cache fails to alleviate cascading failures (3.3).
 - Eventual consistency as a tradeoff to provide greater availability.
 
+## How Read/Writes Are Done
+
+**Read**:
+
+When a get issued to a memcache instance is successful ({key, value} pair in memory), the value is simply returned to the client. On a cache miss, the client is responsible for fetching the data from the MySQL database and then updating the read key in the memcache instances (see figure 1).
+
+**Write**:
+
+On a write (or delete), the data is first deleted form the MySQL database, then the memcache instances that hold the key to this data are notified. Of course, this means that it is possible for a frontend server to do a valid get on a memcache instance after the data has actually been deleted in the database.
+
+This is _eventual consistency_: it is possible to read stale data, you application just has to deal with it.
+
+## Overarching Architecture
+
+Facebook is organized in _regions_ (machines geographically located together) and _clusters_ (set of machines in a region). Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
+
+A cluster contains a set of frontends (web servers that the client directly connects to), memcache instances and MySQL database instances. Each frontend is connected to a number (up to all) of memcache instances through a proxy named _mcrouter_. The memcache instances do not communicate with each other.
+
+Key can be replicated to multiple _clusters_ (Facebook's term for a geographically close cluster of computers), but I can't find any details on the criteria and how a frontend instance gets > 1 cache location from hashing a key.
+
+When a write / delete occurs on a database (MySQL), a notification broadcaster (called "McSqueal") is notified and will notify each memcache instance containing the key of the change. The master / replica MySQL servers are kept in sync using MySQL's replication mechanism.
+
 ## Details
-
-
 
 ### Performance
 
