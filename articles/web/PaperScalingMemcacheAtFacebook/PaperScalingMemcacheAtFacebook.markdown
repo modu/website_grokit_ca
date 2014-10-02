@@ -15,11 +15,12 @@ On a write (or delete),
 
 **???**:
 
-Facebook is organized in _regions_ (machines geographically located togeter) and _clusters_ (set of machines in a region). Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
+
+Facebook is organized in _regions_ (machines geographically located together) and _clusters_ (set of machines in a region). Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
 
 A cluster contains a set of frontends (web servers that the client directly connects to), memcache instances and MySQL database instances. Each frontend is connected to a number (up to all) of memcache instances through a proxy named _mcrouter_. The memcache instances do not communicate with each other.
 
-Key can be replicated to mutiple _clusters_ (Facebook's term for a geographically close cluster of computers), but I can't find any details on the criteria and how a frontend instance gets > 1 cache location from hashing a key.
+Key can be replicated to multiple _clusters_ (Facebook's term for a geographically close cluster of computers), but I can't find any details on the criteria and how a frontend instance gets > 1 cache location from hashing a key.
 
 When a write / delete occurs on a database (MySQL), a notification broadcaster (called "McSqueal") is notified and will notify each memcache instance containing the key of the change. The master / replica MySQL servers are kept in sync using MySQL's replication mechanism.
 
