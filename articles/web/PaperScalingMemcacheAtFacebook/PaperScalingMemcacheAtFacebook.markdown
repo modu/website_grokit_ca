@@ -9,13 +9,16 @@ Facebook uses memcache as a key-value cache in between frontend instances and My
 
 ## Key Concepts
 
-- All-to-all communication pattern.
+- Use of memcache as a cache between frontend web servers and MySQL databases.
+  - Eventual consistency as a tradeoff to provide greater availability.
+  - All-to-all communication pattern between frontend servers and cache.
+  - Broadcast mechanism for cache's key invalidation upon database change.
+  - Database spread as master (where the authoritative data is) and read-only regional replicas.
 - Sliding window to avoid response overload on massive-keys-requests.
 - Leases to avoid stale sets.
 - UDP used for gets (fetch from cache miss on UDP packet lost), TCP for write and deletes.
 - Gutter pool: using a fast-expiring cache that is used only temporarily if a main cache fails to alleviate cascading failures (3.3).
-- Eventual consistency as a tradeoff to provide greater availability.
-- Database spread as master (where the authoritative data is) and read-only regional replicas.
+
 
 ## How Read/Writes Are Done
 
