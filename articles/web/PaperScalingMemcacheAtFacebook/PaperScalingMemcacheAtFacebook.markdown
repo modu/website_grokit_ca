@@ -6,15 +6,17 @@ Facebook uses memcache as a key-value cache in between frontend instances and My
 Typically, a client connects to a front-end through a load-balancer, the frontend requests data needed to render the client's request (let's say a friend's feed) to many different memcache instances, aggregates all the results and returns the result to the client. This is done through an _all-to-all_ communication pattern, where frontends fetch data from many memcache instances (in theory, one frontend instance could be connected to all memcache instances; memcache instances do not communicate with each-other). 
 
 **Read**:
-When a get issued to a memcache instance is successful ({key, value} pair in memory), the value is simply returned to the client. On a cache miss, the client is responsible for fetching the data from the MySQL database and then updating the read key in the memcache instances.
+
+When a get issued to a memcache instance is successful ({key, value} pair in memory), the value is simply returned to the client. On a cache miss, the client is responsible for fetching the data from the MySQL database and then updating the read key in the memcache instances (see figure 1).
 
 **Write**:
 
-Get (success), get (cache miss) and write (figure 1)
-?? to get a chunk of data, the frontend 
-?? how do you invalidate perimated data ??
+On a write (or delete), 
+
+
 
 **???**:
+
 Facebook is organized in _regions_ (machines geographically located togeter) and _clusters_ (set of machines in a region). Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
 
 A cluster contains a set of frontends (web servers that the client directly connects to), memcache instances and MySQL database instances. Each frontend is connected to a number (up to all) of memcache instances through a proxy named _mcrouter_. The memcache instances do not communicate with each other.
@@ -23,10 +25,9 @@ Key can be replicated to mutiple _clusters_ (Facebook's term for a geographicall
 
 When a write / delete occurs on a database (MySQL), a notification broadcaster (called "McSqueal") is notified and will notify each memcache instance containing the key of the change. The master / replica MySQL servers are kept in sync using MySQL's replication mechanism.
 
+**Keywords**: key-value stores, memcache, large scale distributed systems, distributed cache.
 
-Keywords: key-value stores, memcache, large scale distributed systems, distributed cache.
-
-Link to paper: [https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala).
+**Link to paper**: [https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala).
 
 ## Key Concepts
 
