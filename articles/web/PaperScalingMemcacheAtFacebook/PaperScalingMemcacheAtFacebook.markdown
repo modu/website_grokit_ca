@@ -16,8 +16,14 @@ Link to paper: [https://www.usenix.org/conference/nsdi13/technical-sessions/pres
 - Leases to avoid stale set.
 - UDP used for gets (fetch from cache miss on UDP packet lost), TCP for write and deletes.
 - Gutter pool: using a fast-expiring cache that is used only temporarily if a main cache fails to alleviate cascading failures (3.3).
+- Eventual consistency as a tradeoff to provide greater availability.
 
 ## Details
+
+### Get (success), get (cache miss) and write (figure 1)
+
+?? to get a chunk of data, the frontend 
+?? how do you invalidate perimated data ??
 
 ### Performance
 
@@ -27,18 +33,14 @@ The paper discussed TCP vs. UDP, with UDP having a ~20% latency benefit using a 
 
 ### ?? how they scaled and how they partitioned their keys ??
 
+Facebook is organized in _regions_ (machines geographically located togeter) and _clusters_ (set of machines in a region).
+
 Key can be replicated to mutiple _clusters_ (Facebook's term for a geographically close cluster of computers), but I can't find any details on the criteria and how a frontend instance gets > 1 cache location from hashing a key.
 
-### ?? diagram of server / memcache / SQL
+Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
 
-### Get (success), get (cache miss) and write (figure 1)
 
-?? to get a chunk of data, the frontend 
 
-### ...
-
-?? collocation of data ??
-?? how do you invalidate perimated data ??
 
 
 
