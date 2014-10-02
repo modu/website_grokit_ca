@@ -1,9 +1,7 @@
 
 # Paper Reading Notes: Scaling Memcache At Facebook
 
-Facebook uses memcache as a key-value cache in between frontend instances and MySQL databases. It is optimized for read-heavy scenarios where heavy read on SQL databases would be prohibitive. Memcache in itself is an in-memory, single computer, key-value cache; this paper explains how Facebook scaled this out to a multi-computer, multi-region key-value cache with a SQL-backed permanent store.
-
-Typically, a client connects to a front-end through a load-balancer, the frontend requests data needed to render the client's request (let's say a friend's feed) to many different memcache instances, aggregates all the results and returns the result to the client. This is done through an _all-to-all_ communication pattern, where frontends fetch data from many memcache instances (in theory, one frontend instance could be connected to all memcache instances; memcache instances do not communicate with each-other). 
+Facebook uses memcache as a key-value cache in between frontend instances and MySQL databases. It is optimized for read-heavy scenarios where direct SQL databases use would be prohibitive. Memcache in itself (the original open-source project) is an in-memory, single computer, key-value cache; this paper explains how Facebook scaled this out to a multi-computer, multi-region key-value cache with a SQL-backed permanent store. It also goes over how it is used in their server-side architecture.
 
 **Keywords**: key-value stores, memcache, large scale distributed systems, distributed cache.
 
@@ -17,6 +15,7 @@ Typically, a client connects to a front-end through a load-balancer, the fronten
 - UDP used for gets (fetch from cache miss on UDP packet lost), TCP for write and deletes.
 - Gutter pool: using a fast-expiring cache that is used only temporarily if a main cache fails to alleviate cascading failures (3.3).
 - Eventual consistency as a tradeoff to provide greater availability.
+- Database spread as master (where the authoritative data is) and read-only regional replicas.
 
 ## How Read/Writes Are Done
 
@@ -31,6 +30,8 @@ On a write (or delete), the data is first deleted form the MySQL database, then 
 This is _eventual consistency_: it is possible to read stale data, you application just has to deal with it.
 
 ## Overarching Architecture
+
+Typically, a client connects to a front-end through a load-balancer, the frontend requests data needed to render the client's request (let's say a friend's feed) to many different memcache instances, aggregates all the results and returns the result to the client. This is done through an _all-to-all_ communication pattern, where frontends fetch data from many memcache instances (in theory, one frontend instance could be connected to all memcache instances; memcache instances do not communicate with each-other). 
 
 Facebook is organized in _regions_ (machines geographically located together) and _clusters_ (set of machines in a region). Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
 
