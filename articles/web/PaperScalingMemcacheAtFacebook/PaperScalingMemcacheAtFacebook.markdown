@@ -13,7 +13,7 @@ Link to paper: [https://www.usenix.org/conference/nsdi13/technical-sessions/pres
 
 - All-to-all communication pattern.
 - Sliding window to avoid response overload on massive-keys-requests.
-- Leases to avoid stale set.
+- Leases to avoid stale sets.
 - UDP used for gets (fetch from cache miss on UDP packet lost), TCP for write and deletes.
 - Gutter pool: using a fast-expiring cache that is used only temporarily if a main cache fails to alleviate cascading failures (3.3).
 - Eventual consistency as a tradeoff to provide greater availability.
@@ -35,13 +35,11 @@ The paper discussed TCP vs. UDP, with UDP having a ~20% latency benefit using a 
 
 Facebook is organized in _regions_ (machines geographically located togeter) and _clusters_ (set of machines in a region). Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0).
 
-
+A cluster contains a set of frontends (web servers that the client directly connects to), memcache instances and MySQL database instances. Each frontend is connected to a number (up to all) of memcache instances through a proxy named _mcrouter_. The memcache instances do not communicate with each other.
 
 Key can be replicated to mutiple _clusters_ (Facebook's term for a geographically close cluster of computers), but I can't find any details on the criteria and how a frontend instance gets > 1 cache location from hashing a key.
 
-
-
-When a write / delete occurs on a database (MySQL), a notification broadcaster (called "McSqueal") is notified and will notify each memcache instance containing the key of the change.
+When a write / delete occurs on a database (MySQL), a notification broadcaster (called "McSqueal") is notified and will notify each memcache instance containing the key of the change. The master / replica MySQL servers are kept in sync using MySQL's replication mechanism.
 
 
 
