@@ -30,10 +30,13 @@ Key Concepts:
 
 - Consistent hashing to achieve elastic scalability (4.2).
 - Key partitioning and key-data replication on nodes based on preference lists (4.3).
+  - 
 - Eventual consistency as a tradeoff for higher availability (2.1).
 - Vector clocks for conflict resolution (4.4).
-- Quorum, sloppy quorum (hinted handoff) and quorum parametrization (4.5, 4.6).
-- Merkle trees (4.7).
+- Quorum and quorum parametrization (4.5, 4.6).
+  - Sloppy quorum: skip over unhealthy nodes on read / write to avoid node starvation on outage (4.6).
+  - Hinted handoff to copy keys to the temporary "next in hash ring" node when a node fails (4.6).
+- Merkle trees (fancy term for a hash list implemented in a tree to be log(n), and hash list being simply a hash of every chik of m bytes of data) to check which data needs to be synced between two nodes (4.7).
 - Gossip-based membership protocol (4.8).
 
 ## Discussion
