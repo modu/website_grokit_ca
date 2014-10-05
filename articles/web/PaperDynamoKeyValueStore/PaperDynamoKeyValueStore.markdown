@@ -1,5 +1,5 @@
 
-# Paper Reading Note: Dynamo: Amazon's Highly Available Key-value Store
+# Paper Reading Notes: Dynamo: Amazon's Highly Available Key-value Store
 
 Dynamo is a key-value NoSQL database service that is designed for high availability and elastic scalability at the cost of lenient consistency. It offers an alternative to relational databases who are constrained by their requirement to support ACID properties which do not scale well horizontally.
 
