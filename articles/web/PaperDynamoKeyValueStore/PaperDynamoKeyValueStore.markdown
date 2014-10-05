@@ -15,15 +15,21 @@ The paper goes over a number of concepts that are useful to generic large-scale 
  
     This is mainly due to using “eventual consistency” where a write returns before its data has been replicated to all N copies, allows to return from a read even if the queried node does not have the most recent copy of the data. This is a tradeoff for more availability at the cost of consistency.
 
+- Information is replicated on N servers in M datecenters, N and M being tunable.
+
 - Can use nodes of heterogeneous capabilities (will only handle the load it can, allows multiple hardware generations in the same cloud).
 
-- Elastic by default. You can add/remove nodes to the system without affecting the unchanged nodes or system's availability.
-Distributed by default. Across heterogeneous nodes and distributed to different data centers by default.
+- Elastic and distributed by default. You can add/remove nodes to the system without affecting the unchanged nodes or system's availability. There is no theoretical limit to the number of nodes you can have -- the system can scale practically infinitely.
 
 **Drawbacks**:
 
-- Only supports get() and set(key, metadata, data) operations (as opposed to complex query in relational databases).
+- Only supports get() and set(key, metadata, data) operations (as opposed to complex queries in relational databases).
+
 - Requires that client implements merge logic because of the lax consistency requirements.
+
+- Possible to read stale data, no concept of transaction.
+
+- Duplication logic of key-values-pairs using Merkle trees is tricky and can have awful performance on node join/leave a node set that share a key if not finely tuned. Getting this right is not a simple matter.
 
 **Key Concepts**:
 
