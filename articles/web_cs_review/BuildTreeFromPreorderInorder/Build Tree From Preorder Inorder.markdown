@@ -1,13 +1,18 @@
 
-# C++ Interview Question: Build Tree From Preorder Inorder
+# CS Interview Question: Build Tree From Preorder and Inorder List of Nodes
 
 ## Question and Notes
 
-    //http://www.leetcode.com/2011/04/construct-binary-tree-from-inorder-and-preorder-postorder-traversal.html
-    
-    - Don't forget to point-out have to delete memory at the end
+Given a list of nodes from a binary tree given in preorder and inorder fashion, can you reconstruct the tree without ambiguity?
 
-## Code
+You can use this tree as an example:
+
+      int preorder[] = {7, 10, 4, 3, 1, 2, 8, 11};
+      int inorder[] = {4, 10, 3, 1, 7, 11, 8, 2};
+
+Note that this is not a binary _search_ tree: the nodes are not in sorted order in the tree.
+
+## Code C++
 
     
     #include <iostream>
@@ -150,7 +155,7 @@
       return 0;
     }
 
-## Code Output
+## Code C++ Output
 
     Begin
     flatTree_inorder
@@ -172,4 +177,24 @@
     8
     11
     End
+
+## Discussion
+
+Here is the order of nodes visit for preorder and inorder:
+	preorder: visit, left, right
+	inorder:  left, visit, right
+
+Here by visit we mean that we take some action on the node, for example printing it out to the console.
+
+So the preorder array has information on which node is highest in the tree, and the inorder array gives information on if the nodes are left of right relative to each other (since if you are on the left, you will be visited before if you are on the right).
+
+For example, using:
+      int preorder[] = {7, 10, 4, 3, 1, 2, 8, 11};
+      int inorder[] = {4, 10, 3, 1, 7, 11, 8, 2};
+
+... we can decuce that 7 is the root of the tree (first node in preorder). Then, we know that the nodes {4, 10, 3, 1} are on the left of 7 and {11, 8, 2} on the right. Out of {4, 10, 3, 1}, 10 is the first node of the preorder array, it will therefore be the left root. Out of {11, 8, 2}, 2 is the first node in the preorder array so it will be the root right node. You can apply this process recursively to build the whole tree.
+
+## Further Reading
+
+http://www.leetcode.com/2011/04/construct-binary-tree-from-inorder-and-preorder-postorder-traversal.html
 
