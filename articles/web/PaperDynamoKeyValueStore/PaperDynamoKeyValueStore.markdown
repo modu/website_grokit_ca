@@ -3,7 +3,7 @@
 
 Dynamo is a key-value NoSQL database service that is designed for high availability and elastic scalability at the cost of lenient consistency. It offers an alternative to relational databases who are constrained by their requirement to support ACID properties which do not scale well horizontally.
 
-The paper goes over a number of concepts that are useful to generic large-scale distributed systems. It is interesting even if you are not interested in using Dynamo because it explains a lot of themes present in most distributed computing problems.
+The paper goes over a number of concepts that are useful to generic large-scale distributed systems. It is interesting even if you are not interested in using Dynamo because it explains a lot of distributed computing recurring themes.
 
 **Link to paper**: [http://dl.acm.org/citation.cfm?id=1294281](http://dl.acm.org/citation.cfm?id=1294281), [full pdf](http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf).
 
