@@ -177,6 +177,14 @@ Note that this is not a binary _search_ tree: the nodes are not in sorted order 
     8
     11
     End
+    
+## Code Python
+
+dext.insertCode('bst_from_pre_ino.py')
+
+## Code Python Output
+
+dext.insertCode('bst_from_pre_ino.py.out')
 
 ## Discussion
 

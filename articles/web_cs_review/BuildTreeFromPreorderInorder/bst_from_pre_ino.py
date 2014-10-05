@@ -5,8 +5,8 @@ Node = bst.Node
 
 def findLeftmostAInB(A, B):
 
+    # Could put B in a hash to make it faster.
     T = []
-
     for a in A:
         i = 0
         for b in B:
@@ -41,7 +41,7 @@ def build(pre, ino, node):
         node.left = lNode
 
         if len(saL) > 1:
-            build(saL, ino, lNode) 
+            build(pre, saL, lNode) 
 
     if iNode < len(ino) - 1:
         saR = ino[iNode+1:]
@@ -50,11 +50,15 @@ def build(pre, ino, node):
         node.right = rNode
 
         if len(saR) > 1:
-            build(saR, ino, rNode)
+            build(pre, saR, rNode)
 
 preorder = [7, 10, 4, 3, 1, 2, 8, 11]
 inorder = [4, 10, 3, 1, 7, 11, 8, 2]
 node0 = Node(preorder[0])
 
 build(preorder, inorder, node0)
+
+tree = bst.BST()
+tree.root = node0
+print(tree.asInorderArray())
 
