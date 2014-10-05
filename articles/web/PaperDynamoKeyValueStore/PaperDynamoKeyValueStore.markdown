@@ -7,7 +7,7 @@ The paper goes over a number of concepts that are useful to generic large-scale 
 
 **Link to paper**: [http://dl.acm.org/citation.cfm?id=1294281](http://dl.acm.org/citation.cfm?id=1294281), [full pdf](http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf).
 
-**Keywords**: key-value stores, large scale distributed systems
+**Keywords**: key-value stores, large scale distributed systems.
 
 **Advantages**:
 
