@@ -184,7 +184,7 @@ Items that do not need to be done now, that do not have a specific deadline in t
 
 From first to last:
 * Calendar
-* Action Lists (
+* Action Lists
     
 ### Updating the System (The Weekly Review)
 
@@ -301,3 +301,10 @@ The secret if getting ahead is getting started. The secret of getting started is
 * A lot of scattered information on [the excellent 43 folders article](http://www.43folders.com/2004/09/08/getting-started-with-getting-things-done) about GTD. Tends to be more implementation focused a split on a lot of different posts.
 * The [wikipedia page](http://en.wikipedia.org/wiki/Getting_things_done) is a good overview of the topic if your are unfamiliar with GTD.
 
+## What Works for Me
+
+Over the years, I have been using my own version of GTD. A few modifications that I have found useful:
+
+- Use a pomodoro timer. Have a goal (e.g. a good day of work is 10 pomodoros!, a good after work session is 4 pomodoros, ...). It helps me focus (focus on ignoring distractions) and it allows me to set an amount of work, after which I can relax and do what I like. This works marvel for motivation. [Online pomodoro implementation here.](http://www.moosti.com/).
+
+- Exercise! Turns out this is a must for me. I get unfocused, stressed and nervous if I do not exercise. I need to do it every-day. 45 minutes jog before lunch is ideal.
