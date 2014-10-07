@@ -1,5 +1,5 @@
 
-# CS Interview Question: Detect Cycle In S L L
+# CS Interview Question: Detect Cycle In Singlt Linked List
 
 Given a linked list, detect if it has a cycle without allocation any additional data.
 
