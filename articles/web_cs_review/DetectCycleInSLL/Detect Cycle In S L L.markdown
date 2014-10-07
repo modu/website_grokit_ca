@@ -3,8 +3,7 @@
 
 ## Question and Notes
 
-    - Be careful: the cycle is not necessary at the beginning!
-    - The fast solution is not intuitive (I would not have found it).
+Given a linked list, detect if it has a cycle without allocation any additional data.
 
 ## Code
 
@@ -174,3 +173,6 @@
     Begin
     End
 
+## Discussion
+
+If you remove the constraint that you cannot add data, the easiest solution is to just put the visited nodes in a hash map, then for every new node, if it is already in the hash map there is a loop. If you reach the end without detecting a loop, then there is no loop.
