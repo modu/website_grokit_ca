@@ -1,7 +1,5 @@
 
-# C++ Interview Question: Detect Cycle In S L L
-
-## Question and Notes
+# CS Interview Question: Detect Cycle In S L L
 
 Given a linked list, detect if it has a cycle without allocation any additional data.
 
