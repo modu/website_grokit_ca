@@ -1,14 +1,7 @@
 <h1>C++ Interview Question: Permutations Of A String</h1>
-<h2>Question and Notes</h2>
-<pre><code>TODO: Recursive version for comparison 
-@tag review and be able to do fast as a 'list all possible cases given realm X'
-
-@tag ERROR review:
-
-  char* items = "abc";
-  allPermutations(items, sizeof(items)/sizeof(char));
-  --&gt; THIS IS AN ERROR: because the item size contains the NULL-termination!
-</code></pre>
+<p>Given a string (e.g: "abc"), generate all possible strings that can be obtained by switching the positions of the letters.</p>
+<h2>Discussion</h2>
+<p>Note that this is equivalent to the slightly more wonky: given a set of letters of length n, output all n-tuples that can be formed by combining those letters (without repetitions).</p>
 <h2>Code</h2>
 <pre><code>#include &lt;iostream&gt;
 #include &lt;deque&gt;
@@ -154,7 +147,7 @@ int main()
   return 0;
 }
 </code></pre>
-<h2>Code Output</h2>
+<h2>C++ Code Output</h2>
 <pre><code>Begin
 Queue solution:
 abc
@@ -179,3 +172,62 @@ cab
 cba
 End
 </code></pre>
+<h2>Code (Python)</h2>
+<p><strong>[Inserted file: permutations_of_set.py.]</strong></p>
+<pre><code>def permut(lset, curr, completeFn):
+
+    if len(lset) == 0:
+        completeFn(curr)
+        return
+
+    for s in lset:
+        lset.remove(s)
+        curr.append(s)
+        permut(lset, curr, completeFn)
+        curr.remove(s)
+        lset.add(s)
+
+permut({'a', 'b', 'c'}, [], lambda x: print("".join(x)))
+print('\n------\n')
+permut({'a', 'b', 'c', 'd'}, [], lambda x: print("".join(x)))
+</code></pre>
+<h3>Output</h3>
+<p><strong>[Inserted file: permutations_of_set.py.out.]</strong></p>
+<pre><code>cba
+cab
+cba
+cab
+abc
+abc
+
+------
+
+cbad
+cbda
+cabd
+cadb
+cdba
+cdab
+cbad
+cbda
+cabd
+cadb
+cdba
+cdab
+abcd
+abdc
+abcd
+abdc
+adcb
+adcb
+dbca
+dbac
+dbca
+dbac
+dacb
+dacb
+</code></pre>
+<h1>A Little bit of Math</h1>
+<p>For a n-tuple, the first letter has n free choices, the second n-1 and so forth. You end up with a total of n! possible strings.</p>
+<h1>A More Difficult Alternative, M-tuples Allowing Repetitions</h1>
+<p>Would it be difficult to change the problem to generate all m-tuple from the set of n letters (m &gt;= n) if repetitions are allowed?</p>

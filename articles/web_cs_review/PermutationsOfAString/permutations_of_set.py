@@ -5,8 +5,8 @@ def permut(lset, curr, completeFn):
         completeFn(curr)
         return
 
-    enumSet = lset
-    for s in enumSet:
+    ls2 = lset
+    for s in ls2:
         lset.remove(s)
         curr.append(s)
         permut(lset, curr, completeFn)
@@ -15,5 +15,5 @@ def permut(lset, curr, completeFn):
 
 permut({'a', 'b', 'c'}, [], lambda x: print("".join(x)))
 print('\n------\n')
-#permut({'a', 'b', 'c', 'd'}, [], lambda x: print("".join(x)))
+permut({'a', 'b', 'c', 'd'}, [], lambda x: print("".join(x)))
 
