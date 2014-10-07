@@ -1,13 +1,1 @@
-iNode: 4
-saL: [4, 10, 3, 1]
-iNode: 1
-saL: [4]
-saR: [3, 1]
-iNode: 0
-saR: [1]
-saR: [11, 8, 2]
-iNode: 2
-saL: [11, 8]
-iNode: 1
-saL: [11]
 [4, 10, 3, 1, 7, 11, 8, 2]

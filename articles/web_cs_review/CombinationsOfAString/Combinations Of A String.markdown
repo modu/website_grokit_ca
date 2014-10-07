@@ -1,11 +1,7 @@
 
-# C++ Interview Question: Combinations Of A String
+# CS Interview Question: Combinations Of A String
 
-## Question and Notes
-
-
-
-## Code
+## Code C++
 
     
     #include <iostream>

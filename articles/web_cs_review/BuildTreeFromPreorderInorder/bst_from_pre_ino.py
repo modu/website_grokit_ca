@@ -32,11 +32,9 @@ def findI(A, node):
 
 def build(pre, ino, node):
     iNode = findI(ino, node)
-    print('iNode: ' + str(iNode))
 
     if iNode != 0:
         saL = ino[0:iNode]
-        print('saL: ' + str(saL))
         lNode = Node(findLeftmostAInB(saL, pre)) 
         node.left = lNode
 
@@ -45,7 +43,6 @@ def build(pre, ino, node):
 
     if iNode < len(ino) - 1:
         saR = ino[iNode+1:]
-        print('saR: ' + str(saR))
         rNode = Node(findLeftmostAInB(saR, pre))
         node.right = rNode
 
