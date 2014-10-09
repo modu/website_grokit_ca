@@ -1,9 +1,26 @@
-"""
-Shortest-path algorithm loosely following Dijkstra's shortest path.
+<h1>Shortest Path Dijkstra's Algorithm</h1>
+<p>Given an undirected graph with edge weights, find the shortest path between two nodes.</p>
+<h1>Graph Dataset</h1>
+<p><strong>[Inserted file: undirected_weighted_graph_simple.dot.]</strong></p>
+<pre><code>graph {
+    a -- b [weight="2", label="2"];
+    b -- c [weight="1", label="1"];
+    c -- d [weight="2", label="2"];
+    b -- d [weight="7", label="7"];
+    e -- a [weight="2", label="2"];
+    d -- e [weight="2", label="2"];
+}
+</code></pre>
+<p><img alt="Graph" src="../../static/undirected_weighted_graph_simple.png" /></p>
+<p>You can change the graph and play around plotting here: <a href="http://graphs.grevian.org/graph">http://graphs.grevian.org/graph</a>.</p>
+<h1>Code</h1>
+<p><strong>[Inserted file: dijkstra.py.]</strong></p>
+<pre><code>"""
+Shortest-path algorithm loosely following Dijkstra's solution.
 
 Notes:
     - This is a rag-tag solution that does not use a heap to bring the complexity down (n^2 instead of the possible n log(n)).
-    
+
     - Instead of keeping data by annotating nodes, it keeps a stack of all the possible next steps. This makes this implementation overly complicated.
 """
 
@@ -32,13 +49,13 @@ def popLeastCostPathAndEdge(paths, visited):
         path = path[-1]
         for edge in path.edges:
             if edge.to not in visited:
-                if minCost is None or cost + edge.weight < minCost:
+                if minCost is None or cost + edge.weight &lt; minCost:
                     minE = edge
                     minCost = cost + edge.weight 
                     remPath = (pathSoFar, cost)
 
     paths.remove(remPath)
-    
+
     return (remPath, minE)
 
 def findShortestPath(G, vStart, vEnd):
@@ -49,7 +66,7 @@ def findShortestPath(G, vStart, vEnd):
         paths.append( ([vStart, edge.to], edge.weight) )
         visited.add(vStart)
 
-    while len(paths) > 0:
+    while len(paths) &gt; 0:
         path, edge = popLeastCostPathAndEdge(paths, visited)
         visitVertex(paths, path, edge, visited)
 
@@ -77,3 +94,24 @@ if __name__ == '__main__':
     test('undirected_weighted_graph_simple.dot')
     test('undirected_weighted_graph_simple2.dot')
     test('undirected_weighted_graph_simple3.dot')
+</code></pre>
+<p><strong>[Inserted file: dijkstra.py.out.]</strong></p>
+<pre><code>Testing with file: undirected_weighted_graph_simple.dot.
+Vextex.label: a
+Vextex.label: e
+Vextex.label: d
+Testing with file: undirected_weighted_graph_simple2.dot.
+Vextex.label: a
+Vextex.label: b
+Vextex.label: c
+Vextex.label: d
+Testing with file: undirected_weighted_graph_simple3.dot.
+Vextex.label: a
+Vextex.label: b
+Vextex.label: d
+</code></pre>
+<h1>Discussion</h1>
+<p>If negative edge weights were allowed, what would it mean for our solution?</p>
+<p>The <a href="http://en.wikipedia.org/wiki/A*_search_algorithm">A* algorithm</a> is fundamentally the same as Dijkstra except that is uses heuristics in the order in which it visits the graph's nodes.</p>
+<h1>Others</h1>
+<p>http://en.wikipedia.org/wiki/Hamiltonian_path</p>
