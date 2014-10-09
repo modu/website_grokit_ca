@@ -5,14 +5,16 @@ Given an undirected graph with edge weights, find the shortest path between two 
 
 # Graph Dataset
 
-dext.insertCode("undirected_weighted_graph_simple.dot")
+dext.insertCode('undirected_weighted_graph_simple.dot')
+
+![Graph](../../static/undirected_weighted_graph_simple.png)
 
 You can change the graph and play around plotting here: [http://graphs.grevian.org/graph](http://graphs.grevian.org/graph).
 
 # Code
 
-dext.insertCode('dijkstra.py)
-dext.insertCode('dijkstra.py.out)
+dext.insertCode('dijkstra.py')
+dext.insertCode('dijkstra.py.out')
 
 # Discussion
 

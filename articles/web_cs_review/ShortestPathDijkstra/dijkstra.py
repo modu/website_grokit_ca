@@ -1,7 +1,13 @@
+"""
+Shortest-path algorithm loosely following Dijkstra's solution.
+
+Notes:
+    - This is a rag-tag solution that does not use a heap to bring the complexity down (n^2 instead of the possible n log(n)).
+    
+    - Instead of keeping data by annotating nodes, it keeps a stack of all the possible next steps. This makes this implementation overly complicated.
+"""
 
 import ds.graph as graph
-
-import heapq
 
 def isPathVictory(path, vEnd):
     if path[0][-1] == vEnd:
