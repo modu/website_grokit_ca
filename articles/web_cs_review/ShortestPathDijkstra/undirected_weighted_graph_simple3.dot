@@ -2,7 +2,7 @@ graph {
     a -- b [weight="2", label="2"];
     b -- c [weight="1", label="1"];
     c -- d [weight="2", label="2"];
-    b -- d [weight="7", label="7"];
+    b -- d [weight="1", label="1"];
     e -- a [weight="2", label="2"];
     d -- e [weight="2", label="2"];
 }
