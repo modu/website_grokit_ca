@@ -1,60 +1,57 @@
-"""
-Shortest-path algorithm loosely following Dijkstra's shortest path.
-
-Notes:
-    - This is a rag-tag solution that does not use a heap to bring the complexity down (n^2 instead of the possible n log(n)).
-    
-    - Instead of keeping data by annotating nodes, it keeps a stack of all the possible next steps. This makes this implementation overly complicated.
-"""
 
 import ds.graph as graph
 
-def isPathVictory(path, vEnd):
-    if path[0][-1] == vEnd:
-        return True
-    return False
 
-def visitVertex(paths, path, edge, visited):
+def visit(vertex, edgeT, visited):
 
-    path, cost = path
-    cost += edge.weight
-    path.append(edge.to)
+    visited.add( vertex )
 
-    visited.add(edge.frm)
+    for edge in vertex.edges:
+        if edge.to not in visited:
+            edgeT.append( edge )
 
-    paths.append( (path, cost) )
+def findPopLeastCost(edgeT, visited):
 
-def popLeastCostPathAndEdge(paths, visited):
-    minCost = None
+    cand = []
 
-    for path, cost in paths:
-        pathSoFar = path
-        path = path[-1]
-        for edge in path.edges:
-            if edge.to not in visited:
-                if minCost is None or cost + edge.weight < minCost:
-                    minE = edge
-                    minCost = cost + edge.weight 
-                    remPath = (pathSoFar, cost)
+    for edge in edgeT:
+        if not edge.to in visited:
+            cand.append( (edge, edge.frm.backtrackCost + edge.weight) )
 
-    paths.remove(remPath)
-    
-    return (remPath, minE)
+    cand.sort( key = lambda x: x[1] )
+
+    edge = cand[0][0]
+    edgeT.remove( edge )
+
+    return edge 
+
 
 def findShortestPath(G, vStart, vEnd):
-    paths = []
+
     visited = set()
+    edgeT = []
 
-    for edge in vStart.edges:
-        paths.append( ([vStart, edge.to], edge.weight) )
-        visited.add(vStart)
+    vStart.backtrackCost = 0
+    vStart.backtrackVertex = None
+    visit(vStart, edgeT, visited)
 
-    while len(paths) > 0:
-        path, edge = popLeastCostPathAndEdge(paths, visited)
-        visitVertex(paths, path, edge, visited)
+    while len(edgeT) > 0:
 
-        if isPathVictory(path, vEnd):
-            return path[0]
+        edge = findPopLeastCost(edgeT, visited)
+
+        edge.to.backtrackCost = edge.frm.backtrackCost + edge.weight
+        edge.to.backtrackVertex = edge.frm 
+
+        visit(edge.to, edgeT, visited)
+
+        if edge.to == vEnd:
+            path = []
+            edge = edge.to
+            while edge is not None:
+                path.append( edge )
+                edge = edge.backtrackVertex
+            path.reverse()
+            return path
 
     raise Exception("Shortest path error")
 
@@ -77,3 +74,4 @@ if __name__ == '__main__':
     test('undirected_weighted_graph_simple.dot')
     test('undirected_weighted_graph_simple2.dot')
     test('undirected_weighted_graph_simple3.dot')
+
