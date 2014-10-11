@@ -1,6 +1,8 @@
 
 import ds.graph as graph
 
+import collections
+
 
 def visit(vertex, edgeT, visited):
 
@@ -45,12 +47,12 @@ def findShortestPath(G, vStart, vEnd):
         visit(edge.to, edgeT, visited)
 
         if edge.to == vEnd:
-            path = []
+            path = collections.deque()
             edge = edge.to
             while edge is not None:
-                path.append( edge )
+                path.appendleft( edge )
                 edge = edge.backtrackVertex
-            path.reverse()
+            #path.reverse()
             return path
 
     raise Exception("Shortest path error")
