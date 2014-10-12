@@ -1,4 +1,9 @@
+"""
+Shortest path algorithm losely based on Dijkstra's algorithm.
 
+Note:
+    - Note optimized (using a heap for the lookup operations).
+"""
 import ds.graph as graph
 
 import collections
