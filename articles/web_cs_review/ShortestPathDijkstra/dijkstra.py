@@ -28,7 +28,7 @@ def findPopLeastCost(edgeT, visited):
     return edge 
 
 
-def findShortestPath(G, vStart, vEnd):
+def findShortestPath(vStart, vEnd):
 
     visited = set()
     edgeT = []
@@ -52,7 +52,6 @@ def findShortestPath(G, vStart, vEnd):
             while edge is not None:
                 path.appendleft( edge )
                 edge = edge.backtrackVertex
-            #path.reverse()
             return path
 
     raise Exception("Shortest path error")
@@ -67,7 +66,7 @@ def test(filename):
 
     vStart = G.vertices['a']
     vEnd = G.vertices['d']
-    shortestPath = findShortestPath(G, vStart, vEnd)
+    shortestPath = findShortestPath(vStart, vEnd)
 
     for v in shortestPath:
         print(v)
