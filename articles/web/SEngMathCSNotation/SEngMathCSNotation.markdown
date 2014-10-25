@@ -14,5 +14,6 @@ Tuple: (1,2,3)
 
 
 http://en.wikipedia.org/wiki/Tuple#n-tuple
+http://en.wikipedia.org/wiki/ISO_31-11
 
 @@todo: merge with what I started in my thesis.
