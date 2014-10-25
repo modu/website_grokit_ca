@@ -15,5 +15,7 @@ Tuple: (1,2,3)
 
 - http://en.wikipedia.org/wiki/Tuple#n-tuple
 - http://en.wikipedia.org/wiki/ISO_31-11
+- http://en.wikipedia.org/wiki/List_of_mathematical_symbols
+- 
 
 @@todo: merge with what I started in my thesis.
