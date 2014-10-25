@@ -45,6 +45,6 @@ Vector: same as a list, but usually contiguous in memory.
 - http://en.wikipedia.org/wiki/List_of_mathematical_symbols
 - http://en.wikipedia.org/wiki/List_of_logic_symbols
 
-↦: maps to
+↦: |-> maps to
 
 @@todo: merge with what I started in my thesis.
