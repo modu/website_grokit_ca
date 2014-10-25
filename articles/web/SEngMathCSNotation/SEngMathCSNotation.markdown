@@ -3,7 +3,7 @@
 
 Computer science notation in source files that do not have facy formatting (bold, italics, ...).
 
-## Bleh
+## Elemntary Types
 
 Literal: a fixed value. E.g: 1 or "one".
 
@@ -32,6 +32,17 @@ Transpose is 'T', so [1, 2, 3; 4, 5, 6]T is:
 	 2, 5
 	 3, 6]
 
+## Bleh
+
+Capital letters usually represent sets, or collections of objects. E.g:
+
+		P = [p1, p2, p3]
+		or
+		P = {p1, p2, p3}
+
+## Symbols
+
+↦: |-> maps to
 ## Notes
 
 Distinction between what it is, and the underlying implementation.
@@ -45,6 +56,6 @@ Vector: same as a list, but usually contiguous in memory.
 - http://en.wikipedia.org/wiki/List_of_mathematical_symbols
 - http://en.wikipedia.org/wiki/List_of_logic_symbols
 
-↦: |-> maps to
+
 
 @@todo: merge with what I started in my thesis.
