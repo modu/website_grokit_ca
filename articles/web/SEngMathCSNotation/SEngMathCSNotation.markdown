@@ -1,6 +1,10 @@
 
 # SEngMathCSNotation
 
+Computer science notation in source files that do not have facy formatting (bold, italics, ...).
+
+## Bleh
+
 Literal: a fixed value. E.g: 1 or "one".
 
 List: ~= Tuple
