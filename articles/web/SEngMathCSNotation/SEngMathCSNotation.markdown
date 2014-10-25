@@ -23,6 +23,7 @@ Since it is hard to represent matrices in a a text file, the coma (;) represents
 	 4, 5, 6]
 	 
 Transpose is 'T', so [1, 2, 3; 4, 5, 6]T is:
+
 	[1, 4
 	 2, 5
 	 3, 6]
