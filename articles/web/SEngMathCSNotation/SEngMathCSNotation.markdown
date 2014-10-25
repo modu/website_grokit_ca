@@ -13,7 +13,7 @@ Tuple: (1,2,3)
 	(1,2,2,3) is a valid set (allows duplicates).
 
 
-http://en.wikipedia.org/wiki/Tuple#n-tuple
-http://en.wikipedia.org/wiki/ISO_31-11
+- http://en.wikipedia.org/wiki/Tuple#n-tuple
+- http://en.wikipedia.org/wiki/ISO_31-11
 
 @@todo: merge with what I started in my thesis.
