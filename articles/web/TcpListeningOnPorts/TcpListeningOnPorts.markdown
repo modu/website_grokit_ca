@@ -1,5 +1,3 @@
-TODO: post answer on stack verflow (@@a1).
-
 # TCP / HTTP Listening On Ports: How Can Many Users Share the Same Port
 
 So, what happens when a server listen for incoming connections on a TCP port? For example, let's say you have a web-server on port 80. Let's assume that your computer has the public IP address of 24.14.181.229 and the person that tries to connect to you has IP address 10.1.2.3. This person can connect to you by opening a TCP socket to 24.14.181.229:80. Simple enough.

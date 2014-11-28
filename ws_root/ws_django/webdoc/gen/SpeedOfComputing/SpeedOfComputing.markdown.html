@@ -3,7 +3,7 @@
 <h2>Example Question</h2>
 <p>You run a web service where 1000 users upload a 700 kB picture every second (assume that nothing else happen on this system). How many frontend and backend machines do you need?</p>
 <h3>Tentative Answer</h3>
-<p>The bandwidth required is 1000 * 700 * (2<em />10) = 0.667 GBps = 5.34 Gbps.
+<p>The bandwidth required is 1000 * 700 * (2**10) = 0.667 GBps = 5.34 Gbps.
 Since a frontend instance will likely handle ~ 1Gbps, you need 6 instances at the very least.</p>
 <p>Now, you can assume that those frontend instances will pass that data to backend machines. Since you can expect a much higher throughput in machine-to-machine data transfer (given the they are in the same cloud), you only need 1 backend instance to handle that load (assuming 10Gbps transfer data rate).</p>
 <p>However, that backend will need to store that data. Assuming sequential writes, you can write 1 picture in ~2 ms. This means that you need at least two backend instances in order to handle the write speed. You probably need to shard the data across many more machines if you do not want to run out of space, but 2 machines can handle the <em>load</em>.</p>

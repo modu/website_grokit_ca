@@ -1,7 +1,9 @@
 <h1>C++ Interview Question: Factorial</h1>
 <p><strong>Implement the factorial function</strong>.</p>
 <ul>
-<li>What is the approximate order of growth of this function?<ul>
+<li>
+<p>What is the approximate order of growth of this function?</p>
+<ul>
 <li>Approximately for what input 'x' will you get an overflow if using 32 bit uint to compute?</li>
 </ul>
 </li>
@@ -12,7 +14,7 @@
 <h1>Solution</h1>
 <h2>Approximate Order of Growth of Factorial</h2>
 <p>The factorial of n is the computation of: n(n-1)(n-2)(n-2)...(1) 'n' times. The conventional math definition is:</p>
-<p>$$n!=prod_{k=1}^n k !$$</p>
+<p>$$n!=\prod_{k=1}^n k !$$</p>
 <p>If you upper-bound that by approximating with n(n)(n)...(n) &gt;= n(n-1)(n-2)(n-2)...(1). You can then upper-bound \(n!\) by \(n^n\).</p>
 <h3>Approximately for what Input 'x' will you get an Overflow if Using 32 bit uint to Compute?</h3>
 <p>So let's say that you use C++ unsigned int to computer factorial. You know that the maximum value you can represent with the 32-bit integer is \(2^{32}\). So what you are asking yourself is the solution to: \( n^{n} = 2^{32} \). Taking the logarithm of n on both side doesn't help much. What you can do to approximate the answer is fix the base to two. \( 2^{n} = 2^{32} \) when n = 32 obviously. Since in n! the base is much larger (32), you know that the answer is n &lt;&lt; 32. Now, if you use n = 8. You can see that as \( 8^{8} = {2^{3}}^{8} = 2^{24} \). So you know that 8 is fine. Using 16: \( 16^{16} = {2^{4}}^{16} = 2^{64} \). So 16 is too large. We have a pretty good ballpark number of somewhere between factorial(8) and factorial(16) you will overflow a 32 bit uint. The actual answer is 13:</p>
@@ -222,6 +224,7 @@ int main()
     //(see C2971)
     cout&lt;&lt; Factorial&lt;10&gt;::value &lt;&lt;endl;
     // cout&lt;&lt; Factorial&lt;100&gt;::value &lt;&lt;endl; This would blow-up the compiler.
+
 
     printFactorial( &amp;factorialLoop, "factorialLoop" );
     printFactorial( &amp;factorialRecursive, "factorialRecursive" );

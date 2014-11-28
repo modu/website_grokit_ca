@@ -2,7 +2,7 @@
 <h2>Question</h2>
 <p>This is a solution for the <a href="https://code.google.com/codejam/contest/2418487/dashboard">Bullseye</a> problem from GCJ. Their explanation lacks the mathematic development. </p>
 <p>This is a fairly easy problem if you know that there is a formula that yields the result of a sum:</p>
-<p>$$sum_{ i mathop =1}^ni = frac{n(n+1)}{2}$$</p>
+<p>$$\sum_{ i \mathop =1}^ni = \frac{n(n+1)}{2}$$</p>
 <p>If you can express the 'black area' as a sum, then you can reduce this long sum by a single equation. Once you have this, you can binary search the problem space which will yield the answer in O(log(n)) time.</p>
 <p><img alt="Solution" src="../../static/bullseye.jpg" /></p>
 <h1>Math and Summation</h1>
@@ -20,7 +20,7 @@
 </code></pre>
 <p>Notice that all the rows sum to 11, and organizing the number this way will have every number twice. So the sum will be 10<em>(row)/2 = 10</em>11/2. If you replace 10 and 11 with variables, you get the formula seen earlier: n*(1+1)/2.</p>
 <p>This begs the questions: if you can reduce sums to an algebraic form, what about sum of powers? It turns out that you can always reduce sum of powers using <a href="http://en.wikipedia.org/wiki/Faulhaber%27s_formula">Faulhaber's formula</a>. So if you ever see a sum of the form:</p>
-<p>$$sum_{k=1}^n k^p = 1^p + 2^p + 3^p + cdots + n^p$$</p>
+<p>$$\sum_{k=1}^n k^p = 1^p + 2^p + 3^p + \cdots + n^p$$</p>
 <p>... know that you can calculate the result of the sum with a simple formula.</p>
 <h2>Code</h2>
 <p><strong>[Inserted file: bullseye.py.]</strong></p>

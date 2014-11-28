@@ -62,7 +62,7 @@ TARGET_LINK_LIBRARIES(ic ITKIO)
 SET(INSTALL_PATH "C:/david/sync/app/BashBins")
 INSTALL(TARGETS ic RUNTIME DESTINATION ${INSTALL_PATH})
 </code></pre>
-<p>This is the <em>CMakeFiles.txt</em> for a small application (_ic.exe_) that converts images from ITK formats to whatever. This will result in a project target called 'install' that automatically copies ic.exe (the output of the project) to "C:/david/sync/app/BashBins", where my bash applications are kept on my windows machine.</p>
+<p>This is the <em>CMakeFiles.txt</em> for a small application (<em>ic.exe</em>) that converts images from ITK formats to whatever. This will result in a project target called 'install' that automatically copies ic.exe (the output of the project) to "C:/david/sync/app/BashBins", where my bash applications are kept on my windows machine.</p>
 <p>The two key lines are:</p>
 <pre><code>SET(INSTALL_PATH "C:/david/sync/app/BashBins")
 INSTALL(TARGETS ic RUNTIME DESTINATION ${INSTALL_PATH})
