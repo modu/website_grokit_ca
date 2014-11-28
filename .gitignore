@@ -1,6 +1,7 @@
 TODO/*
 dependencies/*
 memories/*
+ws_root/static/*
 *.pyc
 *.swp
 *~
