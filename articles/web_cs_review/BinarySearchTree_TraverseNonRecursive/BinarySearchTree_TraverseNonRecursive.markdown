@@ -23,13 +23,13 @@ Given a binary search tree (BST) with the following node structure:
 - [Sedgewick's Algorithms book's website, chapter on BST](http://algs4.cs.princeton.edu/32bst/).
 - [BST Wikipedia](http://en.wikipedia.org/wiki/Binary_search_tree).
 
-# Solution(s)
+# Solution C++
 
-# Code
+## Code
 
 dext.insertCode('bst_norecurse.cpp')
 
-# Code Output
+## Code Output
 
 dext.insertCode('bst_norecurse.cpp.out')
 
@@ -47,3 +47,12 @@ A way to think of this solution is that it is the same thing as the recursive so
 
 <a href="http://web.cs.wpi.edu/~cs2005/common/iterative.inorder">It is actually possible to do this without adding extra data (besides the stack).</a>
 
+# Solution Python
+
+## Code
+
+dext.insertCode('inorder_norecurse.py')
+
+## Code Output
+
+dext.insertCode('inorder_norecurse.py.out')

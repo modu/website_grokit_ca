@@ -184,7 +184,7 @@ Items that do not need to be done now, that do not have a specific deadline in t
 
 From first to last:
 * Calendar
-* Action Lists (
+* Action Lists
     
 ### Updating the System (The Weekly Review)
 
@@ -287,7 +287,15 @@ When one has a lot to do, it becomes hard to take the time to relax without cons
 
 I found out that I was reluctant to throw away 'todo-items', even after they have been cluttering my '__Someday/Maybe__' list for a long time. In order to get over my natural psychological reluctance to throw away items I want to do but will probably not have available time for anytime soon, I created the __Never-Do List__. The difference with the __Someday/Maybe__ list is that I do not force myself to review it periodically. It turns out I almost never end-up doing the  __Never-Do__ items (hence the name), but at least I know I _could_ do.
 
-## Quotes I Like From the Book
+## I Use a Pomodoro Timer
+
+Have a goal (e.g. a good day of work is 10 pomodoros!, a good after work session is 4 pomodoros, ...). It helps me focus (focus on ignoring distractions) and it allows me to set an amount of work, after which I can relax and do what I like. This works marvel for motivation. [Online pomodoro implementation here.](http://www.moosti.com/).
+
+## Exercise
+
+Turns out this is a must for me. I get unfocused, stressed and nervous if I do not exercise. I need to do it every-day. 45 minutes jog before lunch is ideal.
+
+# Quotes I Like From the Book
 
 I am an old man and have known a great many troubles, but most of them never happened. -- Mark Twain
 
@@ -295,7 +303,7 @@ The most senior and savvy executives know the value of sacrificing the seemingly
 
 The secret if getting ahead is getting started. The secret of getting started is breaking complex overwhelming tasks into small manageable tasks, and then starting on the first one. -- Mark Twain
 
-## Other Source of Information on the Topic
+# Other Source of Information on the Topic
 
 * You can [get a cheap version of the book](http://isbn.nu/0142000280)
 * A lot of scattered information on [the excellent 43 folders article](http://www.43folders.com/2004/09/08/getting-started-with-getting-things-done) about GTD. Tends to be more implementation focused a split on a lot of different posts.

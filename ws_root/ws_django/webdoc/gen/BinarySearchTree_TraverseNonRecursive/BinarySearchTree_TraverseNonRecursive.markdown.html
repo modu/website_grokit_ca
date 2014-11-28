@@ -23,8 +23,8 @@
 <li><a href="http://algs4.cs.princeton.edu/32bst/">Sedgewick's Algorithms book's website, chapter on BST</a>.</li>
 <li><a href="http://en.wikipedia.org/wiki/Binary_search_tree">BST Wikipedia</a>.</li>
 </ul>
-<h1>Solution(s)</h1>
-<h1>Code</h1>
+<h1>Solution C++</h1>
+<h2>Code</h2>
 <p><strong>[Inserted file: bst_norecurse.cpp.]</strong></p>
 <pre><code>#include &lt;iostream&gt;
 #include &lt;deque&gt;
@@ -355,7 +355,7 @@ int main()
     return 0;
 }
 </code></pre>
-<h1>Code Output</h1>
+<h2>Code Output</h2>
 <p><strong>[Inserted file: bst_norecurse.cpp.out.]</strong></p>
 <pre><code>Begin
 --levelOrderTraversal:
@@ -434,3 +434,56 @@ End
 </code></pre>
 <p>... in the recursive code, you would have: {recurse left, print value, recurse right}. Since recurse left is picked first, the <em>stack pointer</em> will bring you back to 'print value' when the rest of the call is done. In the non-recursive mode, we store the node in the following order: {10, 7*, 3},  with 7 having a flag that it has already been touched (next time around print the value). This is the equivalent of recursing on node 3, then when it is done visit 7 without recursing and recurse in 10. The stack with a flag can be seen as just a clever way to simulate recursive behavior.</p>
 <p><a href="http://web.cs.wpi.edu/~cs2005/common/iterative.inorder">It is actually possible to do this without adding extra data (besides the stack).</a></p>
+<h1>Solution Python</h1>
+<h2>Code</h2>
+<p><strong>[Inserted file: inorder_norecurse.py.]</strong></p>
+<pre><code>import ds.bst as bst
+
+tree = bst.buildRandomBST(10)
+print(tree.asInorderArray())
+
+def visit(n):
+    print(n.value)
+
+def ino(root, visitFn = visit):
+    root.vl = False
+    root.vc = False
+    S = [root]
+
+    while len(S) &gt; 0:
+        n = S.pop()
+
+        if n.vl == False:
+            n.vl = True
+            S.append(n)
+            if n.left is not None:
+                n.left.vl = False
+                n.left.vc = False
+                S.append(n.left)
+
+        elif n.vc == False:
+            n.vc = True
+            visitFn(n)
+
+            if n.right is not None:
+                n.right.vl = False
+                n.right.vc = False
+                S.append(n.right)
+
+ino(tree.root)
+</code></pre>
+<h2>Code Output</h2>
+<p><strong>[Inserted file: inorder_norecurse.py.out.]</strong></p>
+<pre><code>[1, 20, 24, 34, 38, 47, 50, 53, 55, 72, 93]
+1
+20
+24
+34
+38
+47
+50
+53
+55
+72
+93
+</code></pre>

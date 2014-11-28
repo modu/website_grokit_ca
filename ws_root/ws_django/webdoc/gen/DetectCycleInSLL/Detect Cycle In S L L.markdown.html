@@ -1,8 +1,5 @@
-<h1>C++ Interview Question: Detect Cycle In S L L</h1>
-<h2>Question and Notes</h2>
-<pre><code>- Be careful: the cycle is not necessary at the beginning!
-- The fast solution is not intuitive (I would not have found it).
-</code></pre>
+<h1>CS Interview Question: Detect Cycle In Singlt Linked List</h1>
+<p>Given a linked list, detect if it has a cycle without allocation any additional data.</p>
 <h2>Code</h2>
 <pre><code>#include &lt;iostream&gt;
 #include &lt;cassert&gt;
@@ -168,3 +165,5 @@ int main()
 <pre><code>Begin
 End
 </code></pre>
+<h2>Discussion</h2>
+<p>If you remove the constraint that you cannot add data, the easiest solution is to just put the visited nodes in a hash map, then for every new node, if it is already in the hash map there is a loop. If you reach the end without detecting a loop, then there is no loop.</p>

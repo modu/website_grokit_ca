@@ -2,6 +2,8 @@ TODO/*
 dependencies/*
 memories/*
 ws_root/static/*
+app/*
+markdown/*
 *.pyc
 *.swp
 *~

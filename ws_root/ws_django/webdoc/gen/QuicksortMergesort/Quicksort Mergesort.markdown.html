@@ -74,7 +74,6 @@ void join(const vector&lt;T_&gt;&amp; left, const vector&lt;T_&gt;&amp; right, i
   }
 }
 
-
 template&lt;class T_&gt;
 class Sorter
 {
@@ -120,7 +119,6 @@ public:
     join(less, more, pivot, array);
   }
 };
-
 
 //Another quicksort, with the join operation not in a separate function
 void quicksort(vector&lt;int&gt;&amp; array)
@@ -244,7 +242,6 @@ public:
     memcpy( array, &amp;vArr[0], size*sizeof(T_) );
   }
 };
-
 
 void test_sort(const Sorter&lt;int&gt;&amp; sorter)
 {

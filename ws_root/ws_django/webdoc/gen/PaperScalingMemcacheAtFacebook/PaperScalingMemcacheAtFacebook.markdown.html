@@ -1,0 +1,36 @@
+<h1>Paper Reading Notes: Scaling Memcache At Facebook</h1>
+<p>Facebook uses memcache as a key-value cache in between frontend instances and MySQL databases. It is optimized for read-heavy scenarios where direct SQL databases use would be prohibitive. Memcache in itself (the original open-source project) is an in-memory, single computer, key-value cache; this paper explains how Facebook scaled this out to a multi-computer, multi-region key-value cache with a SQL-backed permanent store. It also goes over how it is used in their server-side architecture.</p>
+<p>Typically, a client connects to a front-end through a load-balancer, the frontend requests data needed to render the client's request (let's say a friend's feed) to many different memcache instances, aggregates all the results and returns the result to the client. This is done through an <em>all-to-all</em> communication pattern, where frontends fetch data from many memcache instances (in theory, one frontend instance could be connected to all memcache instances; memcache instances do not communicate with each-other). See the read / write section below for what happens on a cache miss or delete &amp; subsequent cache invalidation.</p>
+<p><strong>Keywords</strong>: key-value stores, memcache, large scale distributed systems, distributed cache.</p>
+<p><strong>Link to paper</strong>: <a href="https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala">https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala</a>, <a href="https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf">full pdf here</a>.</p>
+<h2>Key Concepts</h2>
+<ul>
+<li>Use of memcache as a cache between frontend web servers and MySQL databases.</li>
+<li>Eventual consistency as a tradeoff to provide greater availability.</li>
+<li>All-to-all communication pattern between frontend servers and cache.</li>
+<li>Broadcast mechanism for cache's key invalidation upon database change.</li>
+<li>Databases structured as a master (where the authoritative data is) and read-only regional replicas.</li>
+<li>Sliding window to avoid response overload on massive-keys-requests.</li>
+<li>Leases to avoid stale sets.</li>
+<li>UDP used for gets (fetch from cache miss on UDP packet lost), TCP for write and deletes.</li>
+<li>Gutter pool: using a fast-expiring cache that is used only temporarily if a main cache fails to alleviate cascading failures (3.3).</li>
+</ul>
+<h2>How Read / Writes Are Done</h2>
+<p><strong>Read</strong>:</p>
+<p>When a get issued to a memcache instance is successful ({key, value} pair in memory), the value is simply returned to the client. On a cache miss, the client is responsible for fetching the data from the MySQL database and then updating the read key in the memcache instances (see figure 1).</p>
+<p><strong>Write</strong>:</p>
+<p>On a write (or delete), the data is first deleted form the MySQL database, then the memcache instances that hold the key to this data are notified. Of course, this means that it is possible for a frontend server to do a valid get on a memcache instance after the data has actually been deleted in the database.</p>
+<p>This is <em>eventual consistency</em>: it is possible to read stale data, you application just has to deal with it.</p>
+<h2>Overarching Architecture</h2>
+<p>Facebook is organized in <em>regions</em> (machines geographically located together) and <em>clusters</em> (set of machines in a region). Data is organized in one master MySQL database, and a number of replicas that can be in different regions / clusters (5.0). A cluster contains a set of frontends (web servers that the client directly connects to), memcache instances and MySQL database instances. Each frontend is connected to a number (up to all) of memcache instances through a proxy named <em>mcrouter</em>. The memcache instances do not communicate with each other.</p>
+<p>Key can be replicated to multiple <em>clusters</em>, but I can't find any details on the criteria and how a frontend instance gets &gt; 1 cache location from hashing a key.</p>
+<p>When a write / delete occurs on a database (MySQL), a broadcaster proxy (called "McSqueal") is informed and will notify each memcache instance containing the key whose's data has changed. The master / replica MySQL servers are kept in sync using MySQL's replication mechanism.</p>
+<h2>Details</h2>
+<h3>Performance</h3>
+<p>Gets are performed using UDP, but writes and delete use a long-lived TCP connection proxy (mcrouter) which is shared between all threads on a machine.</p>
+<p>The paper discussed TCP vs. UDP, with UDP having a ~20% latency benefit using a "try, if fail try again later" model where the client implements the retry logic (3.1).</p>
+<h2>Unanswered Questions / Things Not Clear From Paper</h2>
+<ul>
+<li>What leads a key to be duplicated to more than one memcache instance?</li>
+<li>If more than one instance of memache holds a key, how can this <em>set</em> of instances be derived from hash(key)?</li>
+</ul>

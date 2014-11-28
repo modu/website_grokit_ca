@@ -45,14 +45,42 @@ Here are my suggestions:</br>
 <li> 1. Buy the books.</li>
 <li> 2. Solve as many questions as possible on paper / white board <b>first</b>, then write code + test cases for correctness.</li>
 <li> 3. Have a friend do "simulated interviews" with you.</li>
-<li> 4. Browse Sedgewick's book (link above), it is an astounding resource.</li>
 </ul>
 </p>
 <p>
 The solutions here are a pretty rough dump that I haven't taken the time to curate too well. If you have questions, write them in the comments page (or ask away on twitter @david_140orless). I also have many more that I didn't take the time to export to this website. If there's a lot of interest, I'll add more problems to have a more complete list.
 </p>
 
-<h2>Data Structures</h2>
+<h2>Fundamental Techniques</h2>
+
+<p>
+Those patterns come up so frequently in problems that it is worth memorizing:
+</br>
+- Exhaustive search: if you iterate the whole problem space, is the answer obvious? If it is, and the problem space is small, you are done. If the problem space is big, can you use dynamic programming (re-use old comutations if there are a lot of symmetries). If not, figure out a way to simplyfy the problem.</br>
+- Dynammic programming: can you store and re-use part of past computations? This is especially effective for recursive implementations. (Lookup '@lru_cache' in python for examples. Dynamic programming is just a fancy term for caching past computations.).</br>
+- Greedy algorithm: are you guaranteed to find the right answer if you always pick the most advantageous immediate choice?</br>
+- Divide and conquer: if solving a subset of the problem then merging it is more efficient (e.g. quicksort).</br>
+- Sorting: if the problem require computing a value that express an <i>order</i> or <i>comparative relation</i> between items.</br>
+- How would it look if I applied one of the following data structures: heap, hash, linked list, vector, graph, tree, sorted array, stack.</br>
+</p>
+
+<h2>Fundamental Data Structures</h2>
+
+<p>
+- Vector (values contiguous in memory).</br>
+- Linked list.</br>
+- Set.</br>
+- Ordered set.</br>
+- Stack.</br>
+- Queue.</br>
+- Tree.</br>
+- Binary search tree.</br>
+- Balanced tree (e.g: red-black tree. You do not have to know how to build one, but know why it is prefered to a simple BST).</br>
+- Trie.</br>
+- Graph.</br>
+- Hash table.</br>
+- Heap.</br>
+</p>
 
 <p>
 You *have* to know the basic data structures. This is the first and most important thing to review. When asked an interview question, go through this mental list in your head:</br>
@@ -63,17 +91,20 @@ You *have* to know the basic data structures. This is the first and most importa
 - Are there lots of relationships between things? --> Think about using a graph.</br>
 </p>
 
-<h2>Fundamental Techniques</h2>
+Not so fundamental, but maybe good to know:</br>
+
+- B+ tree.
+
+<h2>Fundamental Algorithms</h2>
 
 <p>
-Those patterns come up so frequently in problems that it is worth memorizing:
-</br>
-- Exhaustive search: if you iterate the whole problem space, is the answer obvious? If it is, and the problem space is small, you are done. If the problem space is big, can you use dynamic programming (re-use old comutations if there are a lot of symmetries). If not, figure out a way to simplyfy the problem.</br>
-- Dynammic programming: can you store and re-use part of past computations? This is especially effective for recursive implementations. (Lookup '@lru_cache' in python for examples. Dynamic programming is just a fancy term for caching past computations.).</br>
-- Would a greedy algorithm be guaranteed to find the answer?</br>
-- Can you divide and conquer?</br>
-- Does the problem require computing a value that express an <i>order</i> or <i>comparative relation</i> between items? --> Maybe sorting will help.</br>
-- How would it look if I applied one of the following data structures: heap, hash, tree, linked list, vector, graph.</br>
+- Binary search.</br>
+- Breadth first search (and depth first search).</br>
+- Sorting: quicksort, mergesort, insertion sort.</br>
+- Shortest path (Dijkstra's algorithm).</br>
+- Finding a node in a binary search tree.</br>
+- Tree traversal preorder, inorder, postorder.</br>
+- Enumeration of all subsets of a set.</br>
 </p>
 
 <h2> List of Problems per Category</h2>
@@ -132,7 +163,10 @@ Very often problems can be solved by just enumerating all possible states, then 
 
 <h2>Algorithms Recurring Patterns</h2>
 
-Once you are comfortable solving basic problems, you will notice common patterns used over and over again: **Dynamic Programming, Divide and Conquer, Greedy algorithms, Backtracking and Exhaustive Search**. On those topics, you can see <a href="http://macgyverdev.blogspot.com/2014/04/become-better-programmer-with.html">excellent overview here</a>.
+Once you are comfortable solving basic problems, you will notice common patterns used over and over again:  **Dynamic Programming, Divide and Conquer, Greedy algorithms, Backtracking and Exhaustive Search**. On those topics, you can see <a href="http://macgyverdev.blogspot.com/2014/04/become-better-programmer-with.html">excellent overview here</a>.
+<br/>
+
+I also think think <a href="http://interactivepython.org/runestone/static/pythonds/index.html">Problem Solving with Algorithms and Data Structures</a> is pretty good as a review.
 
 <h2>More</h2>
 

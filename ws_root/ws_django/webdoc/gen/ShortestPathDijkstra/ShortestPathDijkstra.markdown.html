@@ -1,0 +1,118 @@
+<h1>Shortest Path Dijkstra's Algorithm</h1>
+<p>Given an undirected graph with edge weights, find the shortest path between two nodes.</p>
+<h1>Graph Dataset</h1>
+<p><strong>[Inserted file: undirected_weighted_graph_simple.dot.]</strong></p>
+<pre><code>graph {
+    a -- b [weight="2", label="2"];
+    b -- c [weight="1", label="1"];
+    c -- d [weight="2", label="2"];
+    b -- d [weight="7", label="7"];
+    e -- a [weight="2", label="2"];
+    d -- e [weight="2", label="2"];
+}
+</code></pre>
+<p><img alt="Graph" src="../../static/undirected_weighted_graph_simple.png" /></p>
+<p>You can change the graph and play around plotting here: <a href="http://graphs.grevian.org/graph">http://graphs.grevian.org/graph</a>.</p>
+<h1>Code</h1>
+<p><strong>[Inserted file: dijkstra.py.]</strong></p>
+<pre><code>"""
+Shortest path algorithm losely based on Dijkstra's algorithm.
+
+Note:
+    - Note optimized (using a heap for the lookup operations).
+"""
+import ds.graph as graph
+
+import collections
+
+def visit(vertex, edgeT, visited):
+
+    visited.add( vertex )
+
+    for edge in vertex.edges:
+        if edge.to not in visited:
+            edgeT.append( edge )
+
+def findPopLeastCost(edgeT, visited):
+
+    cand = []
+
+    for edge in edgeT:
+        if not edge.to in visited:
+            cand.append( (edge, edge.frm.backtrackCost + edge.weight) )
+
+    cand.sort( key = lambda x: x[1] )
+
+    edge = cand[0][0]
+    edgeT.remove( edge )
+
+    return edge
+
+def findShortestPath(vStart, vEnd):
+
+    visited = set()
+    edgeT = []
+
+    vStart.backtrackCost = 0
+    vStart.backtrackVertex = None
+    visit(vStart, edgeT, visited)
+
+    while len(edgeT) &gt; 0:
+
+        edge = findPopLeastCost(edgeT, visited)
+
+        edge.to.backtrackCost = edge.frm.backtrackCost + edge.weight
+        edge.to.backtrackVertex = edge.frm
+
+        visit(edge.to, edgeT, visited)
+
+        if edge.to == vEnd:
+            path = collections.deque()
+            edge = edge.to
+            while edge is not None:
+                path.appendleft( edge )
+                edge = edge.backtrackVertex
+            return path
+
+    raise Exception("Shortest path error")
+
+def test(filename):
+    print('Testing with file: %s.' % filename)
+
+    with open(filename, 'r') as f:
+        dotStr = f.read()
+
+    G = graph.graphFromDotString(dotStr)
+
+    vStart = G.vertices['a']
+    vEnd = G.vertices['d']
+    shortestPath = findShortestPath(vStart, vEnd)
+
+    for v in shortestPath:
+        print(v)
+
+if __name__ == '__main__':
+    test('undirected_weighted_graph_simple.dot')
+    test('undirected_weighted_graph_simple2.dot')
+    test('undirected_weighted_graph_simple3.dot')
+</code></pre>
+<p><strong>[Inserted file: dijkstra.py.out.]</strong></p>
+<pre><code>Testing with file: undirected_weighted_graph_simple.dot.
+Vextex.label: a
+Vextex.label: e
+Vextex.label: d
+Testing with file: undirected_weighted_graph_simple2.dot.
+Vextex.label: a
+Vextex.label: b
+Vextex.label: c
+Vextex.label: d
+Testing with file: undirected_weighted_graph_simple3.dot.
+Vextex.label: a
+Vextex.label: b
+Vextex.label: d
+</code></pre>
+<h1>Discussion</h1>
+<p>If negative edge weights were allowed, what would it mean for our solution?</p>
+<p>The <a href="http://en.wikipedia.org/wiki/A*_search_algorithm">A* algorithm</a> is fundamentally the same as Dijkstra except that is uses heuristics in the order in which it visits the graph's nodes.</p>
+<h1>Others</h1>
+<p>http://en.wikipedia.org/wiki/Hamiltonian_path</p>

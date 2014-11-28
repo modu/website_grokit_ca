@@ -1,10 +1,12 @@
-<h1>C++ Interview Question: Build Tree From Preorder Inorder</h1>
+<h1>CS Interview Question: Build Tree From Preorder and Inorder List of Nodes</h1>
 <h2>Question and Notes</h2>
-<pre><code>//http://www.leetcode.com/2011/04/construct-binary-tree-from-inorder-and-preorder-postorder-traversal.html
-
-- Don't forget to point-out have to delete memory at the end
+<p>Given a list of nodes from a binary tree given in preorder and inorder fashion, can you reconstruct the tree without ambiguity?</p>
+<p>You can use this tree as an example:</p>
+<pre><code>  int preorder[] = {7, 10, 4, 3, 1, 2, 8, 11};
+  int inorder[] = {4, 10, 3, 1, 7, 11, 8, 2};
 </code></pre>
-<h2>Code</h2>
+<p>Note that this is not a binary <em>search</em> tree: the nodes are not in sorted order in the tree.</p>
+<h2>Code C++</h2>
 <pre><code>#include &lt;iostream&gt;
 #include &lt;vector&gt;
 #include &lt;cassert&gt;
@@ -145,7 +147,7 @@ int main()
   return 0;
 }
 </code></pre>
-<h2>Code Output</h2>
+<h2>Code C++ Output</h2>
 <pre><code>Begin
 flatTree_inorder
 4
@@ -167,3 +169,81 @@ flatTree_preorder
 11
 End
 </code></pre>
+<h2>Code Python</h2>
+<p><strong>[Inserted file: bst_from_pre_ino.py.]</strong></p>
+<pre><code>import ds.bst as bst
+
+Node = bst.Node
+
+def findLeftmostAInB(A, B):
+
+    # Could put B in a hash to make it faster.
+    T = []
+    for a in A:
+        i = 0
+        for b in B:
+            if a == b:
+                T.append((a, i))
+                break
+            i += 1
+
+    if len(T) == 0:
+        raise Exception("Mismatch")
+
+    T.sort(key= lambda x: x[1])
+    return T[0][0]
+
+def findI(A, node):
+    i = 0
+    for a in A:
+        if a == node.value:
+            return i
+        i += 1
+
+    raise Exception("FindI Mismatch")
+
+def build(pre, ino, node):
+    iNode = findI(ino, node)
+
+    if iNode != 0:
+        saL = ino[0:iNode]
+        lNode = Node(findLeftmostAInB(saL, pre)) 
+        node.left = lNode
+
+        if len(saL) &gt; 1:
+            build(pre, saL, lNode)
+
+    if iNode &lt; len(ino) - 1:
+        saR = ino[iNode+1:]
+        rNode = Node(findLeftmostAInB(saR, pre))
+        node.right = rNode
+
+        if len(saR) &gt; 1:
+            build(pre, saR, rNode)
+
+preorder = [7, 10, 4, 3, 1, 2, 8, 11]
+inorder = [4, 10, 3, 1, 7, 11, 8, 2]
+node0 = Node(preorder[0])
+
+build(preorder, inorder, node0)
+
+tree = bst.BST()
+tree.root = node0
+print(tree.asInorderArray())
+</code></pre>
+<h2>Code Python Output</h2>
+<p><strong>[Inserted file: bst_from_pre_ino.py.out.]</strong></p>
+<pre><code>[4, 10, 3, 1, 7, 11, 8, 2]
+</code></pre>
+<h2>Discussion</h2>
+<p>Here is the order of nodes visit for preorder and inorder:
+    preorder: visit, left, right
+    inorder:  left, visit, right</p>
+<p>Here by visit we mean that we take some action on the node, for example printing it out to the console.</p>
+<p>So the preorder array has information on which node is highest in the tree, and the inorder array gives information on if the nodes are left of right relative to each other (since if you are on the left, you will be visited before if you are on the right).</p>
+<p>For example, using:
+      int preorder[] = {7, 10, 4, 3, 1, 2, 8, 11};
+      int inorder[] = {4, 10, 3, 1, 7, 11, 8, 2};</p>
+<p>... we can decuce that 7 is the root of the tree (first node in preorder). Then, we know that the nodes {4, 10, 3, 1} are on the left of 7 and {11, 8, 2} on the right. Out of {4, 10, 3, 1}, 10 is the first node of the preorder array, it will therefore be the left root. Out of {11, 8, 2}, 2 is the first node in the preorder array so it will be the root right node. You can apply this process recursively to build the whole tree.</p>
+<h2>Further Reading</h2>
+<p>http://www.leetcode.com/2011/04/construct-binary-tree-from-inorder-and-preorder-postorder-traversal.html</p>
