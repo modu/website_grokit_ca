@@ -1,4 +1,4 @@
-<h1>TCP / HTTP Listening On Ports: How Can Many Users Share the Same Port</h1>
+<h1>TCP / HTTP Listening On Ports: How Can the Server Handle Multiple Connections on the Same Port</h1>
 <p>So, what happens when a server listen for incoming connections on a TCP port? For example, let's say you have a web-server on port 80. Let's assume that your computer has the public IP address of 24.14.181.229 and the person that tries to connect to you has IP address 10.1.2.3. This person can connect to you by opening a TCP socket to 24.14.181.229:80. Simple enough.</p>
 <p>Intuitively (and wrongly), most people assume that it looks something like this:</p>
 <pre><code>    Local Computer    | Remote Computer
@@ -43,4 +43,4 @@
     tcp        0      0 0.0.0.0:500             0.0.0.0:*               LISTEN      -
     tcp        0      0 192.168.1.10:500        192.168.1.13:26813      ESTABLISHED -
 </code></pre>
-<p>... that is, the client used another random port for the connection. So there is never confusion between the IP addresses.</p>
+<p>... that is, the client used another random port for the connection. So there is never confusion between which connections should send to which port -- every connection has a unique 5-tuple. The TCP/IP packets head out with the (foreign ip, foreign port) in the IP header, and it is the right place since it is the right destination (IP identifies the client) and the right port (same as the random port that the initial message came in with, which was randomly picked by the client and guaranteed to be unique).</p>

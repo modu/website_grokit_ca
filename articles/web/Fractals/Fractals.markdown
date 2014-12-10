@@ -16,6 +16,9 @@ Happy fracting!
 Feel free to submit your own fractals. A few interesting cases:
 
 [Sphlunk](http://www.grokit.ca/spc/fractals/e56ff6352b0a94183844bd7f1a35f1e285f480dd53e9e1a2bdce651283e5992e)
-![](../../static/Fractals_Example01.png)
+
 [Mandle, bro!](http://www.grokit.ca/spc/fractals/c85cf1738fe7da1b8f7f374f9db9b035b4f1a6e094b5e21f30d95aa0d3ac762e)
+
+![](../../static/Fractals_Example01.png)
+
 

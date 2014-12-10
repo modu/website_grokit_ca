@@ -1,0 +1,38 @@
+
+
+# Epidemic Algorithms for Replicated Database Maintenance
+
+The paper presents a way to efficiently maintain consistency for data replicated across many sites. It is the earliest known "gossip" algorithm.
+
+The problem to solve is, given N sites, one of them receives change in their data. This change must eventually be replicated to the N sites. Which is the best way to proceed? An obvious answer is to simply broadcast from the changed node to all nodes. But this simply will not scale if you have N >> 10k nodes in your system (the node that broadcasts the change has to establish N connections and send N times, which could take an unreasonable amount of time while most of the nodes stay idle when they could be helping out). Also, how do you ensure that all nodes correctly got the update? The challenge is to be highly reliable whilst scaling gracefully as the number of nodes in the system (N) grows.
+
+The novelty of the paper is to use the mathematic foundation underlying the theory of epidemics (which is well established) to distributed systems database replication.
+
+**Keywords**: gossip, gossip protocols, distributed computing, distributed databases.
+
+**Link to paper**: [http://dl.acm.org/citation.cfm?id=41841](http://dl.acm.org/citation.cfm?id=41841), [full pdf](http://www.textfiles.com/bitsavers/pdf/xerox/parc/techReports/CSL-89-1_Epidemic_Algorithms_for_Replicated_Database_Maintenance.pdf)
+
+## Other Attempts
+
+One way mentioned in the introduction is to broadcast the change to all servers, which simply does not scale. If you have M messages and N nodes, this result in O(MN) operations, which is prohibitive since N is very large.
+
+Another way is to introduce a topology in our servers. Let's say the N servers are arranged in a ring, then upon an update, node[i] sends the message to node[i+1] until the last node is reached, which sends an ACK to node[0].  This is much better in terms of  
+
+## AAA
+
+Gracefully scaling as the number of site (N) increases means:
+
+- Low time for an update to reach all sites.
+- Small amount of bandwidth consumed (low bound: N x size of change).
+
+Introduce 3 strategies:
+
+- A
+- B
+- C
+
+## Anti-Entropy
+
+Pick a node to sync with. Normal distribution works, but are there better distributions? Factoring-in which are the closest server to a node for syncing helps.
+
+
