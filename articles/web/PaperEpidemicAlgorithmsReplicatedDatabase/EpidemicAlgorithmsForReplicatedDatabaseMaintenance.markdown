@@ -70,7 +70,7 @@ You have to introduce timestamps, and those timestamps have to be globally conhe
 
 ### Complex Epidemics
 
-The principle behid complex epidemics methods is the same as with anti-entrophy, but with a bunch of optimizations thrown in. 
+The principle behind complex epidemics methods is the same as with anti-entrophy, but with a bunch of optimizations thrown in. 
 
 For example, you can stop synchronizing a change when you are confident most people got it and other people are spreading that change. You can never be 100% confident, but complex epidemics relies on a form of anti-entrophy where you have strong guarantees to run at a slower pace to make sure that eventually all the information become consistent.
 
