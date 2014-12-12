@@ -15,7 +15,7 @@ Gracefully scaling as the number of node increases means:
 
 The novelty of the paper is to use the mathematic foundation underlying the theory of epidemics (which is well established) to distributed systems database replication.
 
-**Keywords**: gossip, gossip protocols, distributed computing, distributed databases, randomized algorithms.
+**Keywords**: gossip, gossip protocols, distributed computing, distributed databases, randomized algorithms, replicated database consistency.
 
 **Link to paper**: [http://dl.acm.org/citation.cfm?id=41841](http://dl.acm.org/citation.cfm?id=41841), [full pdf](http://www.textfiles.com/bitsavers/pdf/xerox/parc/techReports/CSL-89-1_Epidemic_Algorithms_for_Replicated_Database_Maintenance.pdf).
 
