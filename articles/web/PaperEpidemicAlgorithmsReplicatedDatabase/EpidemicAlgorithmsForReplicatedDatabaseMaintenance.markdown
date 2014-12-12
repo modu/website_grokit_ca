@@ -75,11 +75,13 @@ You have to introduce timestamps, and those timestamps have to be globally conhe
 
 @@resume.p.8 -- not done reading --
 
-The principle behid complex epidemics methods is the same as with anti-entrophy, but with a few tweaks that enhance performance at the cost of certainty. The basic idea is that if a node is _pretty sure_ that other nodes have a change, it can stop trying to spread that change. Of course, this makes it possible that an update does not reach all nodes. In real system, then anti-anthropy is used in conjuction with complex epidemics (at a slower, low-cost pace) to guarantee the complete spread of information while benefiting from the saving of using more complex heuristics.
+The principle behind complex epidemics methods is the same as with anti-entrophy, but with a few tweaks that enhance performance at the cost of certainty. The basic idea is that if a node is _pretty sure_ that other nodes have a change, it can stop trying to spread that change.
 
 The first change to make is to keep track of the data to 'spread' instead of synchronizing the whole database between nodes. In key-value terms, every node keeps a list of keys that it things should be spread further. The second change is to incorporate _feedback_ in the spread of information. When a node synchronize with another nodes, it keeps increments a key's counter every time the other node already knew about the information. After this counter reaches _k_, the node considers that the change has spread and removes that key from the "key to spread" list.
 
+Once all the nodes have spread their information, they stop contacting other nodes. This is where the cost-saving comes from. Remember that in simple anti-entropy, the nodes keep synchronizing forever, whether there is information left to propagate or not.
 
+Using complex epidemics makes it possible that an update does not reach all nodes. In real system, then anti-anthropy is used in conjuction with complex epidemics (at a slower, low-cost pace) to guarantee the complete spread of information while benefiting from the saving of using more complex heuristics.
 
 
 
