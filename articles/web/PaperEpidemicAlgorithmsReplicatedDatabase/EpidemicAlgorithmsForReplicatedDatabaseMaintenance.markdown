@@ -15,7 +15,7 @@ Gracefully scaling as the number of node increases means:
 
 The novelty of the paper is to use the mathematic foundation underlying the theory of epidemics (which is well established) to distributed systems database replication.
 
-**Keywords**: gossip, gossip protocols, distributed computing, distributed databases, randomized algorithms.
+**Keywords**: gossip, gossip protocols, distributed computing, distributed databases, randomized algorithms, replicated database consistency.
 
 **Link to paper**: [http://dl.acm.org/citation.cfm?id=41841](http://dl.acm.org/citation.cfm?id=41841), [full pdf](http://www.textfiles.com/bitsavers/pdf/xerox/parc/techReports/CSL-89-1_Epidemic_Algorithms_for_Replicated_Database_Maintenance.pdf).
 
@@ -65,16 +65,21 @@ A normal distribution works, but using heuristics improves performance, For exam
 
 #### How to Deal with Deletion
 
-Introduce the concept of a "dead key/value". Pass this information around as if it is a normal update. You can calculate the amount of time where you know the deletion has propagated with a confidence value of X sigmas (let's say at time t-del), then when timestamp of a dead key/value - t-now > t-del, wipe the key/value from the node.
+Introduce the concept of a "dead key/value". Pass this information around as if it is a normal update. You can calculate the amount of time where you know the deletion has propagated with a confidence value of X sigmas (let's say at time t-del), then when timestamp of a dead key/value - t-now > t-del, wipe the key/value from the node. A more practical solution outlined in the paper is to just keep the "death certificates" around for 30 days.
+
+Another, way to deal with death certificates is to keep them for a time longer than X sigmas only on a minority of nodes (can use a hash of the key and server IP to determine if the death certificate should live in this node). This way, most nodes can quickly delete the information while being sure that the death information will reach the whole network. If a node syncs an "archived" death certificate with another node, the other node can delete the key if it did not know that it is dead, but not keep the death certificate locally. Another approach is to have the concept of death certificates that re-activate themselves after a node realizes that many other node still have copies of the deleted key.
 
 #### How to Know Which Values to Keep if Receive Two Conflicting Values?
 
 You have to introduce timestamps, and those timestamps have to be globally conherent. You always keep the value associated with the greatest timestamp.
 
-### Complex Epidemics
+### Complex Epidemics / Rumor Mongering
 
-The principle behind complex epidemics methods is the same as with anti-entrophy, but with a bunch of optimizations thrown in. 
+The principle behind complex epidemics methods is the same as with anti-entrophy, but with a few tweaks that enhance performance at the cost of certainty. The basic idea is that if a node is _pretty sure_ that other nodes have a change, it can stop trying to spread that change.
 
-For example, you can stop synchronizing a change when you are confident most people got it and other people are spreading that change. You can never be 100% confident, but complex epidemics relies on a form of anti-entrophy where you have strong guarantees to run at a slower pace to make sure that eventually all the information become consistent.
+The first change to make is to keep track of the data to 'spread' instead of synchronizing the whole database between nodes. In key-value terms, every node keeps a list of keys that it things should be spread further. The second change is to incorporate _feedback_ in the spread of information. When a node synchronize with another nodes, it keeps increments a key's counter every time the other node already knew about the information. After this counter reaches _k_, the node considers that the change has spread and removes that key from the "key to spread" list.
 
-@@resume.p.8 -- not done reading --
+Once all the nodes have spread their information, they stop contacting other nodes. Also, there is no need to compare whole databases -- the amount of information to consider is proportional to the number of changes in the system, not the total data size. This is where the cost-saving comes from. Remember that in simple anti-entropy, the nodes keep synchronizing forever, whether there is information left to propagate or not.
+
+Using complex epidemics makes it possible that an update does not reach all nodes. In real system, then anti-anthropy is used in conjuction with complex epidemics (at a slower, low-cost pace) to guarantee the complete spread of information while benefiting from the saving of using more complex heuristics.
+
