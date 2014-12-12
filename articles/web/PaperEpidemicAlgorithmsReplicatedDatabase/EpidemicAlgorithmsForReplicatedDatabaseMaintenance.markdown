@@ -65,15 +65,15 @@ A normal distribution works, but using heuristics improves performance, For exam
 
 #### How to Deal with Deletion
 
-Introduce the concept of a "dead key/value". Pass this information around as if it is a normal update. You can calculate the amount of time where you know the deletion has propagated with a confidence value of X sigmas (let's say at time t-del), then when timestamp of a dead key/value - t-now > t-del, wipe the key/value from the node.
+Introduce the concept of a "dead key/value". Pass this information around as if it is a normal update. You can calculate the amount of time where you know the deletion has propagated with a confidence value of X sigmas (let's say at time t-del), then when timestamp of a dead key/value - t-now > t-del, wipe the key/value from the node. A more practical solution outlined in the paper is to just keep the "death certificates" around for 30 days.
+
+Another, way to deal with death certificates is to keep them for a time longer than X sigmas only on a minority of nodes (can use a hash of the key and server IP to determine if the death certificate should live in this node). This way, most nodes can quickly delete the information while being sure that the death information will reach the whole network. If a node syncs an "archived" death certificate with another node, the other node can delete the key if it did not know that it is dead, but not keep the death certificate locally.
 
 #### How to Know Which Values to Keep if Receive Two Conflicting Values?
 
 You have to introduce timestamps, and those timestamps have to be globally conherent. You always keep the value associated with the greatest timestamp.
 
 ### Complex Epidemics
-
-@@resume.p.8 -- not done reading --
 
 The principle behind complex epidemics methods is the same as with anti-entrophy, but with a few tweaks that enhance performance at the cost of certainty. The basic idea is that if a node is _pretty sure_ that other nodes have a change, it can stop trying to spread that change.
 
@@ -82,9 +82,4 @@ The first change to make is to keep track of the data to 'spread' instead of syn
 Once all the nodes have spread their information, they stop contacting other nodes. This is where the cost-saving comes from. Remember that in simple anti-entropy, the nodes keep synchronizing forever, whether there is information left to propagate or not.
 
 Using complex epidemics makes it possible that an update does not reach all nodes. In real system, then anti-anthropy is used in conjuction with complex epidemics (at a slower, low-cost pace) to guarantee the complete spread of information while benefiting from the saving of using more complex heuristics.
-
-
-
-
-
 
