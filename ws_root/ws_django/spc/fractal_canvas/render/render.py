@@ -5,12 +5,12 @@ import tempfile
 
 js = """
 var page = require('webpage').create();
-page.open('http://0.0.0.0:8080/spc/fractals/?render=True', function() {
+page.open('__url__', function() {
     page.viewportSize = {
     width: 512,
     height: 512
     };
-    page.render('out.png');
+    page.render('__file_out__');
         phantom.exit();
 });
 """
@@ -39,15 +39,24 @@ pixel.b = 0.25*it/mIt;
 })
 """
 
-jsfn = base64.b64encode(jsfn.encode())
-fh = tempfile.NamedTemporaryFile(delete=False)
-fh.write(js.encode())
-fh.close()
+def render(js, jsfn, filename):
+    
+    jsfn = base64.b64encode(jsfn.encode()).decode()
+    url = "http://0.0.0.0:8080/spc/fractals/?render=True&b64jsfn=%s" % jsfn 
 
-url = "http://0.0.0.0:8080/spc/fractals/?render=True&b64jsfn=%s" % jsfn 
-cmd = 'phantomjs %s "%s" out.png' % (fh.name, url)
+    js = js.replace('__url__', url)
+    js = js.replace('__file_out__', filename)
 
-print(cmd)
-os.system(cmd)
+    fh = tempfile.NamedTemporaryFile(delete=False)
+    fh.write(js.encode())
+    fh.close()
 
+    open('temp.js', 'w').write(js)
+
+    cmd = 'phantomjs "%s" out.png' % (fh.name)
+
+    print(cmd)
+    os.system(cmd)
+
+render(js, jsfn, "out_0000.png")
 
