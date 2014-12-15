@@ -73,6 +73,8 @@
         <button id="submit_code" onclick="saveCode();">Save Fractal</button>
     </div>
 
+    <div id="img_out"></div>
+
     Permanent link to your fractal (click 'save' to generate): <a id="fractal_url" href="/"><a>
 
     <script type="text/javascript">
@@ -105,6 +107,17 @@
 
         function initEval() {
             submitCode();
+            var canvas = document.getElementById("main_canvas");
+            var context = canvas.getContext("2d");
+            //window.location = canvas.toDataURL("image/png");
+
+            if (window.location.search.search('render') != -1){
+                var image = canvas.toDataURL("image/png");
+                document.write('<img src="'+image+'"/>');
+                document.body.bgColor = 'black';
+                //window.location.href = image;
+                //$("#img_out").html('<img src="'+image+'"/>');
+            }
         }
 
         function canvasStuff(fn) {
