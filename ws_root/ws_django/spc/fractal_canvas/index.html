@@ -79,7 +79,18 @@
 
     <script type="text/javascript">
         var debug = false;
+
+        function getParameterByName(name) {
+                var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        }
+
         var code64 = btoa( $("#code_input").val() );
+
+        var code64AsParam = getParameterByName('b64jsfn');
+        if(code64AsParam != null){
+            code64 = code64AsParam;
+        } 
 
         function submitCode() {
             //$("#debug").text($("#code_input").val());
@@ -105,11 +116,6 @@
             });
         }
 
-        function getParameterByName(name) {
-                var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-        }
-
         function initEval() {
             submitCode();
 
@@ -120,9 +126,6 @@
                 var image = canvas.toDataURL("image/png");
                 document.write('<img src="'+image+'"/>');
                 document.body.bgColor = 'black';
-                //window.location.href = image;
-                //window.location = canvas.toDataURL("image/png");
-                //$("#img_out").html('<img src="'+image+'"/>');
             }
         }
 
