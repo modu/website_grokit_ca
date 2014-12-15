@@ -25,7 +25,7 @@ mIt = 15;
 it = 0;
 for (x=0,y=0; it < mIt; ++it){
     xt = x*x - y*y + i;
-    y = 2*x*y + j;
+    y = __y_fact__*x*y + j;
     x = xt;
 
     if(x*x+y*y > 4)
@@ -40,6 +40,7 @@ pixel.b = 0.25*it/mIt;
 """
 
 def render(js, jsfn, filename):
+    print(jsfn)
     
     jsfn = base64.b64encode(jsfn.encode()).decode()
     url = "http://0.0.0.0:8080/spc/fractals/?render=True&b64jsfn=%s" % jsfn 
@@ -51,12 +52,15 @@ def render(js, jsfn, filename):
     fh.write(js.encode())
     fh.close()
 
-    open('temp.js', 'w').write(js)
+    #open('temp.js', 'w').write(js)
 
-    cmd = 'phantomjs "%s" out.png' % (fh.name)
+    cmd = 'phantomjs "%s"' % (fh.name)
 
     print(cmd)
     os.system(cmd)
 
-render(js, jsfn, "out_0000.png")
+for i in range(0, 1000):
+    yf = i/100
+    jsfnL = jsfn.replace('__y_fact__', "%f" % yf)
+    render(js, jsfnL, "out_%05i.png" % i)
 

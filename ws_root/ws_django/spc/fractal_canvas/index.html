@@ -85,16 +85,22 @@
                 return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
         }
 
-        var code64 = btoa( $("#code_input").val() );
+        function getCode(){
+            
+            var code = null;
+            var code64AsParam = getParameterByName('b64jsfn');
+            if(code64AsParam != null){
+                code = atob(code64AsParam);
+            } 
+            else{
+                code = $("#code_input").val();
+            } 
 
-        var code64AsParam = getParameterByName('b64jsfn');
-        if(code64AsParam != null){
-            code64 = code64AsParam;
-        } 
+            return code;
+        }
 
         function submitCode() {
-            //$("#debug").text($("#code_input").val());
-            var code = $("#code_input").val();
+            var code = getCode();
             var fn = eval(code);
             canvasStuff(fn);
         }
