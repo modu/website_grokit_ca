@@ -105,17 +105,23 @@
             });
         }
 
+        function getParameterByName(name) {
+                var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        }
+
         function initEval() {
             submitCode();
-            var canvas = document.getElementById("main_canvas");
-            var context = canvas.getContext("2d");
-            //window.location = canvas.toDataURL("image/png");
 
-            if (window.location.search.search('render') != -1){
+            var isRender = getParameterByName('render');
+            if(isRender == "True"){
+                var canvas = document.getElementById("main_canvas");
+                var context = canvas.getContext("2d");
                 var image = canvas.toDataURL("image/png");
                 document.write('<img src="'+image+'"/>');
                 document.body.bgColor = 'black';
                 //window.location.href = image;
+                //window.location = canvas.toDataURL("image/png");
                 //$("#img_out").html('<img src="'+image+'"/>');
             }
         }

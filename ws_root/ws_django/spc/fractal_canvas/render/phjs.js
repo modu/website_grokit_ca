@@ -1,5 +1,5 @@
 var page = require('webpage').create();
-page.open('http://0.0.0.0:8080/spc/fractals/?render', function() {
+page.open('http://0.0.0.0:8080/spc/fractals/?render=True', function() {
     page.viewportSize = {
           width: 512,
           height: 512
