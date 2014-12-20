@@ -3,7 +3,7 @@
 
 # Question
 
-Implement a [heap data structure](http://en.wikipedia.org/wiki/Heap_(data_structure)).
+Implement a [heap data structure](http://en.wikipedia.org/wiki/Heap_(data_structure).
 
 # Notes
 
