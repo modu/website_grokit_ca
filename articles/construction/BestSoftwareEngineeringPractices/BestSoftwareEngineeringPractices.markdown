@@ -22,4 +22,5 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - Code complete 2: ref & management
 - Manage complexity [CC2], add functionality without adding complexity.
 - Split into modules, micro-services & equivalence with small modules.
+- The pragmatic programmer
 
