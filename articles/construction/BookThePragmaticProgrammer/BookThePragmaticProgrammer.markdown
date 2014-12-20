@@ -2,8 +2,12 @@
 # Meta: Most Important Points
 
 - Information in one and only one authoritative place.
+- Orthogonality
+- ?Complexity?
 
 # Book The Pragmatic Programmer
+
+The book is a set of observations without real overarching theme (by design). This books was written in 2000, it is surprising how prescient that book was. Reading it in 2015 some of the information are now a  given (write unit-tests, use SCM, ...), but some of the items are still pearls of wisdom that are good to review periodically.
 
 ## Chapter 1: A Pragmatic Philosophy
 
@@ -53,10 +57,69 @@ Target your audience. Your communication is only effective if your target audien
 
 **Chapter overview**: AAA.
 
-### The Evils of Duplication, DRY Principle
+### The Evils of Duplication, DRY Principle: Don't Repeat Yourself
 
 @@tag-main_point: Principle: information at one authoritative place, and one place only.
 
 DRY (Don't Repeat Yourself) principle: "_every piece of knowledge must have a single, unambiguous, authoritative representation within a system_".
 
 Information change. If it is not clear where that information belongs, it will be duplicated and someone seeking it will find one of the place, not necessarily the most recent one. Once you have information at more than one place, it becomes too much of a burden to update all the locations so things start failing apart (not being updated, ...).
+
+Question: Where does information about x goes? Need to have a single unambiguous answer.
+
+Code comments are often a needless duplication that eventually becomes out of sync. If code can express it, better to have no comment and expressive code. If the comment duplicates something that is in the code, better to erase the comment.
+
+### 8. Orthogonality
+
+Complexity management. If every ty h I'm mg depends on everything, ...
+
+Components need to be isolated from each other.
+
+Side effect: Re-use.
+
+Example: Mvc.
+
+Applies to team with week defined responsibilities. But does not go over the fact that aligning becomes a nightmare.
+
+Allows testing.
+
+Inheritance breaks Ortho more than composition.  
+
+### 9. Reversibility
+
+It's hard to make good decision the first time around. Keep things flexible so that decision can be made once you have more information.
+
+You know how to build the system well once you are done writing the first system that's didn't turn out so well.
+
+When possible, select a course of action that preserve the most options for the longest.
+
+### 10 Tracer Bullets
+
+Could specify the system to death. Itemize every requirement, constrain the environment at the time where you know the least about how to build the system well.
+
+Rather than doing that, build an end to end system with minimum functionality cheaply and iterate fast
+
+### 11 Prototypes and Post It Notes
+
+Does not have to be code. If the goal is to define the UI, cab just draw some stuff. For behavior, can just be white boarded.
+
+Prototypes have to be throw away code.
+
+### 13 Estimating
+
+Give estimate in the largest possible word. Produce more reasonable expectations.
+
+First, understand
+Build a model
+Break down into components
+Consider risk
+
+Keep track of estimates and how long they really took. Refine.
+
+## Chapter 3: Resume
+
+
+
+# Links and References
+
+- http://blog.codinghorror.com/a-pragmatic-quick-reference/
