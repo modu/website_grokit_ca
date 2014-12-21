@@ -134,7 +134,7 @@ class WebdocEntry:
     if os.path.isdir(path):
       files = os.listdir(path)
     else:
-      raise Exception("Cannot find path: %s." % path)
+      raise Exception("Cannot find path: %s (df: %s)." % (path, dataFolder))
 
     htmlFile = None
     for file in files:

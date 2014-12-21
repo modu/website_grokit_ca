@@ -24,3 +24,6 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - Split into modules, micro-services & equivalence with small modules.
 - The pragmatic programmer
 
+- [Agile Manifesto](http://agilemanifesto.org/)
+--> Robert C. Martin book about SOLID.
+--> Other people.

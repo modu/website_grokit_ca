@@ -3,6 +3,7 @@
 
 - Information in one and only one authoritative place.
 - Orthogonality
+- Reversibility
 - ?Complexity?
 
 # Book The Pragmatic Programmer
@@ -13,7 +14,7 @@ The book is a set of observations without real overarching theme (by design). Th
 
 **Chapter overview**: this chapter contains miscellaneous tips related to the discipline of software engineering. IMHO this chapter is not too useful.
 
-### Take Responsibility
+### 1. Take Responsibility
 
 When something goes bad, explain instead of giving excuses. Some things outside of your control might have happened, but there is rarely nothing you could have done to avoid the issue.
 
@@ -21,19 +22,19 @@ Work the conversation in your head before having it with your boss. Think about 
 
 Provide solutions, not excuses. Have a plan so that the problem does not happen again.
 
-### Software Entropy, Software Rot
+### 2. Software Entropy, Software Rot
 
 The broken window theory: once you start neglecting the code-base, neglect becomes the expectation and propagates. The thing to fight is the _perception_ that the project does not deserve caring.
 
-### How to Get Projects Started
+### 3. How to Get Projects Started
 
 In some companies the process to get started is so brutal (approval from too many people, committees, process) it makes sure nothing novel ever gets done. A way to get people on board is to just do it, and show it off. People are likely to get on board on what seems like an ongoing success.
 
-### Good Enough Software
+### 4. Good Enough Software
 
 There is a cost to get software to be to a certain standard of quality. Like everything else, this quality has a cost opportunity. Consider the requirements, and define what quality you need.
 
-### Your Knowledge Portfolio
+### 5. Your Knowledge Portfolio
 
 Your knowledge and experience are your most important assets. Because technology evolves quickly, your knowledge depreciates with time.
 
@@ -47,7 +48,7 @@ Make use of every minute of free time. Carry books you are reading on your phone
 
 Always seek out other enthusiasts. Associate with them. Learn from them. Especially people outside of your circle / company so that you can learn novel things.
 
-### Communicate
+### 6. Communicate
 
 When you communicate, whether it is an important meeting, mail, specification document, plan it out. Write it. Iterate over it. Ask yourself if it conveys what it needs to convey. Only show up at the meeting / send the document when it conveys exactly what you want to trigger the outcome you want. Jot down the big picture of what you want to accomplish, and make sure the big thing conveys those principal points effectively.
 
@@ -57,7 +58,7 @@ Target your audience. Your communication is only effective if your target audien
 
 **Chapter overview**: AAA.
 
-### The Evils of Duplication, DRY Principle: Don't Repeat Yourself
+### 7. The Evils of Duplication, DRY Principle: Don't Repeat Yourself
 
 @@tag-main_point: Principle: information at one authoritative place, and one place only.
 
@@ -71,54 +72,61 @@ Code comments are often a needless duplication that eventually becomes out of sy
 
 ### 8. Orthogonality
 
-Complexity management. If every ty h I'm mg depends on everything, ...
+Things are simpler when components are made to be orthogonal. Orthogonality means that components need to be isolated from each other. This way, if components X interacts with component Y, when Y change X does not have to change.
 
-Components need to be isolated from each other.
+This is about complexity management: as the number of features grows, grow complexity as little as possible by not having the complexity
 
-Side effect: Re-use.
+#### A Few Observations on Orthogonality
 
-Example: Mvc.
+Orthogonality has the side-effect of allowing better re-use and unit-testing.
+
+Inheritance breaks orthogonality more than composition. Think about class X and Y, if X inherit from Y, a change in Y's functions and data directly impacts X. It is also the case with composition, but with composition at least X has to respect Y's interface, making it easier to have the two classes change without breaking each other.
 
 Applies to team with week defined responsibilities. But does not go over the fact that aligning becomes a nightmare.
 
-Allows testing.
-
-Inheritance breaks Ortho more than composition.  
+Example of orthogonal systems: MVC.
 
 ### 9. Reversibility
 
-It's hard to make good decision the first time around. Keep things flexible so that decision can be made once you have more information.
-
-You know how to build the system well once you are done writing the first system that's didn't turn out so well.
-
 When possible, select a course of action that preserve the most options for the longest.
 
-### 10 Tracer Bullets
+It's hard to make good decision the first time around. Keep things flexible so that decision can be made once you have more information.
 
-Could specify the system to death. Itemize every requirement, constrain the environment at the time where you know the least about how to build the system well.
+You know how to build the system well once you are done writing the first system that did not turn out so well. If re-writing the whole thing is not an option (wasn't a prototype), then if your picked reversible choices at least you can re-write the parts that are the worst.
 
-Rather than doing that, build an end to end system with minimum functionality cheaply and iterate fast
+### 10. Tracer Bullets
 
-### 11 Prototypes and Post It Notes
+One way to hit target is to specify the system to death. Itemize every requirement and constrain the environment at the time where you know the least about how to build the system well.
 
-Does not have to be code. If the goal is to define the UI, cab just draw some stuff. For behavior, can just be white boarded.
+The principle of tracer bullets is to do the opposite. Build an end to end system with minimum functionality cheaply and iterate fast. A fully built system that only implement a few requirements is used as a 'tracer', after which the stakeholders can adjust course.
 
-Prototypes have to be throw away code.
+#### Tracer Bullets and Agile Practices
 
-### 13 Estimating
+Tracer Bullets foreshadows the [Agile Manifesto](http://agilemanifesto.org/), which was published two years after The Pragmatic Programmer. This is not a coincidence that both authors of the Pragmatic Programmer are signatories of The Agile Manifesto.
 
-Give estimate in the largest possible word. Produce more reasonable expectations.
+### 11. Prototypes and Post It Notes
 
-First, understand
-Build a model
-Break down into components
-Consider risk
+Prototypes are meant to brainstorm new ideas and figure-out the possible issues with using risky new ideas and architectures.
 
-Keep track of estimates and how long they really took. Refine.
+Prototypes can be, but do _not_ have to be code. White-boards diagrams and UI mock-ups are also fine prototypes.
+
+Prototypes have to be throw away code. Make sure that management understands that this code is not meant, cannot be used for production. If not, you are tracing bullets, you are not prototyping. And tracing bullets do not bring you the same exploratory benefits of prototyping.
+
+### 13. Estimating
+
+Give estimate in the largest possible word. If you think something will take 48 hours, say two days, if you think it will take 15 days, say a little over a week. This is because estimating has a fudge factor, and if you use big, precise numbers, people will naturally assume that the fudge factor is lower (e.g: you said 48 but took 52, how dare you! You said two days but took two and a half -- cool).
+
+When estimating, use the following steps:
+- Understand.
+- Build a model.
+- Break down into components.
+- Evaluate risk.
+
+Keep track of your estimates and how long the project really ended up taking. Having this data will help you train yourself to produce more and more accurate estimates. Do not waste a chance to learn by not keeping yourself accountable.
 
 ## Chapter 3: Resume
 
-
+### 14. Use Plain Text
 
 # Links and References
 
