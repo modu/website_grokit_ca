@@ -12,7 +12,7 @@ The book is a set of observations without real overarching theme (by design). Th
 
 ## Chapter 1: A Pragmatic Philosophy
 
-**Chapter overview**: this chapter contains miscellaneous tips related to the discipline of software engineering. IMHO this chapter is not too useful.
+**Chapter overview**: AAA.
 
 ### 1. Take Responsibility
 
