@@ -5,6 +5,21 @@ This is my notes and opinions on MMOCs I took.
 
 The quality of MOOCs vary widely. Hopefully this helps you pick the classes where you will get the best bang for your time invested.
 
+# Classes I'm Currently Taking
+
+## Intro to Scala
+
+https://class.coursera.org/progfun-005
+
+Just started.
+
+## MIT 6.006 Introduction to Algorithms
+
+http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/
+
+- (+) Entertaining and charismatic lecturer.
+- (+) Very accessible.
+
 # Completed Classes
 
 ## Duke A Beginner's Guide to Irrational Behavior
@@ -57,6 +72,8 @@ Opinions:
 - (+) Lecturer if fun, clear and entertaining.
 - (+) Can use any programming language.
 - (-) Class a little bit too inclined to fall in mathematic pedantry for an introductory class.
+- (-) Forces Java as a programming language.
+- (-) Lecturer not very entertaining.
 
 ## Stanford Cryptography 1
 
@@ -68,7 +85,7 @@ Opinions:
 
 - Class overall grade: B.
 - (+) Lots of content, digs deep -- you will have a much better understanding of cryptography after taking this class.
-- (-) Class gets lost in details a little bit too much, obscures the topic for an introductory class.
+- (-) Class gets lost in details a little bit too much, obscures the topic for an introductory class. It
 
 # Classes Half-Taken
 
@@ -89,21 +106,6 @@ https://www.udacity.com/course/viewer#!/c-cs262
 I really liked what I was learning, did not know much about lexers, compilers and parsers and that was fascinating to learn about.
 
 I will probably resume that class at some point in the future.
-
-# Classes I'm Currently Taking
-
-## Intro to Scala
-
-https://class.coursera.org/progfun-005
-
-Just started.
-
-## MIT 6.006 Introduction to Algorithms
-
-http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/
-
-- (+) Entertaining and charismatic lecturer.
-- (+) Very accessible.
 
 # Not Taken, Maybe in the Future
 

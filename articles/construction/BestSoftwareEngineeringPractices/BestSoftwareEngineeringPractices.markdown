@@ -7,6 +7,12 @@ Unfortunately, there is no uncontroversial, authoritative, science-backed answer
 
 I usually try to write only on things that are facts and evidence based, but for this topic I make an exception since I think that a tentative answer is better than no answer.
 
+# Goal: Quotable Things
+
+For example, DRY principle. Want to have this page so that I can eventually point people here http://.../Endineering/#DRY for a rationale of a code comment or decision.
+
+Make sure that all of those come with references and justifications.
+
 ## Why Isn't There a Good Answer to this Question Yet?
 
 It is shocking that science has not yet gotten around to answer the question given how much is at stake. I think the base of the problem is similar to the failure of economics to predict actual outcome before the advent of behavioral economics. Behavioral economy is a relatively new field, and the first to acknowledge that you cannot assume that all actors in an economic system are rational -- you have to acknowledge that humans do not always act in a rational way (see [cognitive biases](http://en.wikipedia.org/wiki/Cognitive_bias)) in order to predict crowd behavior and its economic impact.
@@ -27,3 +33,23 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - [Agile Manifesto](http://agilemanifesto.org/)
 --> Robert C. Martin book about SOLID.
 --> Other people.
+
+# Principles
+
+## DRY
+
+Code comments < code that is understandable. Better to erase a comment that repeats information that is or can be expressed by clean code.
+
+Reference:
+
+- TPP section?
+
+## SOLID - S: Liskov Substitution Principle
+
+## Complexity Management
+
+## Orthogonality
+
+Reference:
+
+- TPP section?

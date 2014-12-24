@@ -1,4 +1,0 @@
-
-Don't regenerate the entries from the code (stored elsewhere), I have edited some files manually.
-
-When I change the code, I add it in the folder of the .markdown file.
