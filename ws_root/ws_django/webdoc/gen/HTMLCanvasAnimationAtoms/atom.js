@@ -1,24 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
-<html lang="en">
-
-<head>
-    <title>Atoms!</title>
-    <style type="text/css">
-        canvas {
-            border: 1px solid black;
-            padding-left: 0;
-            padding-right: 0;
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-            width: 70%;
-        }
-    </style>
-</head>
-
-<body onload="main();">
-    <script type="text/javascript">
 globalSpeedFudge = 0.00001;
 
 function getRandomColor() {
@@ -139,60 +119,3 @@ drawLogic = function(world){
     };
 };
 
-</script>
-<script type="text/javascript">
-window.requestAnimFrame =
-    window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.oRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    function (callback) {
-        window.setTimeout(callback, 1000 / 60);
-};
-
-// Global variables accessible everywhere.
-var canvas, world;
-
-var World = function () {
-    this.objects = []
-};
-
-World.prototype.update = function () {
-    updateLogic(world);
-};
-
-World.prototype.draw = function () {
-    drawLogic(world);
-};
-
-function update() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    world.update();
-    world.draw();
-    requestAnimFrame(update);
-}
-
-function start() {
-    world = new World();
-    world.dx = canvas.width;
-    world.dy = canvas.height;
-    createWorldObjects(world);
-    update();
-}
-
-window.onload = function () {
-    canvas = document.getElementById('canvas_main');
-    ctx = canvas.getContext('2d');
-    canvas.width = 800;
-    canvas.height = 600;
-    start();
-};
-
-</script>
-
-    <canvas id="canvas_main"></canvas>
-
-</body>
-
-</html>
