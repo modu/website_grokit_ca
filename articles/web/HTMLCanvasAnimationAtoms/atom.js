@@ -15,10 +15,12 @@ var Planet = function(x, y, mass){
     this.y = y;
     this.dx = 0;
     this.dy = 0;
+    
     if(0){
         this.dx = (0.05/globalSpeedFudge)*(50 - Math.random()*100);
         this.dy = (0.05/globalSpeedFudge)*(50 - Math.random()*100);
     }
+
     this.mass = mass;
     this.color = getRandomColor();
     this.colorEdge = getRandomColor();
@@ -70,25 +72,33 @@ var direction = function(o1, o2){
     return v;
 };
 
-pair = generatePairs(array){
+function* generatePairs(array){
+    for(var i =0; i < array.length; ++i){
+        for(var j = i+1; j < array.length; ++j){
+            var pair = Object();
+            pair.l = array[i];
+            pair.r = array[j];
+            yield pair;
+
+            pair.l = array[j];
+            pair.r = array[i];
+            yield pair;
+        }
+    }
 };
 
 gravity = function(world){
-    for(var i =0; i < world.objects.length; ++i){
-        for(var j =0; j < world.objects.length; ++j){
 
-            if(i != j){
-                var o1 = world.objects[j];
-                var o2 = world.objects[i];
-                var d = dist(o1, o2);
+    iterator = generatePairs(world.objects);
 
-                if(d > 1){
-                    var v = direction(o1, o2);
-                    var attr = o2.mass / d*d; 
-                    o1.dx += v.x*attr;
-                    o1.dy += v.y*attr;
-                }
-            }
+    for(var pair = iterator(); pair != null; pair = iterator()){
+        var d = dist(pair.l, pair.r);
+
+        if(d > 1){
+            var v = direction(pair.l, pair.r);
+            var attr = pair.r.mass / d*d; 
+            pair.l.dx += v.x*attr;
+            pair.l.dy += v.y*attr;
         }
     }
 };

@@ -23,6 +23,7 @@ It seems reasonable to instigate metric systems in software companies, but becau
 
 # TO write and order
 
+- Expose your work to others, code in the wild. Github, post of reddit, ...
 - SOLID
 - Joel's post: unit-tests, ...
 - Code complete 2: ref & management
