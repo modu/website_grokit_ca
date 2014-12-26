@@ -70,6 +70,9 @@ var direction = function(o1, o2){
     return v;
 };
 
+pair = generatePairs(array){
+};
+
 gravity = function(world){
     for(var i =0; i < world.objects.length; ++i){
         for(var j =0; j < world.objects.length; ++j){
