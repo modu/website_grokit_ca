@@ -6,9 +6,6 @@ Might seem a bit convoluted, but is build to obtain the same result running on G
 
 import os.path
 
-class test:
-  pass
-
 thisFileFolder = os.path.split(__file__)[0]
 
 staticFolder = '../static'
@@ -30,4 +27,3 @@ staticFolder        =  os.path.abspath(thisFileFolder + '/' + staticFolder)
 blogGeneratedFolder =  os.path.abspath(thisFileFolder + '/' + blogGeneratedFolder)
 addSrcFolders       =  os.path.abspath(thisFileFolder + '/' + addSrcFolders)
 addCPPFolders       =  os.path.abspath(thisFileFolder + '/' + addCPPFolders)
-
