@@ -15,6 +15,10 @@ var Planet = function(x, y, mass){
     this.y = y;
     this.dx = 0;
     this.dy = 0;
+    if(0){
+        this.dx = (0.05/globalSpeedFudge)*(50 - Math.random()*100);
+        this.dy = (0.05/globalSpeedFudge)*(50 - Math.random()*100);
+    }
     this.mass = mass;
     this.color = getRandomColor();
     this.colorEdge = getRandomColor();
@@ -45,12 +49,6 @@ Planet.prototype.draw = function(){
 };
 
 createWorldObjects = function(world){
-    if(0){
-        world.objects.push(new Planet(100, 100, 100));
-        world.objects.push(new Planet(150, 150, 50));
-        world.objects.push(new Planet(350, 150, 250));
-    }
-
     for(var i = 0; i < 100; ++i){
         var planet = new Planet(world.dx * Math.random(), world.dy * Math.random(), 400 * Math.random() * Math.random());
         world.objects.push(planet);
@@ -73,7 +71,6 @@ var direction = function(o1, o2){
 };
 
 gravity = function(world){
-    // Bug: this will act twice per object -- only act once per pair?
     for(var i =0; i < world.objects.length; ++i){
         for(var j =0; j < world.objects.length; ++j){
 
