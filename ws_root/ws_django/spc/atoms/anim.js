@@ -33,6 +33,8 @@ function update() {
 
 function start() {
     world = new World();
+    world.dx = canvas.width;
+    world.dy = canvas.height;
     createWorldObjects(world);
     update();
 }
