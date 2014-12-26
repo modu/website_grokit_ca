@@ -1,5 +1,14 @@
 
-globalSpeedFudge = 0.0001;
+globalSpeedFudge = 0.00001;
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 var Planet = function(x, y, mass){
     this.x = x;
@@ -7,7 +16,8 @@ var Planet = function(x, y, mass){
     this.dx = 0;
     this.dy = 0;
     this.mass = mass;
-    this.color = '#009700';
+    this.color = getRandomColor();
+    this.colorEdge = getRandomColor();
 };
 
 Planet.prototype.draw = function(){
@@ -16,7 +26,7 @@ Planet.prototype.draw = function(){
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.lineWidth = 2;
-    ctx.strokeStyle = '#1033ff'; 
+    ctx.strokeStyle = this.colorEdge; 
     ctx.stroke();
 };
 
@@ -27,7 +37,7 @@ createWorldObjects = function(world){
         world.objects.push(new Planet(350, 150, 250));
     }
 
-    for(var i = 0; i < 200; ++i){
+    for(var i = 0; i < 100; ++i){
         var planet = new Planet(world.dx * Math.random(), world.dy * Math.random(), 400 * Math.random() * Math.random());
         world.objects.push(planet);
     }

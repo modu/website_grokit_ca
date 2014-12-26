@@ -42,8 +42,8 @@ function start() {
 window.onload = function () {
     canvas = document.getElementById('canvas_main');
     ctx = canvas.getContext('2d');
-    canvas.width = 640;
-    canvas.height = 480;
+    canvas.width = 800;
+    canvas.height = 600;
     start();
 };
 
