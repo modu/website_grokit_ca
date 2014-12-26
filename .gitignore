@@ -6,6 +6,7 @@ app/*
 markdown/*
 *.pyc
 *.swp
+*.swo
 *~
 *.zip
 .code_search_cache*

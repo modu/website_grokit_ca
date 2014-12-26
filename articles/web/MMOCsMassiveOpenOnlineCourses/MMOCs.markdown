@@ -54,7 +54,7 @@ What I did: watched all videos, did some of the assignments.
 Opinions:
 
 - Class overall grade: B+.
-- (+) Lecturer if fun, clear and entertaining.
+- (+) Lecturer is fun, clear and entertaining.
 - (+) Can use any programming language.
 - (-) Class a little bit too inclined to fall in mathematic pedantry for an introductory class.
 
@@ -68,7 +68,7 @@ Opinions:
 
 - Class overall grade: B.
 - (+) Lots of content, digs deep -- you will have a much better understanding of cryptography after taking this class.
-- (-) Class gets lost in details a little bit too much, obscures the topic for an introductory class.
+- (-) Class can get lost in details, obscures the topic for an introductory class.
 
 # Classes Half-Taken
 
