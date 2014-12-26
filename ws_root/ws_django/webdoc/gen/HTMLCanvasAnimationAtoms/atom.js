@@ -15,7 +15,7 @@ var Planet = function(x, y, mass){
     this.y = y;
     this.dx = 0;
     this.dy = 0;
-    
+
     if(0){
         this.dx = (0.05/globalSpeedFudge)*(50 - Math.random()*100);
         this.dy = (0.05/globalSpeedFudge)*(50 - Math.random()*100);
@@ -28,12 +28,13 @@ var Planet = function(x, y, mass){
 };
 
 Planet.prototype.draw = function(){
+    ctx.globalAlpha = 1.0;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.mass*0.1, 0, 2 * Math.PI, false);
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.lineWidth = 2;
-    ctx.strokeStyle = this.colorEdge; 
+    ctx.strokeStyle = this.colorEdge;
     ctx.stroke();
 
     ctx.beginPath();
@@ -46,8 +47,6 @@ Planet.prototype.draw = function(){
     ctx.lineCap = 'round';
     ctx.globalAlpha = 0.4;
     ctx.stroke();
-
-    ctx.globalAlpha = 1.0;
 };
 
 createWorldObjects = function(world){
@@ -91,7 +90,7 @@ gravityInner = function(left, right){
 
     if(d > 1){
         var v = direction(left, right);
-        var attr = right.mass / d*d; 
+        var attr = right.mass / d*d;
         left.dx += v.x*attr;
         left.dy += v.y*attr;
     }
@@ -125,8 +124,8 @@ movement = function(world){
 };
 
 updateLogic = function(world){
-   gravity(world); 
-   movement(world); 
+   gravity(world);
+   movement(world);
 };
 
 drawLogic = function(world){
@@ -134,4 +133,3 @@ drawLogic = function(world){
         world.objects[i].draw();
     };
 };
-

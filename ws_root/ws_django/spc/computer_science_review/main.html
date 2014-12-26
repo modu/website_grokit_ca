@@ -55,13 +55,18 @@ The solutions here are a pretty rough dump that I haven't taken the time to cura
 
 <p>
 Those patterns come up so frequently in problems that it is worth memorizing:
-</br>
-- Exhaustive search: if you iterate the whole problem space, is the answer obvious? If it is, and the problem space is small, you are done. If the problem space is big, can you use dynamic programming (re-use old comutations if there are a lot of symmetries). If not, figure out a way to simplyfy the problem.</br>
-- Dynammic programming: can you store and re-use part of past computations? This is especially effective for recursive implementations. (Lookup '@lru_cache' in python for examples. Dynamic programming is just a fancy term for caching past computations.).</br>
-- Greedy algorithm: are you guaranteed to find the right answer if you always pick the most advantageous immediate choice?</br>
-- Divide and conquer: if solving a subset of the problem then merging it is more efficient (e.g. quicksort).</br>
-- Sorting: if the problem require computing a value that express an <i>order</i> or <i>comparative relation</i> between items.</br>
-- How would it look if I applied one of the following data structures: heap, hash, linked list, vector, graph, tree, sorted array, stack.</br>
+</br></br>
+- Backtracking and exhaustive search: if you iterate the whole problem space, is the answer obvious? If it is, and the problem space is small, you are done. If the problem space is big, can you use dynamic programming (re-use old comutations if there are a lot of symmetries). If not, figure out a way to simplyfy the problem.</br></br>
+- Dynammic programming: can you store and re-use part of past computations? This is especially effective for recursive implementations (lookup '@lru_cache' in python for examples. Dynamic programming is often just a fancy term for caching past computations).</br></br>
+- Greedy algorithm: are you guaranteed to find the right answer if you always pick the most advantageous immediate choice?</br></br>
+- Divide and conquer: if solving a subset of the problem then merging it is more efficient (e.g. quicksort).</br></br>
+- Sorting: if the problem require computing a value that express an <i>order</i> or <i>comparative relation</i> between items.</br></br>
+- How would it look if I applied one of the following data structures: heap, hash, linked list, vector, graph, tree, sorted array, stack.
+</p>
+
+<p>
+Two good resources on the topic: <a href="http://macgyverdev.blogspot.com/2014/04/become-better-programmer-with.html">become a better programmer</a> and <a href="http://interactivepython.org/runestone/static/pythonds/index.html">Problem Solving with Algorithms and Data Structures</a>.
+
 </p>
 
 <h2>Fundamental Data Structures</h2>
@@ -75,7 +80,8 @@ Those patterns come up so frequently in problems that it is worth memorizing:
 - Queue.</br>
 - Tree.</br>
 - Binary search tree.</br>
-- Balanced tree (e.g: red-black tree. You do not have to know how to build one, but know why it is prefered to a simple BST).</br>
+- Balanced tree (e.g: red-black or AVL tree. You do not have to know how to build one, but know why it is prefered to a simple BST).</br>
+- B+ tree (optional).</br>
 - Trie.</br>
 - Graph.</br>
 - Hash table.</br>
@@ -91,20 +97,46 @@ You *have* to know the basic data structures. This is the first and most importa
 - Are there lots of relationships between things? --> Think about using a graph.</br>
 </p>
 
-Not so fundamental, but maybe good to know:</br>
-
-- B+ tree.
-
 <h2>Fundamental Algorithms</h2>
+
+I organized this in three sections, from the easiest to the hardest. You probably only need the 'essential' section in order to do well in an interview.
+
+<h3>Fundamental-Essential</h3>
 
 <p>
 - Binary search.</br>
-- Breadth first search (and depth first search).</br>
+- Breadth first search.</br>
+- Depth first search.</br>
 - Sorting: quicksort, mergesort, insertion sort.</br>
-- Shortest path (Dijkstra's algorithm).</br>
 - Finding a node in a binary search tree.</br>
 - Tree traversal preorder, inorder, postorder.</br>
 - Enumeration of all subsets of a set.</br>
+</p>
+
+<h3>Fundamental-Advanced</h3>
+
+<p>
+- Dijkstra's shortest path.</br>
+- Union-Find (advanced: union-by-rank).</br>
+- Knapsack problem (subset sum)?.</br>
+</p>
+
+<h3>Fundamental-Expert</h3>
+
+<p>
+Boolean satisfiability (w. or wo. horn clause):
+http://en.wikipedia.org/wiki/Boolean_satisfiability_problem
+</p>
+
+<p>
+Subset sum (with or without negative integers):
+https://code.google.com/codejam/contest/1836486/dashboard#s=p2
+</p>
+
+<p>
+Longest common subsequence:
+http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
+https://code.google.com/codejam/contest/1781488/dashboard#s=a&a=2
 </p>
 
 <h2> List of Problems per Category</h2>
@@ -156,17 +188,10 @@ Very often problems can be solved by just enumerating all possible states, then 
 {{ csiq_string | safe }}
 
 <!-- meh ~~
-<h2>C++ Specific</h2> 
+<h2>C++ Specific</h2>
 
-{{ csiq_language | safe }} 
+{{ csiq_language | safe }}
 -->
-
-<h2>Algorithms Recurring Patterns</h2>
-
-Once you are comfortable solving basic problems, you will notice common patterns used over and over again:  **Dynamic Programming, Divide and Conquer, Greedy algorithms, Backtracking and Exhaustive Search**. On those topics, you can see <a href="http://macgyverdev.blogspot.com/2014/04/become-better-programmer-with.html">excellent overview here</a>.
-<br/>
-
-I also think think <a href="http://interactivepython.org/runestone/static/pythonds/index.html">Problem Solving with Algorithms and Data Structures</a> is pretty good as a review.
 
 <h2>More</h2>
 
