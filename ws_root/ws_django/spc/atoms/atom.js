@@ -18,6 +18,7 @@ var Planet = function(x, y, mass){
     this.mass = mass;
     this.color = getRandomColor();
     this.colorEdge = getRandomColor();
+    this.trail = [];
 };
 
 Planet.prototype.draw = function(){
@@ -28,6 +29,19 @@ Planet.prototype.draw = function(){
     ctx.lineWidth = 2;
     ctx.strokeStyle = this.colorEdge; 
     ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    for(var i = this.trail.length-1; i >= 0; --i){
+        var p = this.trail[i];
+        ctx.lineTo(p.x, p.y);
+    }
+    ctx.lineWidth = this.mass/20;
+    ctx.lineCap = 'round';
+    ctx.globalAlpha = 0.4;
+    ctx.stroke();
+
+    ctx.globalAlpha = 1.0;
 };
 
 createWorldObjects = function(world){
@@ -79,9 +93,19 @@ gravity = function(world){
     }
 };
 
-movement= function(world){
+movement = function(world){
     for(var i =0; i < world.objects.length; ++i){
         var o = world.objects[i];
+
+        var pos = new Object();
+        pos.x = o.x;
+        pos.y = o.y;
+        o.trail.push(pos);
+
+        if(o.trail.length > 50){
+            o.trail.shift();
+        }
+
         o.x += o.dx * globalSpeedFudge;
         o.y += o.dy * globalSpeedFudge;
     }
