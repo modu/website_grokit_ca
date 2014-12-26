@@ -6,14 +6,14 @@ window.requestAnimFrame =
     window.oRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
     function (callback) {
-        window.setTimeout(callback, 1000 / 60);
+        window.setTimeout(callback, 1000 / 30);
 };
 
 // Global variables accessible everywhere.
 var canvas, world;
 
 var World = function () {
-    this.objects = []
+    this.objects = [];
 };
 
 World.prototype.update = function () {
@@ -46,4 +46,3 @@ window.onload = function () {
     canvas.height = 600;
     start();
 };
-

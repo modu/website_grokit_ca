@@ -51,8 +51,22 @@ Planet.prototype.draw = function(){
 };
 
 createWorldObjects = function(world){
-    for(var i = 0; i < 100; ++i){
-        var planet = new Planet(world.dx * Math.random(), world.dy * Math.random(), 400 * Math.random() * Math.random());
+
+    if(1){
+        for(var i = 0; i < 100; ++i){
+            var planet = new Planet(world.dx * Math.random(), world.dy * Math.random(), 400 * Math.random() * Math.random());
+            world.objects.push(planet);
+        }
+    }
+
+    if(0){
+        var planet = new Planet(100, 100, 50);
+        world.objects.push(planet);
+
+        var planet = new Planet(200, 200, 70);
+        world.objects.push(planet);
+
+        var planet = new Planet(400, 600, 270);
         world.objects.push(planet);
     }
 };
@@ -72,33 +86,22 @@ var direction = function(o1, o2){
     return v;
 };
 
-function* generatePairs(array){
-    for(var i =0; i < array.length; ++i){
-        for(var j = i+1; j < array.length; ++j){
-            var pair = Object();
-            pair.l = array[i];
-            pair.r = array[j];
-            yield pair;
+gravityInner = function(left, right){
+    var d = dist(left, right);
 
-            pair.l = array[j];
-            pair.r = array[i];
-            yield pair;
-        }
+    if(d > 1){
+        var v = direction(left, right);
+        var attr = right.mass / d*d; 
+        left.dx += v.x*attr;
+        left.dy += v.y*attr;
     }
-};
+}
 
 gravity = function(world){
-
-    iterator = generatePairs(world.objects);
-
-    for(var pair = iterator(); pair != null; pair = iterator()){
-        var d = dist(pair.l, pair.r);
-
-        if(d > 1){
-            var v = direction(pair.l, pair.r);
-            var attr = pair.r.mass / d*d; 
-            pair.l.dx += v.x*attr;
-            pair.l.dy += v.y*attr;
+    for(var i =0; i < world.objects.length; ++i){
+        for(var j = i+1; j < world.objects.length; ++j){
+            gravityInner(world.objects[i], world.objects[j]);
+            gravityInner(world.objects[j], world.objects[i]);
         }
     }
 };

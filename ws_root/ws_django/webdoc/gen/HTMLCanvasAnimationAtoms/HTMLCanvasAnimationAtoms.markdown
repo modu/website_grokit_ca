@@ -58,3 +58,7 @@ The only thing left to do is to draw the circles proportional to their mass.
 # How Can I Have Fun Modifying This?
 
 You can just save this page as an .html file, edit it and run it in your browser. The JavaScript is embedded in the HTML so you do not need a server to play with it, just modify it and run in your browser.
+
+# A Little Bit of Algorithms
+
+In order to run the simulation, you have to calculate the

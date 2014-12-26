@@ -15,10 +15,12 @@ var Planet = function(x, y, mass){
     this.y = y;
     this.dx = 0;
     this.dy = 0;
+    
     if(0){
         this.dx = (0.05/globalSpeedFudge)*(50 - Math.random()*100);
         this.dy = (0.05/globalSpeedFudge)*(50 - Math.random()*100);
     }
+
     this.mass = mass;
     this.color = getRandomColor();
     this.colorEdge = getRandomColor();
@@ -49,8 +51,22 @@ Planet.prototype.draw = function(){
 };
 
 createWorldObjects = function(world){
-    for(var i = 0; i < 100; ++i){
-        var planet = new Planet(world.dx * Math.random(), world.dy * Math.random(), 400 * Math.random() * Math.random());
+
+    if(1){
+        for(var i = 0; i < 100; ++i){
+            var planet = new Planet(world.dx * Math.random(), world.dy * Math.random(), 400 * Math.random() * Math.random());
+            world.objects.push(planet);
+        }
+    }
+
+    if(0){
+        var planet = new Planet(100, 100, 50);
+        world.objects.push(planet);
+
+        var planet = new Planet(200, 200, 70);
+        world.objects.push(planet);
+
+        var planet = new Planet(400, 600, 270);
         world.objects.push(planet);
     }
 };
@@ -70,22 +86,22 @@ var direction = function(o1, o2){
     return v;
 };
 
+gravityInner = function(left, right){
+    var d = dist(left, right);
+
+    if(d > 1){
+        var v = direction(left, right);
+        var attr = right.mass / d*d; 
+        left.dx += v.x*attr;
+        left.dy += v.y*attr;
+    }
+}
+
 gravity = function(world){
     for(var i =0; i < world.objects.length; ++i){
-        for(var j =0; j < world.objects.length; ++j){
-
-            if(i != j){
-                var o1 = world.objects[j];
-                var o2 = world.objects[i];
-                var d = dist(o1, o2);
-
-                if(d > 1){
-                    var v = direction(o1, o2);
-                    var attr = o2.mass / d*d; 
-                    o1.dx += v.x*attr;
-                    o1.dy += v.y*attr;
-                }
-            }
+        for(var j = i+1; j < world.objects.length; ++j){
+            gravityInner(world.objects[i], world.objects[j]);
+            gravityInner(world.objects[j], world.objects[i]);
         }
     }
 };
