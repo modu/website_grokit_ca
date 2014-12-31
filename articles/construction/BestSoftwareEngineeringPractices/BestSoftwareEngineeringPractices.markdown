@@ -41,13 +41,19 @@ It seems reasonable to instigate metric systems in software companies, but becau
 
 Code comments < code that is understandable. Better to erase a comment that repeats information that is or can be expressed by clean code.
 
-Reference:
+Reference(s):
 
 - TPP section?
 
 ## SOLID - S: Liskov Substitution Principle
 
 ## Complexity Management
+
+## Complexity Management 2: Have to Have A Mental Model that Maps to Code
+
+Reference(s):
+
+- None, this is conjecture on my part.
 
 ## Orthogonality
 

@@ -23,3 +23,7 @@ O(2^^n)
 ...or n!?
 
 ^^ what if you restrict the number of letters?
+
+If repetitions are allowed: C(n+k+1, k).
+
+http://en.wikipedia.org/wiki/Binomial_coefficient#Combinatorics_and_statistics
