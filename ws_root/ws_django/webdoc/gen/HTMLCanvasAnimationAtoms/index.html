@@ -279,7 +279,7 @@ gravity = function(world){
 };
 </code></pre>
 <h2>A Little Bit of Algorithms</h2>
-<p>In order to run the simulation, you have to calculate the pull that each planet exercises on each other planet, which costs n^2. Now, it would be possible to disregard the effect of far-way objects (<a href="http://en.wikipedia.org/wiki/Barnes%E2%80%93Hut_simulation">doing so would reduce the cost to n log(n) -- see Barnes-Hut simulation</a>), but for simplicity's sake we are not doing this here.</p>
+<p>In order to run the simulation, you have to calculate the pull that each planet exercises on each other planet, which costs n^2 (n * (n-1) to be exact). Now, it would be possible to disregard the effect of far-way objects (<a href="http://en.wikipedia.org/wiki/Barnes%E2%80%93Hut_simulation">doing so would reduce the cost to n log(n) -- see Barnes-Hut simulation</a>), but for simplicity's sake we are not doing this here.</p>
 <p>Another little trick that is fun to observe is that the inner loop starts at <em>j=i+1</em>. A more natural way would by to have a nested loop of the form:</p>
 <pre><code>gravity = function(world){
   for(var i =0; i &lt; world.objects.length; ++i){
@@ -291,7 +291,7 @@ gravity = function(world){
   }
 };
 </code></pre>
-<p>There is probably no significant difference in terms of performance, but looking at why the <em>j=i+1</em> trick works is interesting. Let's say you have four items: a, b, c, d. Using the function above, you generate:</p>
+<p>There is no significant (n^2 to n*(n-1) variables check) difference in terms of performance, but looking at why the <em>j=i+1</em> trick works is interesting. Let's say you have four items: a, b, c, d. Using the function above, you generate:</p>
 <pre><code>a, a
 a, b
 a, c
@@ -323,6 +323,7 @@ b, d
 c, d
 </code></pre>
 <p>... which is basically outputting all the pairs. Using <em>j=i+1</em> is akin to observing that when you are at letter, all the previous letters have already been paired with the current letter. So if you modify the inner function to generate the symmetric pairs (a,b -&gt; a,b; b,a), you end-up with the same result.</p>
+<p>In order to understand why there are n(n-1)/2 unique vertex pairs, just draw all the connections between nodes a, b, c and d on a sheet of paper. From every letter (n), you have an edge to n-1 letters (every letter besides the current letter) for a total of n(n-1) <em>directed</em> edges. Every letter points to every letter (e.g: a-&gt;b, b-&gt;a, a-&gt;c, c-a, ...), which means that if you just want the total number of <em>pair of vertices</em>, you have to divide by two, yielding n(n-1)/2 unique pairs. See <a href="http://en.wikipedia.org/wiki/Complete_graph">complete graphs</a> for more details.</p>
 <h1>How Can I Have Fun Modifying This?</h1>
 <p>You can just save this page as an .html file, edit it and run it in your browser. The JavaScript is embedded in the HTML so you do not need a server to play with it, just modify it and run in your browser.</p>
 

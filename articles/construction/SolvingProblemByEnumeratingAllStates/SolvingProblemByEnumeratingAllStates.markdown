@@ -1,11 +1,14 @@
 
-<h1>Article not completed ... come back later ~~</h1>
+# Article not completed ... come back later
 
 # @@TODO
 
 - finish article :P
-- spellcheck
-        
+
+- combinations
+- permutations
+- given a,b,c and d, how many different combinations with no repetitions?
+
 # Solving Problem By Enumerating All States in the Solution Space (A.K.A. Solving Problems by Searching)
 
 Having a mental model of the solution space is a great step towards finding a solution to the problem. It turns out that a surprising number of problems can be solved by simply:
@@ -17,7 +20,7 @@ The drawback is that it becomes quickly indefeasible as problem get complex beca
 
 ## Base Case: How Many Combinations of m Objects, Each of Which Has n Distinct States?
 
-This is the (mathematically) easiest family of problems to model the state for. 
+This is the (mathematically) easiest family of problems to model the state for.
 
 Example problem: locks. There is a safe with m dials. Each dial can be set to a number from 1 to n. What is the total number of combinations that the lock has? (A similar problem is [telephone words](../TelephoneWords)).
 
@@ -45,7 +48,7 @@ $$\\#states^{\\#slots}$$
 
 $$n^{m}$$.
 
-I like the "states-slots" image because it leads to a good generic mental picture that can be used for many problems: there are slots (place holders) and each of these slots have a finite number of possible states. 
+I like the "states-slots" image because it leads to a good generic mental picture that can be used for many problems: there are slots (place holders) and each of these slots have a finite number of possible states.
 
         ----------------------------------
         | slot_1 | slot_2 | ... | slot_n | --> slot increase ==> increase exponent.
@@ -53,13 +56,13 @@ I like the "states-slots" image because it leads to a good generic mental pictur
         --> #state-per-slot increase ==> increase base of exponent.
 
 Another useful mnemonic is the parallel with binary numbers. It is well known that given a binary number with m digits, there are \\( m^2 \\) possible decimal numbers. Each time a digit is added (a 'slot' is added), the number of decimal numbers representable by that binary number is multiplied by two. If a base n is used instead of a base 2, we fall back on the same \\((n^m)\\) equation.
-        
+
 ## (Base Case)++: When Every Choice Removes A Combination From the Remaining Solution Space
 
 Another frequent problem category occurs when **a state cannot be used twice**. For example, let's say you have an apple (1), an orange (2) and a banana (3). You have three meal and eat one fruit per meal. How many combinations can you do?
 
     Note: 1: apple, 2: orange, 3: banana
-    
+
     (1, 2, 3)
     (1, 3, 2)
     (2, 1, 3)
@@ -76,53 +79,3 @@ Now counting the number of possible states is much easier: there are n objects (
 $$n!$$.
 
 For our "fruit selection" problem, we can now easily compute the number of state in the problem space: 3! = 6.
-
-### When There Are Less Slots Than Objects
-
-What if you have 4 fruits, but only 3 meals to eat fruit in? Then the 'n!' equation is not valid.
-
-
-### Example: Sorting
-
-Every number has only one place in the sorted array (assuming a [stable sort](http://en.wikipedia.org/wiki/Stable_sort#Stability)).
-
-## ((Base Case)++)++: Binomial Coefficient
-
-$$\tfrac{n!}{k!\,(n-k)!}$$
-
-### Link to the Birthday Paradox
-
-...
-
-# Appendix: The Baffling Infeasibility of \\(n^m\\) Problem Space For Realistic Problem Sizes
-
-plot how quickly it gets big. link to size of stuff.
-
-# Appendix: When Enumerating
-
-## Example: Longest, Shortest Path
-
-## P {=, !=} NP ?
-
-# Appendix: Solving Sort by Enumerating the Solution Space
-
-# Appendix: Party Problem
-
-You invite N people to a party. How many different combinations of people can show up?
-
-(Don't care about order).
-
-2^N
-
---> everyone can be in either "there" or "not there" state.
-
-What does the problem become if we care about order? (how many combinations of people arriving can there be?)
-
-# Appendix: Numberphile And The Enigma Machine
-
-
-
-... show how formulae
-
-
-

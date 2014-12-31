@@ -6,9 +6,11 @@
 To attain:
 
 - Know openings better, analyze games where opening failed.
+
 - Regularly practice tactics on lichess.
+
 - Play longer and longer games (5/1, 5/2, 5/3, ...).
-  - Play standard (10/0).
+  - Play standard (8/0).
 
 ## Make Games More Fun
 
@@ -16,14 +18,13 @@ To attain:
 
 - Learn fun counter-plays to boring openings. Document.
 
-# Openings -- To Analyze
+# Tools
 
-http://en.lichess.org/7p9DXKBi#1
-1. d4 e6 { Horwitz Defense, General } 2. c4 d5 3. Nc3 c5 4. Bf4?
-^^ Why was my opening bad?
+http://www.chess.com/analysis-board-editor
 
-http://en.lichess.org/YMGZdrwl/black#1 -- Sicilian defense
-^^ Another bad opening.
+http://en.lichess.org/editor
+
+nohup scid&
 
 # Openings
 
@@ -32,21 +33,31 @@ Queen’s gambit accepted: http://chesstempo.com/gamedb/opening/1640
 White, gambit accepted: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq
 http://en.lichess.org/?fen=rnbqkbnr/ppp1pppp/8/8/2pP4/8/PP2PPPP/RNBQKBNR%20w%20KQkq#ai
 
-## Openings-Practicing as White
+## [**White**] Queen Gambit?
 
-**king and queen gambits**
+### d4 e6 (Horwitz Defense, General)
 
-## [**White**] Queen Gambit
+http://en.lichess.org/7p9DXKBi#1
+1. d4 e6 { Horwitz Defense, General } 2. c4 d5 3. Nc3 c5 4. Bf4?
+^^ Why was my opening (Bf4) bad?
 
-1. d4 e6 { Horwitz Defense, General }
+## [**White**] King Gambit?
 
-## [**Black**] Openings-Good Counters to Boring Games
+## [**Black**] e4 Responses
 
-king gambit: weak (+1!)
+### e4 c5 (Sicilian Defense)
+
+## [**Black**] d4 Responses
+
+### d4 f5 (A80: Dutch Defense)
+
+http://chesstempo.com/gamedb/opening/363
+
+## [**Black**] e4 Responses
 
 e4 g6 (B06: Modern Defense, Pseudo-Austrian Attack)
 kind of weak: +0.6
 
-e4 c5 (sicilian defense)
+## [**Black**] Openings-Good Counters to Boring Games
 
-d4 f4 (dutch defense) http://chesstempo.com/gamedb/opening/363
+king gambit: weak (+1!)

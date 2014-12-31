@@ -79,7 +79,7 @@ The only thing left to do is to draw the circles proportional to their mass:
 
 ## A Little Bit of Algorithms
 
-In order to run the simulation, you have to calculate the pull that each planet exercises on each other planet, which costs n^2. Now, it would be possible to disregard the effect of far-way objects ([doing so would reduce the cost to n log(n) -- see Barnes-Hut simulation](http://en.wikipedia.org/wiki/Barnes%E2%80%93Hut_simulation)), but for simplicity's sake we are not doing this here.
+In order to run the simulation, you have to calculate the pull that each planet exercises on each other planet, which costs n^2 (n * (n-1) to be exact). Now, it would be possible to disregard the effect of far-way objects ([doing so would reduce the cost to n log(n) -- see Barnes-Hut simulation](http://en.wikipedia.org/wiki/Barnes%E2%80%93Hut_simulation)), but for simplicity's sake we are not doing this here.
 
 Another little trick that is fun to observe is that the inner loop starts at _j=i+1_. A more natural way would by to have a nested loop of the form:
 
@@ -93,7 +93,7 @@ Another little trick that is fun to observe is that the inner loop starts at _j=
       }
     };
 
-There is probably no significant difference in terms of performance, but looking at why the _j=i+1_ trick works is interesting. Let's say you have four items: a, b, c, d. Using the function above, you generate:
+There is no significant (n^2 to n*(n-1) variables check) difference in terms of performance, but looking at why the _j=i+1_ trick works is interesting. Let's say you have four items: a, b, c, d. Using the function above, you generate:
 
     a, a
     a, b
@@ -127,6 +127,8 @@ There is probably no significant difference in terms of performance, but looking
     c, d
 
 ... which is basically outputting all the pairs. Using _j=i+1_ is akin to observing that when you are at letter, all the previous letters have already been paired with the current letter. So if you modify the inner function to generate the symmetric pairs (a,b -> a,b; b,a), you end-up with the same result.
+
+In order to understand why there are n(n-1)/2 unique vertex pairs, just draw all the connections between nodes a, b, c and d on a sheet of paper. From every letter (n), you have an edge to n-1 letters (every letter besides the current letter) for a total of n(n-1) _directed_ edges. Every letter points to every letter (e.g: a->b, b->a, a->c, c-a, ...), which means that if you just want the total number of _pair of vertices_, you have to divide by two, yielding n(n-1)/2 unique pairs. See [complete graphs](http://en.wikipedia.org/wiki/Complete_graph) for more details.
 
 # How Can I Have Fun Modifying This?
 
