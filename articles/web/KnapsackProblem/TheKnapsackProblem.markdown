@@ -11,7 +11,7 @@ Assumption(s): all weights are non-negative integers. This is the _unbounded kna
 
 The simplest way to approach this problem is to just iterate all the possible \\(2^n\\) items combinations (each item can be either in the bad or not in the bag), discard the combinations that do not satisfy the weight constraint and output the item combination that has the maximum value.
 
-However, for values n > 30, this becomes computationally unfeasible.
+However, for values n > 30, this becomes [computationally unfeasible](http://www.grokit.ca/cnt/ComputationallyFeasible/).
 
 ## Dynamic Programming (DP) Solution (Tree Approach)
 
@@ -29,6 +29,8 @@ dext.insertCode('k_tiny.in')
 
 dext.insertCode('solutions.txt')
 
+The small and large files can be found [on GitHub](https://github.com/grokit/website_grokit_ca/tree/master/articles/web/KnapsackProblem).
+
 ### Limitations of DP Approach
 
 Why does it work only for integer weights?
@@ -43,6 +45,6 @@ The fastest solution is most likely to use a branch and bound approach.
 
 # References
 
-- [http://en.wikipedia.org/wiki/Knapsack_problem]().
-- Stanford Algo II [https://class.coursera.org/algo2-2012-001/lecture]().
-  - Quiz question on knapsack problem: [https://class.coursera.org/algo2-2012-001/quiz/attempt?quiz_id=85]().
+- [Wikipedia](http://en.wikipedia.org/wiki/Knapsack_problem).
+- [Stanford Algo II](https://class.coursera.org/algo2-2012-001/lecture).
+  - [Stanford quiz question on knapsack problem](https://class.coursera.org/algo2-2012-001/quiz/attempt?quiz_id=85).

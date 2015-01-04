@@ -4,7 +4,7 @@
 <p>Assumption(s): all weights are non-negative integers. This is the <em>unbounded knapsack problem</em>.</p>
 <h2>Brute Force</h2>
 <p>The simplest way to approach this problem is to just iterate all the possible \(2^n\) items combinations (each item can be either in the bad or not in the bag), discard the combinations that do not satisfy the weight constraint and output the item combination that has the maximum value.</p>
-<p>However, for values n &gt; 30, this becomes computationally unfeasible.</p>
+<p>However, for values n &gt; 30, this becomes <a href="http://www.grokit.ca/cnt/ComputationallyFeasible/">computationally unfeasible</a>.</p>
 <h2>Dynamic Programming (DP) Solution (Tree Approach)</h2>
 <p>The state of the computation is a set of items not yet in the backpack (I), as well as 'c', the capacity left in the bag (w minus the weight of all items already in the bag). The crux of the DP trick is to notice that you do not need to carry I, but only the items remaining to consider.</p>
 <p>Picture the problem with all items S. The cost of solving this using brute-force is \(O(2^n)\). If you remove the first item, you can solve that sub-problem in \(O(2^{n-1})\) time (do not forget to remove the weight of the item discarded to the problem). If you do this recursively, you end-up with a solution to a set of smaller problems which can be <em>combined</em> into the solution to the complete problem.</p>
@@ -109,6 +109,7 @@ print('Total: %i.' % t)
 Small: 2493893
 Large: 2595819
 </code></pre>
+<p>The small and large files can be found <a href="https://github.com/grokit/website_grokit_ca/tree/master/articles/web/KnapsackProblem">on GitHub</a>.</p>
 <h3>Limitations of DP Approach</h3>
 <p>Why does it work only for integer weights?</p>
 <p>If you have floating point values for the weight, then the amount of memory you need to hold is not bounded by n*W. Let's say all n items have different floating point weights, it is possible that you never land on the same weight value for a given i.</p>
@@ -117,7 +118,7 @@ Large: 2595819
 <p>The fastest solution is most likely to use a branch and bound approach.</p>
 <h1>References</h1>
 <ul>
-<li><a href="">http://en.wikipedia.org/wiki/Knapsack_problem</a>.</li>
-<li>Stanford Algo II <a href="">https://class.coursera.org/algo2-2012-001/lecture</a>.</li>
-<li>Quiz question on knapsack problem: <a href="">https://class.coursera.org/algo2-2012-001/quiz/attempt?quiz_id=85</a>.</li>
+<li><a href="http://en.wikipedia.org/wiki/Knapsack_problem">Wikipedia</a>.</li>
+<li><a href="https://class.coursera.org/algo2-2012-001/lecture">Stanford Algo II</a>.</li>
+<li><a href="https://class.coursera.org/algo2-2012-001/quiz/attempt?quiz_id=85">Stanford quiz question on knapsack problem</a>.</li>
 </ul>
