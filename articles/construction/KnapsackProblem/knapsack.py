@@ -31,22 +31,25 @@ def recurse(i, I, S, W, memo):
         return memo[(i, W)]
 
     if i == len(I):
-        return 0
+        return 0, []
 
     if W - I[i][1] >= 0:
-        cPick = recurse(i+1, I, S, W - I[i][1], memo)
+        cPick, pathP = recurse(i+1, I, S, W - I[i][1], memo)
         cPick += I[i][0]
+        # The pathP and such are not necessary to solve the problem, it is there so that we can check the path.
+        pathP = copy.copy(pathP)
+        pathP.append(i)
     else:
         cPick = -int(1e20)
 
     S.remove(i)
-    cNoPick = recurse(i+1, I, S, W, memo)
+    cNoPick, pathNp = recurse(i+1, I, S, W, memo)
     S.add(i)
 
     if cNoPick >= cPick:
-        sol = cNoPick
+        sol = [cNoPick, pathNp]
     else:
-        sol = cPick
+        sol = [cPick, pathP]
 
     memo[(i, W)] = sol
 
@@ -65,3 +68,8 @@ W, I = readProblem(filename)
 s = solve(I, W)
 print(s)
 
+t = 0
+for p in s[1]:
+    print('%i: %s' % (p, I[p]))
+    t += I[p][0]
+print('Total: %i.' % t)
