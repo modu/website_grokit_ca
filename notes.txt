@@ -1,16 +1,14 @@
 
-# Idea for Entries
-
-- MathTrick_Sum1ToN
-
 # Todo
 
 ## A
 
-- have the option: dext.insertCode('filename')
-- blog post math convention in computer science
+- Have a standard "abstract" for every article, and put that text in the main page.
 
 ## B
+
+- blog post math convention in computer science
+
 - ws build a class wsite, then dump to html / files (allows all the fun crossref)
     --> allow cross ref
 

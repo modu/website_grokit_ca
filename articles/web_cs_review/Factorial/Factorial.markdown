@@ -61,8 +61,6 @@ This is more tricky than it seems.
 
 If you implement a number primitive which is mapped to an arbitrary, expendable set of bits, then you can always return the correct result without having to worry about overflow.
 
-@@implement
-
 ## Importance of n! in Combinatorics
 
 n! is the number of possible permutations of n different objects. For example, if you have the set: {a, b, c}, you can organize it in the following orders:
