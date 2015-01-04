@@ -6,7 +6,7 @@ import argparse
 import time
 
 template_meta = """
-tags: viewA
+tags: viewB
 date: __time__
 category: auto 
 """

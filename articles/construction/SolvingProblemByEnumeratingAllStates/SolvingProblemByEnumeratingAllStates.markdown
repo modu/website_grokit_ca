@@ -13,8 +13,9 @@
 
 Having a mental model of the solution space is a great step towards finding a solution to the problem. It turns out that a surprising number of problems can be solved by simply:
 
-1. Enumerating all states in the solution space.
-2. Evaluating each state with a function that yields whether or not the state is a valid solution to the problem.
+1. Express a solution to the problem as a state.
+2. Enumerate all possible states in the solution space.
+3. Evaluate each state, pick the best one.
 
 The drawback is that it becomes quickly indefeasible as problem get complex because the number of possible states often grows exponentially as a function of the problem size. Nevertheless, this is often a first good step towards having a mental image of the problem. From this exhaustive enumeration of states, it sometimes become obvious that there are shortcuts that can be taken that yield a faster algorithm.
 
