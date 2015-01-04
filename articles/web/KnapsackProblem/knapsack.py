@@ -5,9 +5,8 @@ Solution for problem as stated in https://class.coursera.org/algo2-2012-001/quiz
 
 # TODO
 
-- Able to trace-back the path.
 - Use the 2D array method and compare performance.
-- Use branch and bound and compare performance.  
+- Use branch and bound and compare performance.
 """
 
 import copy

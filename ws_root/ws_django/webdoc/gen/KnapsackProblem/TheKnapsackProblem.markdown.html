@@ -1,0 +1,123 @@
+<h1>The Knapsack Problem</h1>
+<p>You have a knapsack of size W and a set 'S' of n items of value v and weight w: S = {(v1, w1), (v2, w2), ..., (vn, wn)}.</p>
+<p>Find the combinations of items in set S that yield the highest combined value whilst having a total weight w &lt;= W.</p>
+<p>Assumption(s): all weights are non-negative integers. This is the <em>unbounded knapsack problem</em>.</p>
+<h2>Brute Force</h2>
+<p>The simplest way to approach this problem is to just iterate all the possible \(2^n\) items combinations (each item can be either in the bad or not in the bag), discard the combinations that do not satisfy the weight constraint and output the item combination that has the maximum value.</p>
+<p>However, for values n &gt; 30, this becomes computationally unfeasible.</p>
+<h2>Dynamic Programming (DP) Solution (Tree Approach)</h2>
+<p>The state of the computation is a set of items not yet in the backpack (I), as well as 'c', the capacity left in the bag (w minus the weight of all items already in the bag). The crux of the DP trick is to notice that you do not need to carry I, but only the items remaining to consider.</p>
+<p>Picture the problem with all items S. The cost of solving this using brute-force is \(O(2^n)\). If you remove the first item, you can solve that sub-problem in \(O(2^{n-1})\) time (do not forget to remove the weight of the item discarded to the problem). If you do this recursively, you end-up with a solution to a set of smaller problems which can be <em>combined</em> into the solution to the complete problem.</p>
+<p>Since you can remove n items from S, and that each time you remove an item you change the total weight of the solution, there can be at maximum n<em>W sub-problems to solve, yielding a DP cost of O(n</em>W).</p>
+<h3>Code: Dynamic Programming Solution (Tree Approach)</h3>
+<p><strong>[Inserted file: knapsack.py.]</strong></p>
+<pre><code>"""
+Knapsack problem.
+
+Solution for problem as stated in https://class.coursera.org/algo2-2012-001/quiz/attempt?quiz_id=85.
+
+# TODO
+
+- Use the 2D array method and compare performance.
+- Use branch and bound and compare performance.
+"""
+
+import copy
+
+def readProblem(filename):
+    fh = open(filename)
+    W, n = [int(x) for x in fh.readline().strip().split(' ')]
+
+    I = []
+    for i in range(n):
+        X = [x for x in fh.readline().strip().split(' ')]
+        X[0] = int(X[0])
+        X[1] = int(X[1])
+        I.append( X )
+
+    return (W, I)
+
+def recurse(i, I, S, W, memo):
+
+    if memo.get((i, W)) is not None:
+        return memo[(i, W)]
+
+    if i == len(I):
+        return 0, []
+
+    if W - I[i][1] &gt;= 0:
+        cPick, pathP = recurse(i+1, I, S, W - I[i][1], memo)
+        cPick += I[i][0]
+        # The pathP and such are not necessary to solve the problem, it is there so that we can check the path.
+        pathP = copy.copy(pathP)
+        pathP.append(i)
+    else:
+        cPick = -int(1e20)
+
+    S.remove(i)
+    cNoPick, pathNp = recurse(i+1, I, S, W, memo)
+    S.add(i)
+
+    if cNoPick &gt;= cPick:
+        sol = [cNoPick, pathNp]
+    else:
+        sol = [cPick, pathP]
+
+    memo[(i, W)] = sol
+
+    return sol
+
+def solve(I, W):
+    S = set(range(len(I)))
+    return recurse(0, I, S, W, {})
+
+filename = 'knapsack_large.in'
+#filename = 'knapsack_small.in'
+#filename = 'k_tiny.in'
+
+W, I = readProblem(filename)
+
+s = solve(I, W)
+print(s)
+
+t = 0
+for p in s[1]:
+    print('%i: %s' % (p, I[p]))
+    t += I[p][0]
+print('Total: %i.' % t)
+</code></pre>
+<p><strong>[Inserted file: k_tiny.in.]</strong></p>
+<pre><code>750 15
+135 70
+139 73
+149 77
+150 80
+156 82
+163 87
+173 90
+184 94
+192 98
+201 106
+210 110
+214 113
+221 115
+229 118
+240 1
+</code></pre>
+<p><strong>[Inserted file: solutions.txt.]</strong></p>
+<pre><code>Tiny:  1686 
+Small: 2493893
+Large: 2595819
+</code></pre>
+<h3>Limitations of DP Approach</h3>
+<p>Why does it work only for integer weights?</p>
+<p>If you have floating point values for the weight, then the amount of memory you need to hold is not bounded by n*W. Let's say all n items have different floating point weights, it is possible that you never land on the same weight value for a given i.</p>
+<h1>Other Approaches</h1>
+<p>It may be more efficient to use the standard table approach where you build a 2D array for of i / w.</p>
+<p>The fastest solution is most likely to use a branch and bound approach.</p>
+<h1>References</h1>
+<ul>
+<li><a href="">http://en.wikipedia.org/wiki/Knapsack_problem</a>.</li>
+<li>Stanford Algo II <a href="">https://class.coursera.org/algo2-2012-001/lecture</a>.</li>
+<li>Quiz question on knapsack problem: <a href="">https://class.coursera.org/algo2-2012-001/quiz/attempt?quiz_id=85</a>.</li>
+</ul>
