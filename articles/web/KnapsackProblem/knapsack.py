@@ -11,6 +11,7 @@ Solution for problem as stated in https://class.coursera.org/algo2-2012-001/quiz
 
 import copy
 
+
 def readProblem(filename):
     fh = open(filename)
     W, n = [int(x) for x in fh.readline().strip().split(' ')]
@@ -20,9 +21,10 @@ def readProblem(filename):
         X = [x for x in fh.readline().strip().split(' ')]
         X[0] = int(X[0])
         X[1] = int(X[1])
-        I.append( X )
+        I.append(X)
 
     return (W, I)
+
 
 def recurse(i, I, S, W, memo):
 
@@ -33,16 +35,17 @@ def recurse(i, I, S, W, memo):
         return 0, []
 
     if W - I[i][1] >= 0:
-        cPick, pathP = recurse(i+1, I, S, W - I[i][1], memo)
+        cPick, pathP = recurse(i + 1, I, S, W - I[i][1], memo)
         cPick += I[i][0]
-        # The pathP and such are not necessary to solve the problem, it is there so that we can check the path.
+        # The pathP and such are not necessary to solve the problem, it is
+        # there so that we can check the path.
         pathP = copy.copy(pathP)
         pathP.append(i)
     else:
         cPick = -int(1e20)
 
     S.remove(i)
-    cNoPick, pathNp = recurse(i+1, I, S, W, memo)
+    cNoPick, pathNp = recurse(i + 1, I, S, W, memo)
     S.add(i)
 
     if cNoPick >= cPick:
@@ -53,6 +56,7 @@ def recurse(i, I, S, W, memo):
     memo[(i, W)] = sol
 
     return sol
+
 
 def solve(I, W):
     S = set(range(len(I)))

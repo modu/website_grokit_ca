@@ -3,6 +3,7 @@ import random
 
 import dcore.ds.bst as bst
 
+
 def firstLeftChildUp(n):
     if n.parent is None:
         return None
@@ -12,10 +13,11 @@ def firstLeftChildUp(n):
             return None
     return n.parent
 
+
 def getInorderNext(n):
     if n.parent is None:
         if n.right is None:
-            return None 
+            return None
         return bst.BST.leftmostChild(n.right)
     elif bst.BST.isLeftChild(n, n.parent):
         if n.right is None:
@@ -35,8 +37,8 @@ if __name__ == '__main__':
         treeArray = tree.asInorderArray()
         print(treeArray)
 
-        pos = random.randint(0, len(treeArray)-1)
-        n = tree.getNodeFromValue(treeArray[ pos ])
+        pos = random.randint(0, len(treeArray) - 1)
+        n = tree.getNodeFromValue(treeArray[pos])
         print(n)
 
         nn = getInorderNext(n)
@@ -45,4 +47,4 @@ if __name__ == '__main__':
         if len(treeArray) == pos + 1:
             assert nn is None
         else:
-            assert nn.value == treeArray[pos+1]
+            assert nn.value == treeArray[pos + 1]

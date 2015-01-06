@@ -6,7 +6,7 @@ files = os.listdir('.')
 
 filesc = [file for file in files if file[-3:].lower() == 'cpp']
 
-rv = 0;
+rv = 0
 for file in filesc:
     cmd = 'g++ -std=c++11 %s -o %s.bin' % (file, file)
     #cmd = 'clang -std=c++11 %s -o %s.bin' % (file, file)
@@ -15,4 +15,3 @@ for file in filesc:
 
 if rv == 0:
     os.system('./' + filesc[0] + '.bin')
-

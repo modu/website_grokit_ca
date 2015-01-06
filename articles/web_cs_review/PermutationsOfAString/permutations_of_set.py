@@ -16,4 +16,3 @@ def permut(lset, curr, completeFn):
 permut({'a', 'b', 'c'}, [], lambda x: print("".join(x)))
 print('\n------\n')
 permut({'a', 'b', 'c', 'd'}, [], lambda x: print("".join(x)))
-

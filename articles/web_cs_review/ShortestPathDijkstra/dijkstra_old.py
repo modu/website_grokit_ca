@@ -9,10 +9,12 @@ Notes:
 
 import ds.graph as graph
 
+
 def isPathVictory(path, vEnd):
     if path[0][-1] == vEnd:
         return True
     return False
+
 
 def visitVertex(paths, path, edge, visited):
 
@@ -22,7 +24,8 @@ def visitVertex(paths, path, edge, visited):
 
     visited.add(edge.frm)
 
-    paths.append( (path, cost) )
+    paths.append((path, cost))
+
 
 def popLeastCostPathAndEdge(paths, visited):
     minCost = None
@@ -34,19 +37,20 @@ def popLeastCostPathAndEdge(paths, visited):
             if edge.to not in visited:
                 if minCost is None or cost + edge.weight < minCost:
                     minE = edge
-                    minCost = cost + edge.weight 
+                    minCost = cost + edge.weight
                     remPath = (pathSoFar, cost)
 
     paths.remove(remPath)
-    
+
     return (remPath, minE)
+
 
 def findShortestPath(G, vStart, vEnd):
     paths = []
     visited = set()
 
     for edge in vStart.edges:
-        paths.append( ([vStart, edge.to], edge.weight) )
+        paths.append(([vStart, edge.to], edge.weight))
         visited.add(vStart)
 
     while len(paths) > 0:
@@ -57,6 +61,7 @@ def findShortestPath(G, vStart, vEnd):
             return path[0]
 
     raise Exception("Shortest path error")
+
 
 def test(filename):
     print('Testing with file: %s.' % filename)

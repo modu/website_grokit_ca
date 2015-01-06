@@ -3,6 +3,7 @@ import ds.bst as bst
 
 Node = bst.Node
 
+
 def findLeftmostAInB(A, B):
 
     # Could put B in a hash to make it faster.
@@ -14,12 +15,13 @@ def findLeftmostAInB(A, B):
                 T.append((a, i))
                 break
             i += 1
-    
+
     if len(T) == 0:
         raise Exception("Mismatch")
 
-    T.sort(key= lambda x: x[1])
+    T.sort(key=lambda x: x[1])
     return T[0][0]
+
 
 def findI(A, node):
     i = 0
@@ -27,22 +29,23 @@ def findI(A, node):
         if a == node.value:
             return i
         i += 1
-    
+
     raise Exception("FindI Mismatch")
+
 
 def build(pre, ino, node):
     iNode = findI(ino, node)
 
     if iNode != 0:
         saL = ino[0:iNode]
-        lNode = Node(findLeftmostAInB(saL, pre)) 
+        lNode = Node(findLeftmostAInB(saL, pre))
         node.left = lNode
 
         if len(saL) > 1:
-            build(pre, saL, lNode) 
+            build(pre, saL, lNode)
 
     if iNode < len(ino) - 1:
-        saR = ino[iNode+1:]
+        saR = ino[iNode + 1:]
         rNode = Node(findLeftmostAInB(saR, pre))
         node.right = rNode
 
@@ -58,4 +61,3 @@ build(preorder, inorder, node0)
 tree = bst.BST()
 tree.root = node0
 print(tree.asInorderArray())
-

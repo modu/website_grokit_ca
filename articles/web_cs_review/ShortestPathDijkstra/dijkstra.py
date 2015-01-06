@@ -11,11 +11,12 @@ import collections
 
 def visit(vertex, edgeT, visited):
 
-    visited.add( vertex )
+    visited.add(vertex)
 
     for edge in vertex.edges:
         if edge.to not in visited:
-            edgeT.append( edge )
+            edgeT.append(edge)
+
 
 def findPopLeastCost(edgeT, visited):
 
@@ -23,14 +24,14 @@ def findPopLeastCost(edgeT, visited):
 
     for edge in edgeT:
         if not edge.to in visited:
-            cand.append( (edge, edge.frm.backtrackCost + edge.weight) )
+            cand.append((edge, edge.frm.backtrackCost + edge.weight))
 
-    cand.sort( key = lambda x: x[1] )
+    cand.sort(key=lambda x: x[1])
 
     edge = cand[0][0]
-    edgeT.remove( edge )
+    edgeT.remove(edge)
 
-    return edge 
+    return edge
 
 
 def findShortestPath(vStart, vEnd):
@@ -47,7 +48,7 @@ def findShortestPath(vStart, vEnd):
         edge = findPopLeastCost(edgeT, visited)
 
         edge.to.backtrackCost = edge.frm.backtrackCost + edge.weight
-        edge.to.backtrackVertex = edge.frm 
+        edge.to.backtrackVertex = edge.frm
 
         visit(edge.to, edgeT, visited)
 
@@ -55,11 +56,12 @@ def findShortestPath(vStart, vEnd):
             path = collections.deque()
             edge = edge.to
             while edge is not None:
-                path.appendleft( edge )
+                path.appendleft(edge)
                 edge = edge.backtrackVertex
             return path
 
     raise Exception("Shortest path error")
+
 
 def test(filename):
     print('Testing with file: %s.' % filename)
@@ -80,4 +82,3 @@ if __name__ == '__main__':
     test('undirected_weighted_graph_simple.dot')
     test('undirected_weighted_graph_simple2.dot')
     test('undirected_weighted_graph_simple3.dot')
-

@@ -20,11 +20,13 @@ template_md = """
 # __title__
 """
 
+
 def getArgs():
     parser = argparse.ArgumentParser()
     parser.add_argument('name')
     args = parser.parse_args()
     return args
+
 
 def writeTo(folder, filename, content):
     fh = open(os.path.join(folder, filename), 'w')
@@ -36,10 +38,8 @@ if __name__ == '__main__':
 
     os.mkdir(args.name)
 
-    writeTo(args.name, args.name + '.markdown', template_md.replace('__title__', args.name))
-    writeTo(args.name, args.name + '.meta', template_meta.replace('__time__', time.strftime("%Y-%m-%d", time.localtime())))
+    writeTo(args.name, args.name + '.markdown',
+            template_md.replace('__title__', args.name))
+    writeTo(args.name, args.name + '.meta', template_meta.replace('__time__',
+                                                                  time.strftime("%Y-%m-%d", time.localtime())))
     writeTo(args.name, 'compile.py', template_compile)
-
-
-
-

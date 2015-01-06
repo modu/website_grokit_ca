@@ -4,10 +4,12 @@ import ds.bst as bst
 tree = bst.buildRandomBST(10)
 print(tree.asInorderArray())
 
+
 def visit(n):
     print(n.value)
 
-def ino(root, visitFn = visit):
+
+def ino(root, visitFn=visit):
     root.vl = False
     root.vc = False
     S = [root]
