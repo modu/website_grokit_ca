@@ -17,8 +17,8 @@ int main()
     cout<<"isPowerOfTwo"<<endl;
     for(int x = 0; x < 10000; ++x)
     {
-    if( isPowerOfTwo(x) )
-        cout<<x<<endl;
+        if( isPowerOfTwo(x) )
+            cout<<x<<endl;
     }
 
     cout<<"End"<<endl;

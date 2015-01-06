@@ -11,103 +11,103 @@ class Node
 {
 public:
 
-Node()
-{
-    left = 0;
-    right = 0;
-    value = -1;
-}
+    Node()
+    {
+        left = 0;
+        right = 0;
+        value = -1;
+    }
 
-Node* left;
-Node* right;
-int value;
+    Node* left;
+    Node* right;
+    int value;
 };
 
 class BinarySearchTree
 {
 public:
 
-BinarySearchTree()
-{
-    root = 0;
-}
-
-const Node* getRoot(){
-    return root;
-}
-
-void insert(float v)
-{
-    if(root == 0)
+    BinarySearchTree()
     {
-        root = new Node;
-        root->value = v;
-        return;
+        root = 0;
     }
 
-    Node* np = root;
+    const Node* getRoot() {
+        return root;
+    }
 
-    while(1)
+    void insert(float v)
     {
-        if( v < np->value )
+        if(root == 0)
         {
-            if(np->left == 0)
+            root = new Node;
+            root->value = v;
+            return;
+        }
+
+        Node* np = root;
+
+        while(1)
+        {
+            if( v < np->value )
             {
-                np->left = new Node;
-                np->left->value = v;
-                return;
+                if(np->left == 0)
+                {
+                    np->left = new Node;
+                    np->left->value = v;
+                    return;
+                }
+                else
+                {
+                    np = np->left;
+                }
             }
             else
-            {
-                np = np->left;
-            }
-        }
-        else
-        { // >=
-            if(np->right == 0)
-            {
-                np->right = new Node;
-                np->right->value = v;
-                return;
-            }
-            else
-            {
-                np = np->right;
+            {   // >=
+                if(np->right == 0)
+                {
+                    np->right = new Node;
+                    np->right->value = v;
+                    return;
+                }
+                else
+                {
+                    np = np->right;
+                }
             }
         }
     }
-}
 
-const Node* find(float v)
-{
-    const Node* n = root;
-    
-    bool progress = true;
-    while (progress)
+    const Node* find(float v)
     {
-        progress = false;
-        if (v == n->value)
+        const Node* n = root;
+
+        bool progress = true;
+        while (progress)
         {
-            return n;
+            progress = false;
+            if (v == n->value)
+            {
+                return n;
+            }
+            else if(v < n->value && n->left != 0)
+            {
+                n = n->left;
+                progress = true;
+            }
+            else if(v > n->value && n->right != 0)
+            {
+                n = n->right;
+                progress = true;
+            }
         }
-        else if(v < n->value && n->left != 0)
-        {
-            n = n->left;
-            progress = true;
-        }
-        else if(v > n->value && n->right != 0)
-        {
-            n = n->right;
-            progress = true;
-        }
+
+        return 0;
     }
-    
-    return 0;
-}
 
 private:
 
-Node* root;
+    Node* root;
 };
 
 void levelOrderTraversal(const Node* n) // ~= Breadth First Search (BFS)
@@ -211,7 +211,7 @@ void inorderTraversal_NoRecurse(Node* root)
         else
         {
             pn.first = true;
-            
+
             if(pn.second->right != 0)
                 st.push( make_pair(false, pn.second->right) );
 
@@ -229,7 +229,7 @@ void postorderTraversal_NoRecurse(Node* root)
     // postorder: left, right, visit
     if(root == 0)
         return;
-        
+
     stack< pair<bool, Node*> > st;
     st.push( make_pair(false, root) );
 
@@ -248,27 +248,27 @@ void postorderTraversal_NoRecurse(Node* root)
         {
             pn.first = true;
             st.push( pn );
-                        
+
             if(pn.second->right != 0)
                 st.push( make_pair(false, pn.second->right) );
 
             if(pn.second->left != 0)
                 st.push( make_pair(false, pn.second->left) );
         }
-    }     
+    }
 }
 
 void inorderTraversal(const Node* n)
 {
-    //inorder: left, visit, right    
+    //inorder: left, visit, right
     if(n == 0)
         return;
 
     if(n->left != 0)
         inorderTraversal(n->left);
-    
+
     cout<< n->value << endl;
-    
+
     if(n->right != 0)
         inorderTraversal(n->right);
 }
@@ -287,7 +287,7 @@ int main()
     bst.insert(777);
     bst.insert(500);
     bst.insert(1001);
-    
+
     assert (bst.find(12345) == 0);
     assert (bst.find(bst.getRoot()->value) == bst.getRoot());
     assert (bst.find(bst.getRoot()->left->value) == bst.getRoot()->left);
@@ -295,7 +295,7 @@ int main()
     assert (bst.find(bst.getRoot()->right->right->left->value) == bst.getRoot()->right->right->left);
 
     cout<<"--levelOrderTraversal:"<<endl;
-    
+
     levelOrderTraversal(bst.getRoot());
 
     cout<<"--preorderTraversal:"<<endl;
@@ -309,7 +309,7 @@ int main()
     cout<<"--:inorderTraversal:"<<endl;
 
     inorderTraversal((Node*)bst.getRoot());
-    
+
     cout<<"--:inorderTraversal_NoRecurse:"<<endl;
 
     inorderTraversal_NoRecurse((Node*)bst.getRoot());
@@ -319,9 +319,9 @@ int main()
     postorderTraversal((Node*)bst.getRoot());
 
     cout<<"--:postorderTraversal_NoRecurse:"<<endl;
-    
+
     postorderTraversal_NoRecurse((Node*)bst.getRoot());
-    
+
     cout<<"--"<<endl;
 
     cout<<"End"<<endl;

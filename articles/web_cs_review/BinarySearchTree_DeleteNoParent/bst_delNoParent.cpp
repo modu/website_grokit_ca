@@ -13,206 +13,206 @@ class Node
 {
 public:
 
-Node()
-{
-    left = 0;
-    right = 0;
-    value = -1;
-}
+    Node()
+    {
+        left = 0;
+        right = 0;
+        value = -1;
+    }
 
-Node* left;
-Node* right;
-int value;
+    Node* left;
+    Node* right;
+    int value;
 };
 
 class BinarySearchTree
 {
 public:
 
-BinarySearchTree()
-{
-    root = 0;
-}
-
-Node* getRoot()
-{
-    return root;
-}
-
-void insert(float v)
-{
-    if(root == 0)
+    BinarySearchTree()
     {
-        root = new Node;
-        root->value = v;
-        return;
+        root = 0;
     }
 
-    Node* np = root;
-
-    while(1)
+    Node* getRoot()
     {
-        if( v < np->value )
-        {
-            if(np->left == 0)
-            {
-                np->left = new Node;
-                np->left->value = v;
-                return;
-            }
-            else
-            {
-                np = np->left;
-            }
-        }
-        else
-        { // >=
-            if(np->right == 0)
-            {
-                np->right = new Node;
-                np->right->value = v;
-                return;
-            }
-            else
-            {
-                np = np->right;
-            }
-        }
+        return root;
     }
-}
 
-Node* find(float v)
-{
-    Node* n = root;
-    
-    bool progress = true;
-    while (progress)
+    void insert(float v)
     {
-        progress = false;
-        if (v == n->value)
+        if(root == 0)
         {
-            return n;
+            root = new Node;
+            root->value = v;
+            return;
         }
-        else if(v < n->value && n->left != 0)
-        {
-            n = n->left;
-            progress = true;
-        }
-        else if(v > n->value && n->right != 0)
-        {
-            n = n->right;
-            progress = true;
-        }
-    }
-    
-    return 0;
-}
 
-void deleteNode(float v)
-{
-    Node* n = this->root;
-    Node* parent = 0;
-    
-    bool progress = true;
-    while (progress)
-    {
-        progress = false;
-        if (v == n->value)
+        Node* np = root;
+
+        while(1)
         {
-            Node t = *n;
-            
-            // Convention: always use successor: the leftmost child on the right.
-            if(n->right == 0)
+            if( v < np->value )
             {
-                if(n == this->root)
+                if(np->left == 0)
                 {
-                    delete this->root;
-                    this->root = n;
-                }
-                else if(parent->left == n)
-                {
-                    parent->left = 0;
+                    np->left = new Node;
+                    np->left->value = v;
+                    return;
                 }
                 else
                 {
-                    parent->right = 0;
+                    np = np->left;
                 }
             }
             else
-            {
-                Node* s = findLeftmost(n->right);
-                n->value = s->value;
-                delLeftmost(n->right, n);
+            {   // >=
+                if(np->right == 0)
+                {
+                    np->right = new Node;
+                    np->right->value = v;
+                    return;
+                }
+                else
+                {
+                    np = np->right;
+                }
             }
         }
-        else if(v < n->value && n->left != 0)
+    }
+
+    Node* find(float v)
+    {
+        Node* n = root;
+
+        bool progress = true;
+        while (progress)
         {
-            parent = n;
-            n = n->left;
-            progress = true;
+            progress = false;
+            if (v == n->value)
+            {
+                return n;
+            }
+            else if(v < n->value && n->left != 0)
+            {
+                n = n->left;
+                progress = true;
+            }
+            else if(v > n->value && n->right != 0)
+            {
+                n = n->right;
+                progress = true;
+            }
         }
-        else if(v > n->value && n->right != 0)
+
+        return 0;
+    }
+
+    void deleteNode(float v)
+    {
+        Node* n = this->root;
+        Node* parent = 0;
+
+        bool progress = true;
+        while (progress)
         {
-            parent = n;
-            n = n->right;
-            progress = true;
+            progress = false;
+            if (v == n->value)
+            {
+                Node t = *n;
+
+                // Convention: always use successor: the leftmost child on the right.
+                if(n->right == 0)
+                {
+                    if(n == this->root)
+                    {
+                        delete this->root;
+                        this->root = n;
+                    }
+                    else if(parent->left == n)
+                    {
+                        parent->left = 0;
+                    }
+                    else
+                    {
+                        parent->right = 0;
+                    }
+                }
+                else
+                {
+                    Node* s = findLeftmost(n->right);
+                    n->value = s->value;
+                    delLeftmost(n->right, n);
+                }
+            }
+            else if(v < n->value && n->left != 0)
+            {
+                parent = n;
+                n = n->left;
+                progress = true;
+            }
+            else if(v > n->value && n->right != 0)
+            {
+                parent = n;
+                n = n->right;
+                progress = true;
+            }
         }
     }
-}
 
 private:
 
-static Node* findRightmost(Node* n)
-{
-    while(n->right != 0)
-        n = n->right;
-    
-    return n;
-}
-
-static void delLeftmost(Node* n, Node* parent)
-{
-    while(n->left != 0)
+    static Node* findRightmost(Node* n)
     {
-        parent = n;
-        n = n->left;
-    }
-    
-    if(parent->left == n)
-        parent->left = 0;
-    else
-        parent->right = 0;
-    
-    delete n;
-}
+        while(n->right != 0)
+            n = n->right;
 
-static Node* findLeftmost(Node* n)
-{
-    while(n->left != 0)
-        n = n->left;
-    
-    return n;
-}
-    
-Node* root;
+        return n;
+    }
+
+    static void delLeftmost(Node* n, Node* parent)
+    {
+        while(n->left != 0)
+        {
+            parent = n;
+            n = n->left;
+        }
+
+        if(parent->left == n)
+            parent->left = 0;
+        else
+            parent->right = 0;
+
+        delete n;
+    }
+
+    static Node* findLeftmost(Node* n)
+    {
+        while(n->left != 0)
+            n = n->left;
+
+        return n;
+    }
+
+    Node* root;
 };
 
 void inorderTraversal(const Node* n, stack<const Node*>* accumulator = 0)
 {
-    //inorder: left, visit, right    
+    //inorder: left, visit, right
     if(n == 0)
         return;
 
     if(n->left != 0)
         inorderTraversal(n->left);
-    
+
     cout<< n->value << endl;
-    
+
     if(accumulator != 0)
     {
         accumulator->push(n);
     }
-    
+
     if(n->right != 0)
         inorderTraversal(n->right);
 }
@@ -220,23 +220,23 @@ void inorderTraversal(const Node* n, stack<const Node*>* accumulator = 0)
 bool isValidBST(const Node* root)
 {
     stack<const Node*> inOrder;
-    
+
     inorderTraversal(root, &inOrder);
-    
+
     float last = numeric_limits<float>::min();
     while(inOrder.size() > 0)
     {
         const Node* n = inOrder.top();
         inOrder.pop();
-        
+
         if(n->value < last)
         {
             return false;
         }
-        
+
         last = n->value;
     }
-    
+
     return true;
 }
 
@@ -245,7 +245,7 @@ bool isValidBST(const Node* root)
 Node* getRandomNodeInBST(Node* root)
 {
     int choice = rand() % 5;
-    
+
     if( choice == 0 )
     {
         return root;
@@ -258,16 +258,16 @@ Node* getRandomNodeInBST(Node* root)
     {
         return getRandomNodeInBST(root->right);
     }
-    
+
     return root;
 }
 
-// This is not an efficient way to create a BST (copies needlessly), but let's 
+// This is not an efficient way to create a BST (copies needlessly), but let's
 // aim for code that's not hard to read here.
 BinarySearchTree makeBST()
 {
     BinarySearchTree bst;
-    
+
     bst.insert(7);
     bst.insert(3);
     bst.insert(10);
@@ -276,13 +276,13 @@ BinarySearchTree makeBST()
     bst.insert(777);
     bst.insert(500);
     bst.insert(1001);
-    
+
     assert (bst.find(12345) == 0);
     assert (bst.find(bst.getRoot()->value) == bst.getRoot());
     assert (bst.find(bst.getRoot()->left->value) == bst.getRoot()->left);
     assert (bst.find(bst.getRoot()->right->value) == bst.getRoot()->right);
-    assert (bst.find(bst.getRoot()->right->right->left->value) == bst.getRoot()->right->right->left);    
-    
+    assert (bst.find(bst.getRoot()->right->right->left->value) == bst.getRoot()->right->right->left);
+
     return bst;
 }
 
@@ -291,20 +291,20 @@ int main()
     cout<<"Begin"<<endl;
 
     BinarySearchTree bst = makeBST();
-    
+
     cout<<"Start delete (with no up pointer)."<<endl;
-    
+
     // Make sure delete doesn't screw-up the BST.
     while( bst.getRoot() != 0 )
     {
         assert ( isValidBST(bst.getRoot()) );
-        
+
         Node* nDel = getRandomNodeInBST( bst.getRoot() );
         cout<<"Node to delete: "<<nDel->value<<endl;
-        
+
         bst.deleteNode( nDel->value );
     }
-    
+
     cout<<"End delete"<<endl;
 
     cout<<"End"<<endl;

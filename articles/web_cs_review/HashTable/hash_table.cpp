@@ -9,129 +9,129 @@
 
 using namespace std;
 
-//! Assumes the data stored has STLVector-like interface 
+//! Assumes the data stored has STLVector-like interface
 //! (.size(), operator[], ...)
 template<class T_>
 class HashTable
 {
 public:
 
-typedef T_ DataType;
+    typedef T_ DataType;
 
-class DataWithKey
-{
-public:
-
-    DataWithKey()
+    class DataWithKey
     {
-    key = 0;
+    public:
+
+        DataWithKey()
+        {
+            key = 0;
+        }
+
+        T_ data;
+        int key;
+    };
+
+    HashTable()
+    {
+        m_size = 9;
+        m_vListIndex.resize(m_size, list<DataWithKey>());
     }
 
-    T_ data;
-    int key;
-};
-
-HashTable()
-{
-    m_size = 9;
-    m_vListIndex.resize(m_size, list<DataWithKey>());
-}
-
-size_t hashIntKey(int key) const
-{
-    //Using the division method
-    return key % m_size;
-}
+    size_t hashIntKey(int key) const
+    {
+        //Using the division method
+        return key % m_size;
+    }
 
 //! Assumes that the data can be interpreted as a string
-void print() const
-{
-    int nCollision = 0;
-    cout<<"HashTable of size "<<m_size<<":"<<endl;
-    for(size_t i = 0; i < m_vListIndex.size(); ++i)
+    void print() const
     {
-    if(m_vListIndex[i].size() > 1)
-        nCollision += m_vListIndex[i].size() - 1;
-    for(typename list<DataWithKey>::const_iterator it = m_vListIndex[i].begin();
-        it != m_vListIndex[i].end();
-        ++it)
-    {
-        cout<<"HashTable["<<i<<"]: "<<it->data<<endl;
-    }
-    }
-
-    cout<<"N.Hash collisions: "<<nCollision<<endl;
-}
-
-void add(int key, const T_& data)
-{
-    size_t posInArray = hashIntKey(key);
-    DataWithKey dk;
-    dk.data = data;
-    dk.key = key;
-    //Collision resolution by chaining
-    list<DataWithKey>& lst = m_vListIndex.at(posInArray);
-    //If key already store, replace data
-    if(lst.size() != 0)
-    {
-    for(typename list<DataWithKey>::iterator it = lst.begin();
-        it != lst.end();
-        ++it)
-    {
-        if(it->key == key)
+        int nCollision = 0;
+        cout<<"HashTable of size "<<m_size<<":"<<endl;
+        for(size_t i = 0; i < m_vListIndex.size(); ++i)
         {
-        it->data = data;
-        return;
+            if(m_vListIndex[i].size() > 1)
+                nCollision += m_vListIndex[i].size() - 1;
+            for(typename list<DataWithKey>::const_iterator it = m_vListIndex[i].begin();
+                    it != m_vListIndex[i].end();
+                    ++it)
+            {
+                cout<<"HashTable["<<i<<"]: "<<it->data<<endl;
+            }
         }
-    }
-    }
-    //No items with that key, store a new one
-    m_vListIndex[posInArray].push_back(dk);
-}
 
-T_& operator[](int key)
-{
-    size_t posInArray = hashIntKey(key);
-    list<DataWithKey>& lst = m_vListIndex.at(posInArray);
-    assert( lst.size() != 0 );
-    
-    for(typename list<DataWithKey>::iterator it = lst.begin();
-        it != lst.end();
-        ++it)
-    {
-    if(it->key == key)
-    {
-        return it->data;
+        cout<<"N.Hash collisions: "<<nCollision<<endl;
     }
+
+    void add(int key, const T_& data)
+    {
+        size_t posInArray = hashIntKey(key);
+        DataWithKey dk;
+        dk.data = data;
+        dk.key = key;
+        //Collision resolution by chaining
+        list<DataWithKey>& lst = m_vListIndex.at(posInArray);
+        //If key already store, replace data
+        if(lst.size() != 0)
+        {
+            for(typename list<DataWithKey>::iterator it = lst.begin();
+                    it != lst.end();
+                    ++it)
+            {
+                if(it->key == key)
+                {
+                    it->data = data;
+                    return;
+                }
+            }
+        }
+        //No items with that key, store a new one
+        m_vListIndex[posInArray].push_back(dk);
     }
-    
-    //key not found, user requested invalid data
-    add(key, "InvalidEntryAdd"); //@note not sure hot to make work with a complete template system
-    return operator[](key);
-}
+
+    T_& operator[](int key)
+    {
+        size_t posInArray = hashIntKey(key);
+        list<DataWithKey>& lst = m_vListIndex.at(posInArray);
+        assert( lst.size() != 0 );
+
+        for(typename list<DataWithKey>::iterator it = lst.begin();
+                it != lst.end();
+                ++it)
+        {
+            if(it->key == key)
+            {
+                return it->data;
+            }
+        }
+
+        //key not found, user requested invalid data
+        add(key, "InvalidEntryAdd"); //@note not sure hot to make work with a complete template system
+        return operator[](key);
+    }
 
 private:
-size_t                      m_size;
-vector< list<DataWithKey> > m_vListIndex;
+    size_t                      m_size;
+    vector< list<DataWithKey> > m_vListIndex;
 };
 
 unsigned int hashString(const string& s)
 {
     unsigned int key = 33;
-    
+
     for(unsigned int i = 0; i < s.size(); ++i)
     {
         // % 4294967296 not necessary, but there for the example.
         key = (1013904223 + key*1664525) % 4294967296;
     }
-    
+
     return key % 100;
 }
 
 int main()
 {
     cout<<"Begin"<<endl;
-    
+
     cout<<"Example hashes:"<<endl;
     cout<<"    hash(Alice): "<<hashString("Alice")<<endl;
     cout<<"    hash(Bob): "<<hashString("Bob")<<endl;
@@ -164,13 +164,13 @@ int main()
     mTest[10] = "abcd";
     cout<<mTest[10]<<endl;
     cout<<mTest[132]<<endl;
-    
+
     for(map<int, string>::iterator it = mTest.begin(); it != mTest.end(); ++it)
     {
         cout<<"map["<<it->first<<"]: "<<it->second<<endl;
     }
-    
-    
+
+
 
     return 0;
 }

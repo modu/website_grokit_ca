@@ -10,9 +10,9 @@ unsigned int factorialRecursive(unsigned int n)
 {
     assert(n >= 0);
     if(n > 1)
-    return n * factorialRecursive(n - 1);
+        return n * factorialRecursive(n - 1);
     else
-    return 1;
+        return 1;
 }
 
 unsigned int factorialLoop(unsigned int n)
@@ -28,7 +28,7 @@ unsigned int factorialLoop(unsigned int n)
         // fact*i won't overflow into something > fact.
         fact = fact * i;
     }
-    
+
     return fact;
 }
 
@@ -46,7 +46,7 @@ unsigned int factorialAdd(unsigned int n)
         {
             throw "Overflow pre-detect.";
         }
-        
+
         // Implement multiplication as an addition.
         int sum = 0;
         for(int j = 0; j < i; ++j)
@@ -55,12 +55,12 @@ unsigned int factorialAdd(unsigned int n)
             {
                 throw "Overflow detect";
             }
-            
+
             sum = sum + fact;
         }
         fact = sum;
     }
-    
+
     return fact;
 }
 
@@ -74,7 +74,7 @@ unsigned char factorialLoopShowOverflow(unsigned char n)
     {
         fact = fact * i;
     }
-    
+
     return fact;
 }
 
@@ -128,22 +128,22 @@ int main()
     //(see C2971)
     cout<< Factorial<10>::value <<endl;
     // cout<< Factorial<100>::value <<endl; This would blow-up the compiler.
-    
-    
+
+
     printFactorial( &factorialLoop, "factorialLoop" );
     printFactorial( &factorialRecursive, "factorialRecursive" );
-    printFactorial( &factorialAdd, "factorialAdd" ); 
-    
+    printFactorial( &factorialAdd, "factorialAdd" );
+
     cout<<"factorialLoopShowOverflow:"<<endl;
     for(unsigned char i = 0; i < 12; ++i)
     {
         cout<<(unsigned int)i<<": "<<(unsigned int)factorialLoopShowOverflow(i)<<endl;
     }
-    
+
     testFactorial( &factorialLoop );
     testFactorial( &factorialRecursive );
-    testFactorial( &factorialAdd );    
-    
+    testFactorial( &factorialAdd );
+
     cout<<"End"<<endl;
     return 0;
 }
