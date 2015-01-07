@@ -77,214 +77,214 @@ class Node
 {
 public:
 
-Node()
-{
-    left = 0;
-    right = 0;
-    parent = 0;
-    value = -1;
-}
+    Node()
+    {
+        left = 0;
+        right = 0;
+        parent = 0;
+        value = -1;
+    }
 
-Node* left;
-Node* right;
-Node* parent;
-int value;
+    Node* left;
+    Node* right;
+    Node* parent;
+    int value;
 };
 
 class BinarySearchTree
 {
 public:
 
-BinarySearchTree()
-{
-    root = 0;
-}
-
-Node* getRoot()
-{
-    return root;
-}
-
-void insert(float v)
-{
-    if(root == 0)
+    BinarySearchTree()
     {
-        root = new Node;
-        root-&gt;value = v;
-        return;
+        root = 0;
     }
 
-    Node* np = root;
-
-    while(1)
+    Node* getRoot()
     {
-        if( v &lt; np-&gt;value )
+        return root;
+    }
+
+    void insert(float v)
+    {
+        if(root == 0)
         {
-            if(np-&gt;left == 0)
+            root = new Node;
+            root-&gt;value = v;
+            return;
+        }
+
+        Node* np = root;
+
+        while(1)
+        {
+            if( v &lt; np-&gt;value )
             {
-                np-&gt;left = new Node;
-                np-&gt;left-&gt;value = v;
-                np-&gt;left-&gt;parent = np;
-                return;
+                if(np-&gt;left == 0)
+                {
+                    np-&gt;left = new Node;
+                    np-&gt;left-&gt;value = v;
+                    np-&gt;left-&gt;parent = np;
+                    return;
+                }
+                else
+                {
+                    np = np-&gt;left;
+                }
+            }
+            else
+            {   // &gt;=
+                if(np-&gt;right == 0)
+                {
+                    np-&gt;right = new Node;
+                    np-&gt;right-&gt;value = v;
+                    np-&gt;right-&gt;parent = np;
+                    return;
+                }
+                else
+                {
+                    np = np-&gt;right;
+                }
+            }
+        }
+    }
+
+    Node* find(float v)
+    {
+        Node* n = root;
+
+        bool progress = true;
+        while (progress)
+        {
+            progress = false;
+            if (v == n-&gt;value)
+            {
+                return n;
+            }
+            else if(v &lt; n-&gt;value &amp;&amp; n-&gt;left != 0)
+            {
+                n = n-&gt;left;
+                progress = true;
+            }
+            else if(v &gt; n-&gt;value &amp;&amp; n-&gt;right != 0)
+            {
+                n = n-&gt;right;
+                progress = true;
+            }
+        }
+
+        return 0;
+    }
+
+    void deleteNode(float v)
+    {
+        Node* nDel = this-&gt;find(v);
+
+        // Node doesn't exist, return.
+        if(nDel == 0)
+        {
+            return;
+        }
+
+        // If leaf.
+        if(nDel-&gt;left == 0 &amp;&amp; nDel-&gt;right == 0)
+        {
+            if(nDel == this-&gt;root)
+            {
+                this-&gt;root = 0;
+            }
+
+            delLeaf(nDel);
+            return;
+        }
+
+        Node* nSwitch = 0;
+        if(nDel-&gt;left != 0 &amp;&amp; nDel-&gt;right == 0 || nDel-&gt;left != 0 &amp;&amp; nDel-&gt;right != 0)
+        {
+            nSwitch = findRightmost(nDel-&gt;left);
+        }
+        else
+        {
+            nSwitch = findLeftmost(nDel-&gt;right);
+        }
+
+        if(nSwitch-&gt;left == 0 &amp;&amp; nSwitch-&gt;right == 0)
+        {
+            if(nSwitch == nSwitch-&gt;parent-&gt;left)
+            {
+                nSwitch-&gt;parent-&gt;left = 0;
             }
             else
             {
-                np = np-&gt;left;
+                nSwitch-&gt;parent-&gt;right = 0;
             }
         }
-        else
-        { // &gt;=
-            if(np-&gt;right == 0)
+        else if(nSwitch-&gt;left != 0)
+        {
+            nSwitch-&gt;left-&gt;parent = nSwitch-&gt;parent;
+            if(nSwitch == nSwitch-&gt;parent-&gt;left)
             {
-                np-&gt;right = new Node;
-                np-&gt;right-&gt;value = v;
-                np-&gt;right-&gt;parent = np;
-                return;
+                nSwitch-&gt;parent-&gt;left = nSwitch-&gt;left;
             }
             else
             {
-                np = np-&gt;right;
+                nSwitch-&gt;parent-&gt;right = nSwitch-&gt;left;
             }
         }
-    }
-}
-
-Node* find(float v)
-{
-    Node* n = root;
-
-    bool progress = true;
-    while (progress)
-    {
-        progress = false;
-        if (v == n-&gt;value)
+        else if(nSwitch-&gt;right != 0)
         {
-            return n;
-        }
-        else if(v &lt; n-&gt;value &amp;&amp; n-&gt;left != 0)
-        {
-            n = n-&gt;left;
-            progress = true;
-        }
-        else if(v &gt; n-&gt;value &amp;&amp; n-&gt;right != 0)
-        {
-            n = n-&gt;right;
-            progress = true;
-        }
-    }
-
-    return 0;
-}
-
-void deleteNode(float v)
-{
-    Node* nDel = this-&gt;find(v);
-
-    // Node doesn't exist, return.
-    if(nDel == 0)
-    {
-        return;
-    }
-
-    // If leaf.
-    if(nDel-&gt;left == 0 &amp;&amp; nDel-&gt;right == 0)
-    {
-        if(nDel == this-&gt;root)
-        {
-            this-&gt;root = 0;
+            nSwitch-&gt;right-&gt;parent = nSwitch-&gt;parent;
+            if(nSwitch == nSwitch-&gt;parent-&gt;left)
+            {
+                nSwitch-&gt;parent-&gt;left = nSwitch-&gt;right;
+            }
+            else
+            {
+                nSwitch-&gt;parent-&gt;right = nSwitch-&gt;right;
+            }
         }
 
-        delLeaf(nDel);
-        return;
-    }
+        nDel-&gt;value = nSwitch-&gt;value;
 
-    Node* nSwitch = 0;
-    if(nDel-&gt;left != 0 &amp;&amp; nDel-&gt;right == 0 || nDel-&gt;left != 0 &amp;&amp; nDel-&gt;right != 0)
-    {
-        nSwitch = findRightmost(nDel-&gt;left);
+        delete nSwitch;
     }
-    else
-    {
-        nSwitch = findLeftmost(nDel-&gt;right);
-    }
-
-    if(nSwitch-&gt;left == 0 &amp;&amp; nSwitch-&gt;right == 0)
-    {
-        if(nSwitch == nSwitch-&gt;parent-&gt;left)
-        {
-            nSwitch-&gt;parent-&gt;left = 0;
-        }
-        else
-        {
-            nSwitch-&gt;parent-&gt;right = 0;
-        }
-    }
-    else if(nSwitch-&gt;left != 0)
-    {
-        nSwitch-&gt;left-&gt;parent = nSwitch-&gt;parent;
-        if(nSwitch == nSwitch-&gt;parent-&gt;left)
-        {
-            nSwitch-&gt;parent-&gt;left = nSwitch-&gt;left;
-        }
-        else
-        {
-            nSwitch-&gt;parent-&gt;right = nSwitch-&gt;left;
-        }
-    }
-    else if(nSwitch-&gt;right != 0)
-    {
-        nSwitch-&gt;right-&gt;parent = nSwitch-&gt;parent;
-        if(nSwitch == nSwitch-&gt;parent-&gt;left)
-        {
-            nSwitch-&gt;parent-&gt;left = nSwitch-&gt;right;
-        }
-        else
-        {
-            nSwitch-&gt;parent-&gt;right = nSwitch-&gt;right;
-        }        
-    }
-
-    nDel-&gt;value = nSwitch-&gt;value;
-
-    delete nSwitch;    
-}
 
 private:
 
-static void delLeaf(Node* leaf)
-{
-    if(leaf-&gt;parent != 0)
+    static void delLeaf(Node* leaf)
     {
-        if(leaf-&gt;parent-&gt;left == leaf)
+        if(leaf-&gt;parent != 0)
         {
-            leaf-&gt;parent-&gt;left = 0;
+            if(leaf-&gt;parent-&gt;left == leaf)
+            {
+                leaf-&gt;parent-&gt;left = 0;
+            }
+            else
+            {
+                leaf-&gt;parent-&gt;right = 0;
+            }
         }
-        else
-        {
-            leaf-&gt;parent-&gt;right = 0;
-        }
+
+        delete leaf;
     }
 
-    delete leaf;    
-}
+    static Node* findRightmost(Node* n)
+    {
+        while(n-&gt;right != 0)
+            n = n-&gt;right;
 
-static Node* findRightmost(Node* n)
-{
-    while(n-&gt;right != 0)
-        n = n-&gt;right;
+        return n;
+    }
 
-    return n;
-}
+    static Node* findLeftmost(Node* n)
+    {
+        while(n-&gt;left != 0)
+            n = n-&gt;left;
 
-static Node* findLeftmost(Node* n)
-{
-    while(n-&gt;left != 0)
-        n = n-&gt;left;
+        return n;
+    }
 
-    return n;
-}
-
-Node* root;
+    Node* root;
 };
 
 void levelOrderTraversal(const Node* n) // ~= Breadth First Search (BFS)
@@ -340,7 +340,7 @@ void postorderTraversal(const Node* n)
 
 void inorderTraversal(const Node* n, stack&lt;const Node*&gt;* accumulator = 0)
 {
-    //inorder: left, visit, right    
+    //inorder: left, visit, right
     if(n == 0)
         return;
 
@@ -407,7 +407,7 @@ Node* getRandomNodeInBST(Node* root)
     return root;
 }
 
-// This is not an efficient way to create a BST (copies needlessly), but let's 
+// This is not an efficient way to create a BST (copies needlessly), but let's
 // aim for code that's not hard to read here.
 BinarySearchTree makeBST()
 {

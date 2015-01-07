@@ -36,8 +36,10 @@ fh = open(filename, 'r')
 
 nCases = int(fh.readline())
 
+
 def getRadius(r, a):
-    return r + 1*a
+    return r + 1 * a
+
 
 def areaBlack(r, nCircles):
     """
@@ -45,7 +47,8 @@ def areaBlack(r, nCircles):
     http://en.wikipedia.org/wiki/Square_pyramidal_number
     http://en.wikipedia.org/wiki/Summation
     """
-    return nCircles*(2*r + 2*nCircles -1)
+    return nCircles * (2 * r + 2 * nCircles - 1)
+
 
 def howManyCircles(r, mm2Paint):
 
@@ -54,18 +57,19 @@ def howManyCircles(r, mm2Paint):
 
     while True:
 
-        evPos = int(nMin + (nMax - nMin)/2) 
+        evPos = int(nMin + (nMax - nMin) / 2)
         area = areaBlack(r, evPos)
 
-        if area &lt;= mm2Paint and areaBlack(r, evPos+1) &gt; mm2Paint:
+        if area &lt;= mm2Paint and areaBlack(r, evPos + 1) &gt; mm2Paint:
             break
 
         if area &gt; mm2Paint:
-            nMax = evPos - 1 
+            nMax = evPos - 1
         else:
             nMin = evPos + 1
 
     return evPos
+
 
 def howManyCirclesSlow(r, mm2Paint):
 
@@ -76,14 +80,14 @@ def howManyCirclesSlow(r, mm2Paint):
         ra = getRadius(r, a)
 
         if a == 1:
-            mm2T += ra**2 - r**2
+            mm2T += ra ** 2 - r ** 2
         else:
-            ra_ = getRadius(r, a-1)
-            mm2T += ra**2 - ra_**2
+            ra_ = getRadius(r, a - 1)
+            mm2T += ra ** 2 - ra_ ** 2
 
         a += 2
 
-    rv = (a-1)/2 -1
+    rv = (a - 1) / 2 - 1
 
     if rv &gt; 0:
         return rv
@@ -96,7 +100,7 @@ for i in range(0, nCases):
 
     nCirc = howManyCircles(r, t)
 
-    st = 'Case #%i: %i' % (i+1, nCirc)
+    st = 'Case #%i: %i' % (i + 1, nCirc)
     print(st)
     S.append(st)
 

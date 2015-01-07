@@ -171,8 +171,8 @@ def compile_all():
     print("copy %s to %s" % (src, dst))
     shutil.copy(src, dst)
   
-  #Copy gfx
-  gfxDir = '../gfx'
+  #Copy static serve
+  gfxDir = '../static_serve'
   for file in os.listdir(gfxDir):
     src = gfxDir + '/' + file
     dst = ws_globals.staticFolder + '/' + file

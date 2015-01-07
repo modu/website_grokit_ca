@@ -32,23 +32,24 @@ Loop 10^9 in 78.62s
 <pre><code>import math
 import timeit
 
+
 def timeMe(base):
 
     limit = int(math.log(1e10) / math.log(base))
 
-    for exponent in range(1, limit+1):
+    for exponent in range(1, limit + 1):
 
         n = 0
         cmd = 'for i in range(%d**%d): n = i+i' % (base, exponent)
-        nSecs = timeit.timeit(cmd, number = 1)
+        nSecs = timeit.timeit(cmd, number=1)
 
         print('Loop %d^%d in %.2fs' % (base, exponent, nSecs))
 
-print('-'*10)
+print('-' * 10)
 timeMe(2)
-print('-'*10)
+print('-' * 10)
 timeMe(10)
-print('-'*10)
+print('-' * 10)
 </code></pre>
 <h2>Real-Life Implication</h2>
 <p>I was solving the <a href="https://code.google.com/codejam/contest/1836486/dashboard#s=p2&amp;a=2">Equal Sums</a> problem of Google Code Jam. Looking at the numbers limit, it seemed like it was feasible to brute-force through all 1, 2 and 3-tuples. This is a O(n^3) algorithm with n == 500. Since it is ~10^8 operations, we know that we should be able to reasonably brute-force this. Now, I suggest that you read the math section of the problem in order to understand why this is likely to work (but not guaranteed -- if they had a set where only &gt;= 6-tuples could be solution then I would never have been able to prove that no solution can be found). But our questions is different: <strong>how long is it going to take to go through all the possible 3-tuples</strong> and how does it match with the result we have above.</p>
@@ -62,6 +63,7 @@ All 3-tuples (500^3 ~= 10^8): 20.57 secs
 <pre><code>import copy
 import collections
 import timeit
+
 
 def startSmall():
 
@@ -99,10 +101,11 @@ def startSmall():
                     return (sumMap[sm], PP)
 
             if depth &lt; maxDepth:
-                stack.append( (PP, sm, depth) )
+                stack.append((PP, sm, depth))
 
     return None
 
-nSecs = timeit.timeit("startSmall()", 'from __main__ import startSmall', number = 1)
+nSecs = timeit.timeit(
+    "startSmall()", 'from __main__ import startSmall', number=1)
 print('Took %.2f secs.' % nSecs)
 </code></pre>

@@ -175,6 +175,7 @@ End
 
 Node = bst.Node
 
+
 def findLeftmostAInB(A, B):
 
     # Could put B in a hash to make it faster.
@@ -190,8 +191,9 @@ def findLeftmostAInB(A, B):
     if len(T) == 0:
         raise Exception("Mismatch")
 
-    T.sort(key= lambda x: x[1])
+    T.sort(key=lambda x: x[1])
     return T[0][0]
+
 
 def findI(A, node):
     i = 0
@@ -202,19 +204,20 @@ def findI(A, node):
 
     raise Exception("FindI Mismatch")
 
+
 def build(pre, ino, node):
     iNode = findI(ino, node)
 
     if iNode != 0:
         saL = ino[0:iNode]
-        lNode = Node(findLeftmostAInB(saL, pre)) 
+        lNode = Node(findLeftmostAInB(saL, pre))
         node.left = lNode
 
         if len(saL) &gt; 1:
             build(pre, saL, lNode)
 
     if iNode &lt; len(ino) - 1:
-        saR = ino[iNode+1:]
+        saR = ino[iNode + 1:]
         rNode = Node(findLeftmostAInB(saR, pre))
         node.right = rNode
 

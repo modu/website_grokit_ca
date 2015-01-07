@@ -38,103 +38,103 @@ class Node
 {
 public:
 
-Node()
-{
-    left = 0;
-    right = 0;
-    value = -1;
-}
+    Node()
+    {
+        left = 0;
+        right = 0;
+        value = -1;
+    }
 
-Node* left;
-Node* right;
-int value;
+    Node* left;
+    Node* right;
+    int value;
 };
 
 class BinarySearchTree
 {
 public:
 
-BinarySearchTree()
-{
-    root = 0;
-}
-
-const Node* getRoot(){
-    return root;
-}
-
-void insert(float v)
-{
-    if(root == 0)
+    BinarySearchTree()
     {
-        root = new Node;
-        root-&gt;value = v;
-        return;
+        root = 0;
     }
 
-    Node* np = root;
+    const Node* getRoot() {
+        return root;
+    }
 
-    while(1)
+    void insert(float v)
     {
-        if( v &lt; np-&gt;value )
+        if(root == 0)
         {
-            if(np-&gt;left == 0)
+            root = new Node;
+            root-&gt;value = v;
+            return;
+        }
+
+        Node* np = root;
+
+        while(1)
+        {
+            if( v &lt; np-&gt;value )
             {
-                np-&gt;left = new Node;
-                np-&gt;left-&gt;value = v;
-                return;
+                if(np-&gt;left == 0)
+                {
+                    np-&gt;left = new Node;
+                    np-&gt;left-&gt;value = v;
+                    return;
+                }
+                else
+                {
+                    np = np-&gt;left;
+                }
             }
             else
-            {
-                np = np-&gt;left;
-            }
-        }
-        else
-        { // &gt;=
-            if(np-&gt;right == 0)
-            {
-                np-&gt;right = new Node;
-                np-&gt;right-&gt;value = v;
-                return;
-            }
-            else
-            {
-                np = np-&gt;right;
+            {   // &gt;=
+                if(np-&gt;right == 0)
+                {
+                    np-&gt;right = new Node;
+                    np-&gt;right-&gt;value = v;
+                    return;
+                }
+                else
+                {
+                    np = np-&gt;right;
+                }
             }
         }
     }
-}
 
-const Node* find(float v)
-{
-    const Node* n = root;
-
-    bool progress = true;
-    while (progress)
+    const Node* find(float v)
     {
-        progress = false;
-        if (v == n-&gt;value)
-        {
-            return n;
-        }
-        else if(v &lt; n-&gt;value &amp;&amp; n-&gt;left != 0)
-        {
-            n = n-&gt;left;
-            progress = true;
-        }
-        else if(v &gt; n-&gt;value &amp;&amp; n-&gt;right != 0)
-        {
-            n = n-&gt;right;
-            progress = true;
-        }
-    }
+        const Node* n = root;
 
-    return 0;
-}
+        bool progress = true;
+        while (progress)
+        {
+            progress = false;
+            if (v == n-&gt;value)
+            {
+                return n;
+            }
+            else if(v &lt; n-&gt;value &amp;&amp; n-&gt;left != 0)
+            {
+                n = n-&gt;left;
+                progress = true;
+            }
+            else if(v &gt; n-&gt;value &amp;&amp; n-&gt;right != 0)
+            {
+                n = n-&gt;right;
+                progress = true;
+            }
+        }
+
+        return 0;
+    }
 
 private:
 
-Node* root;
+    Node* root;
 };
 
 void levelOrderTraversal(const Node* n) // ~= Breadth First Search (BFS)
@@ -282,12 +282,12 @@ void postorderTraversal_NoRecurse(Node* root)
             if(pn.second-&gt;left != 0)
                 st.push( make_pair(false, pn.second-&gt;left) );
         }
-    }     
+    }
 }
 
 void inorderTraversal(const Node* n)
 {
-    //inorder: left, visit, right    
+    //inorder: left, visit, right
     if(n == 0)
         return;
 
@@ -442,10 +442,12 @@ End
 tree = bst.buildRandomBST(10)
 print(tree.asInorderArray())
 
+
 def visit(n):
     print(n.value)
 
-def ino(root, visitFn = visit):
+
+def ino(root, visitFn=visit):
     root.vl = False
     root.vc = False
     S = [root]

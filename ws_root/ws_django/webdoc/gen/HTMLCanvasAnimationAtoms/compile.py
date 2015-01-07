@@ -3,10 +3,12 @@ import shutil
 
 import markdown
 
+
 def isCustomCompile():
-  return True 
+    return True
 
 js_outer = '<script type="text/javascript">%s</script>'
+
 
 def genHtml(folderOut):
 
@@ -19,7 +21,8 @@ def genHtml(folderOut):
     fh.close()
 
     rootDir = '.'
-    jsCt = [js_outer % open(os.path.join(rootDir, f), 'r').read() for f in os.listdir(rootDir) if f[-3:] == '.js']
+    jsCt = [js_outer % open(os.path.join(rootDir, f), 'r').read()
+            for f in os.listdir(rootDir) if f[-3:] == '.js']
     html = html.replace('__js__', "\n".join(jsCt))
 
     md = markdown.Markdown()
