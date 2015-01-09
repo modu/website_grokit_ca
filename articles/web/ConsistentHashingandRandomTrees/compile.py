@@ -1,3 +1,0 @@
-
-def isCustomCompile():
-  return False
