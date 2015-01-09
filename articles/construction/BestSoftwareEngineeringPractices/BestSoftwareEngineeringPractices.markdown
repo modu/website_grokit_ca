@@ -30,6 +30,8 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - Manage complexity [CC2], add functionality without adding complexity.
 - Split into modules, micro-services & equivalence with small modules.
 - The pragmatic programmer
+- Principle of least surprise.
+- Python's PEP approach.
 
 - [Agile Manifesto](http://agilemanifesto.org/)
 --> Robert C. Martin book about SOLID.
