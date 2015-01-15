@@ -13,6 +13,7 @@ time to acquire a lock
 
 # References
 
+- C++11 generic reference http://en.cppreference.com/w/cpp/
 - C++11 clocks https://solarianprogrammer.com/2012/10/14/cpp-11-timing-code-performance/
 - C++11 misc threading constructs http://baptiste-wicht.com/posts/2012/03/cp11-concurrency-tutorial-part-2-protect-shared-data.html
 - C# Threading http://www.albahari.com/threading/

@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 class Counter
 {
 public:
@@ -45,8 +44,8 @@ int main()
 {
     Counter counter = Counter();
 
-    thread t1(fn1, std::ref(counter));
-    thread t2(fn1, std::ref(counter));
+    thread t1(fn1, ref(counter));
+    thread t2(fn1, ref(counter));
     t1.join();
     t2.join();
 
