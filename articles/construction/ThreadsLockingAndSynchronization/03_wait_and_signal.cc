@@ -22,39 +22,38 @@ public:
 
     void add()
     {
-        lock1->lock();
+        lock1.lock();
 
         if(val > N)
         {
             cout << "Too high! v: " << val << endl;
             cout.flush();
             // defer_lock just means that it does not try to grab the lock at object creation.
-            lock1->unlock();
+            lock1.unlock();
             cv->wait(lock1);
         }
 
         ++val;
         cv->notify_all();
-        lock1->unlock();
+        lock1.unlock();
     }
 
     void remove()
     {
-        lock1->lock();
+        lock1.lock();
 
         if(val <= 0)
         {
             cout << "Too low! v: " << val << endl;
             cout.flush();
             // defer_lock just means that it does not try to grab the lock at object creation.
-            lock1->unlock();
-            unique_lock<mutex> lock1(*lock1, defer_lock); 
+            lock1.unlock();
             cv->wait(lock1);
         }
 
         --val;
         cv->notify_all();
-        lock1->unlock();
+        lock1.unlock();
     }
 
     int val = 0;
