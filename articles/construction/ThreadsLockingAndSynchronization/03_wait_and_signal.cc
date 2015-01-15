@@ -30,7 +30,7 @@ public:
             cout << "Too high! v: " << val << endl;
             cout.flush();
             //lock1.unlock();
-            cv->wait(lock1);
+            //cv->wait(lock1);
         }
 
         ++val;
@@ -47,7 +47,7 @@ public:
             cout << "Too low! v: " << val << endl;
             cout.flush();
             //lock1.unlock();
-            v->wait(lock1);
+            // cv->wait(lock1);
         }
 
         --val;
