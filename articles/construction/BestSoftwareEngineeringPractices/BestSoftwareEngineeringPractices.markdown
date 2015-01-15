@@ -32,10 +32,18 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - The pragmatic programmer
 - Principle of least surprise.
 - Python's PEP approach.
+- best so: alert early on issues, never swallow
+- best eng logging in nanespace, can change at compilation or dynamically
+- Concern about modules and dependencies
+- logging: in a namespace, levels plus event name so that it can be aggregated
 
 - [Agile Manifesto](http://agilemanifesto.org/)
 --> Robert C. Martin book about SOLID.
 --> Other people.
+
+- Magic is not good --- LOOK AT THAT, ONLY A LINE OF CODE! Compromise complexity, obscurity, less flexibility.
+
+- Dependency injection, micro-services : beware the buzzwords. Does it reduce complexity
 
 # Principles
 

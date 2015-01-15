@@ -1,4 +1,4 @@
-# Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web
+# [Paper Reading Notes] Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web
 
 This is the famous paper by David K. et al. which introduces two distributed computing concepts: __distributed hashing__ and __random trees__.
 
