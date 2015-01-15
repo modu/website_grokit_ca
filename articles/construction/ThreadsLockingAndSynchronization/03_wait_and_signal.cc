@@ -11,11 +11,13 @@ public:
     static const int N = 10000;
     unique_ptr<mutex> counter_lock;
     unique_ptr<condition_variable> cv;
+    unique_lock<mutex> lock1; // (*counter_lock, defer_lock); 
 
     Counter()
     {
         counter_lock = unique_ptr<mutex>(new mutex());
         cv = unique_ptr<condition_variable>(new condition_variable());
+        lock1 = unique_lock<mutex>(*counter_lock, defer_lock);
     }
 
     void add()
@@ -25,17 +27,33 @@ public:
         if(val > N)
         {
             cout << "Too high! v: " << val << endl;
-            // cv->wait(counter_lock);
+            cout.flush();
+            // defer_lock just means that it does not try to grab the lock at object creation.
+            counter_lock->unlock();
+            cv->wait(lock1);
         }
 
         ++val;
+        cv->notify_all();
         counter_lock->unlock();
     }
 
     void remove()
     {
         counter_lock->lock();
+
+        if(val <= 0)
+        {
+            cout << "Too low! v: " << val << endl;
+            cout.flush();
+            // defer_lock just means that it does not try to grab the lock at object creation.
+            counter_lock->unlock();
+            unique_lock<mutex> lock1(*counter_lock, defer_lock); 
+            cv->wait(lock1);
+        }
+
         --val;
+        cv->notify_all();
         counter_lock->unlock();
     }
 
