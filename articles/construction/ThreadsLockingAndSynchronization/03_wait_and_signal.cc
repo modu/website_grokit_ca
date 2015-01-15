@@ -17,6 +17,7 @@ public:
     {
         counter_lock = unique_ptr<mutex>(new mutex());
         cv = unique_ptr<condition_variable>(new condition_variable());
+        // defer_lock just means that it does not try to grab the lock at object creation.
         lock1 = unique_lock<mutex>(*counter_lock, defer_lock);
     }
 
@@ -28,8 +29,7 @@ public:
         {
             cout << "Too high! v: " << val << endl;
             cout.flush();
-            // defer_lock just means that it does not try to grab the lock at object creation.
-            lock1.unlock();
+            //lock1.unlock();
             cv->wait(lock1);
         }
 
@@ -46,9 +46,8 @@ public:
         {
             cout << "Too low! v: " << val << endl;
             cout.flush();
-            // defer_lock just means that it does not try to grab the lock at object creation.
-            lock1.unlock();
-            cv->wait(lock1);
+            //lock1.unlock();
+            v->wait(lock1);
         }
 
         --val;
