@@ -36,6 +36,11 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - best eng logging in nanespace, can change at compilation or dynamically
 - Concern about modules and dependencies
 - logging: in a namespace, levels plus event name so that it can be aggregated
+- big level thinking logic consistent at the deatils of the code
+- management: when people own thing, do no micro manage. Reward for what they get done and the quality, not for impact since impact is out of their control and can lead to bad behavior (force things through to reap the rewards).
+- Errors and scenarios should be easy to reproduce. Implication with a lot of small internal components. Post from dude.
+- Use reversible path (pragmatic programmer).
+- DP: total number of possible states.
 
 - [Agile Manifesto](http://agilemanifesto.org/)
 --> Robert C. Martin book about SOLID.
@@ -70,3 +75,7 @@ Reference(s):
 Reference:
 
 - TPP section?
+
+# Appendix: Quote
+
+Let no youth have any anxiety about the upshot of his education, whatever the line of it may be. If he keep faithfully busy each hour of the working-day, he may safely leave the final result to itself. He can with perfect certainty count on waking up some fine morning, to find himself one of the competent ones of his generation, in whatever pursuit he may have singled out. Silently, between all the details of his business, the power of judging in all that class of matter will have built itself up within him as a possession that will never pass away. Young people should know this truth in advance. The ignorance of it has probably engendered more discouragement and faint-heartedness in youths embarking on arduous careers than all other causes put together.

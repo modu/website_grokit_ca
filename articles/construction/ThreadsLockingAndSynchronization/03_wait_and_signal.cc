@@ -9,16 +9,17 @@ class Counter
 {
 public:
     static const int N = 10000;
-    //unique_ptr<mutex> counter_lock;
-    //unique_ptr<condition_variable> cv;
-    //unique_lock<mutex> lock1; // (*counter_lock, defer_lock); 
-
+    unique_ptr<mutex> signal_lock;
+    unique_ptr<condition_variable> cv;
     unique_ptr<mutex> lock;
 
     Counter()
     {
+        // WTF http://en.cppreference.com/w/cpp/thread/condition_variable/wait
         unique_lock<mutex> signal_lock = unique_lock<mutex>(*unique_ptr<mutex>(new mutex()));
+
       unique_ptr<condition_variable>  cv = unique_ptr<condition_variable>(new condition_variable());
+
         //// defer_lock just means that it does not try to grab the lock at object creation.
         //lock1 = unique_lock<mutex>(*counter_lock, defer_lock);
         //
@@ -31,38 +32,38 @@ public:
     {
         lock->lock();
 
-        //if(val > N)
-        //{
-        //    cout << "Too high! v: " << val << endl;
-        //    cout.flush();
-        //    lock->unlock();
-        //    cv->wait(lock2);
-        //    lock->lock();
-        //}
+        if(val > N)
+        {
+            cout << "Too high! v: " << val << endl;
+            cout.flush();
+            lock->unlock();
+            cv->wait(signal_lock);
+            lock->lock();
+        }
 
         ++val;
         lock->unlock();
         
-        //cv->notify_all();
+        cv->notify_all();
     }
 
     void remove()
     {
         lock->lock();
 
-        //if(val <= 0)
-        //{
-        //    cout << "Too low! v: " << val << endl;
-        //    cout.flush();
-        //    lock->unlock();
-        //    cv->wait(lock2);
-        //    lock->lock();
-        //}
+        if(val <= 0)
+        {
+            cout << "Too low! v: " << val << endl;
+            cout.flush();
+            lock->unlock();
+            cv->wait(signal_lock);
+            lock->lock();
+        }
 
         --val;
         lock->unlock();
 
-        //cv->notify_all();
+        cv->notify_all();
     }
 
     int val = 0;
