@@ -73,11 +73,15 @@ For example:
 
 ### Matrix
 
-Matrix: M_x,y. E.g: M_3,3.
+A matrix is a rectangular 2D-array of elements arranges in _rows_ and _columns_.
 
-A common convention with matrices is that the first number (x) represents the column, and the second (y) the line. In general, numbers in a column are a different _dimention_: they represent different type of entities whereas the line elements represent another instance of the same type of entity.
+A column is vertical whereas a row is horizontal.
 
-Since it is hard to represent matrices in a a text file, the coma (;) represents the end of a line. So [1, 2, 3; 4, 5, 6] is the same as:
+A common convention with matrices is that the first number (y) represents the column, and the second (x) the line. In general, column represent different _dimentions_: they represent different type of entities whereas the line elements represent another instance of the same type of entity.
+
+Matrixes can be represented in plain-text files using a capital letter followed by an underscore, then the column and row number: M_y,x. For example, the last element of a 3x3 matrix 'M' is denoted as M_3,3.
+
+The complete matrix can be enumerated by using square brackets. Since it is hard to represent matrices in a a text file, the coma (;) represents the end of a line. So [1, 2, 3; 4, 5, 6] is the same as:
 
 	[1, 2, 3
 	 4, 5, 6]
