@@ -41,10 +41,11 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - Errors and scenarios should be easy to reproduce. Implication with a lot of small internal components. Post from dude.
 - Use reversible path (pragmatic programmer).
 - DP: total number of possible states.
+- engineering priciples: management, look at incentives, do not trust good human nature, it only goes so far
 
 - [Agile Manifesto](http://agilemanifesto.org/)
 --> Robert C. Martin book about SOLID.
---> Other people.
+--> Other people.co
 
 - Magic is not good --- LOOK AT THAT, ONLY A LINE OF CODE! Compromise complexity, obscurity, less flexibility.
 
@@ -79,3 +80,5 @@ Reference:
 # Appendix: Quote
 
 Let no youth have any anxiety about the upshot of his education, whatever the line of it may be. If he keep faithfully busy each hour of the working-day, he may safely leave the final result to itself. He can with perfect certainty count on waking up some fine morning, to find himself one of the competent ones of his generation, in whatever pursuit he may have singled out. Silently, between all the details of his business, the power of judging in all that class of matter will have built itself up within him as a possession that will never pass away. Young people should know this truth in advance. The ignorance of it has probably engendered more discouragement and faint-heartedness in youths embarking on arduous careers than all other causes put together.
+
+It may be that 10,000 hours, not 10 years, is the magic number. Or it might be some other metric; Henri Cartier-Bresson (1908-2004) said Your first 10,000 photographs are your worst. True expertise may take a lifetime: Samuel Johnson (1709-1784) said Excellence in any department can be attained only by the labor of a lifetime; it is not to be purchased at a lesser price. And Chaucer (1340-1400) complained the lyf so short, the craft so long to lerne. Hippocrates (c. 400BC) is known for the excerpt ars longa, vita brevis, which is part of the longer quotation Ars longa, vita brevis, occasio praeceps, experimentum periculosum, iudicium difficile, which in English renders as Life is short, [the] craft long, opportunity fleeting, experiment treacherous, judgment difficult. Of course, no single number can be the final answer: it doesn't seem reasonable to assume that each of programming, chess playing, checkers playing, and music playing could all require exactly the same amount of time t ...
