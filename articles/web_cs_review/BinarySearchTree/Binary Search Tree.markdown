@@ -81,9 +81,10 @@ or:
 
 The parent-child relationship is recursive. This has the following interesting properties:
 
-    - When walking up from a node to a root, the current node is _smaller than every right parent_ and _bigger than every left parent_. This can be inferred directly by the parent child relationship that every node in the left child subtree is smaller than the current node. So, as you walk up as a left child, you _must_ be smaller than the parent node.
+- When walking up from a node to a root, the current node is _smaller than every right parent_ and _bigger than every left parent_. This can be inferred directly by the parent child relationship that every node in the left child subtree is smaller than the current node. So, as you walk up as a left child, you _must_ be smaller than the parent node.
+        - BUT note that you do not have to walk up to every node if you want to "verify-up": just walk-up to the first right and left parent. Any other parent's relationship is _less restrictive_ than the first parent up in that direction.
 
-    - If a node has both a right parent and a right child, both are larger than the current node and the right child is smaller than the right parent. This is because the right child is to the left of the right parent, therefore smaller.
+- If a node has both a right parent and a right child, both are larger than the current node and the right child is smaller than the right parent. This is because the right child is to the left of the right parent, therefore smaller.
 
 ## Node Deletion
 
