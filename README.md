@@ -13,5 +13,6 @@ It is built using Django and Google App Engine. In order to deploy you will have
 
 ## B
 
+- Have a way to automatically link to github pages (just have a convention for URL in /cnt?)
 - Make image / files nesting happen with an automatic name-space.
 - Make the computer science thing a normal article + 301.

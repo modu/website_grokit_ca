@@ -33,15 +33,15 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - Principle of least surprise.
 - Python's PEP approach.
 - best so: alert early on issues, never swallow
-- best eng logging in nanespace, can change at compilation or dynamically
+- best Eng logging in nanespace, can change at compilation or dynamically
 - Concern about modules and dependencies
 - logging: in a namespace, levels plus event name so that it can be aggregated
-- big level thinking logic consistent at the deatils of the code
+- big level thinking logic consistent at the details of the code
 - management: when people own thing, do no micro manage. Reward for what they get done and the quality, not for impact since impact is out of their control and can lead to bad behavior (force things through to reap the rewards).
 - Errors and scenarios should be easy to reproduce. Implication with a lot of small internal components. Post from dude.
 - Use reversible path (pragmatic programmer).
 - DP: total number of possible states.
-- engineering priciples: management, look at incentives, do not trust good human nature, it only goes so far
+- engineering principles: management, look at incentives, do not trust good human nature, it only goes so far
 
 - [Agile Manifesto](http://agilemanifesto.org/)
 --> Robert C. Martin book about SOLID.

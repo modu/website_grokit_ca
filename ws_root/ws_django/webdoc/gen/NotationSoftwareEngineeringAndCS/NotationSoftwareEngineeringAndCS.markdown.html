@@ -1,0 +1,70 @@
+<h1>Notation for Software Engineering and CS</h1>
+<p>CS and Math have a rich and well defined syntax to express the difference between different primitives (e.g: literal, set, list, ...). However, since ideas and documentation often needs to be done in plain-text, there is no official</p>
+<p>This article attempts to achieve the following goals:</p>
+<ol>
+<li>All-in one place definition and explanation of the notation for common computer science primitives.</li>
+<li>For all the primitives in 1., suggest a consistent annotation for plain-text files.</li>
+<li>A reference place for myself so that I am consistent with my notation.</li>
+</ol>
+<h2>Elementary Types</h2>
+<h3>Literal</h3>
+<p>Literals are simple values. For example, in <code>int i = 1</code>, i is a literal. Literals start with a lowercase letter. Examples:</p>
+<pre><code>    int i = 1;
+    float pressure = 0.5;
+    string name = "Marcus Aurelius";
+</code></pre>
+<h3>Arrays</h3>
+<p>An array is a collection of elements. Those elements can be literals, or complex objects.</p>
+<p>Arrays uses square brackets: [1, 2, 3, 4, 1, 2].</p>
+<p>They are a collection of element with no special restrictions (can repeat, no specific order). Arrays are usually contiguous in memory.</p>
+<p>Note that many languages (such as C++) use curly brackets as array initializers -- that conflicts with that is typically used in Mathematics: curly banquets '{' and '}' are usually reserved for <em>sets</em>.</p>
+<h3>Tuple</h3>
+<p>A tuple is a sequence of elements <em>where the order matters</em>. A n-tuple is a sequence of n elements. For example, (1, 2, 3) is a 3-tuple.</p>
+<p>Since the <em>order matters</em>, (1, 2, 3) and (3, 2, 1) are two distinct tuples.</p>
+<p>Value can repeat in tuples and are not necessarily ordered. So (5, 5, 5, 1, 4) is a valid tuple. (5, 5) is a distinct tuple from (5).</p>
+<p>Square brackets '[]' are also sometime used as a notation for tuple since tuples are very similar to arrays.</p>
+<ul>
+<li>http://en.wikipedia.org/wiki/Tuple</li>
+</ul>
+<h3>Set</h3>
+<p>A set is a collection of distinct objects. Think of a set as telling you if an element is present or not.</p>
+<p>For example, the set of people at a party can either contain or not contain each of your friend once.</p>
+<p>Set use curly brackets; {1, 2, 3} is a set of items 1, 2 and 3.</p>
+<p>Since order does not matter in sets, {1, 2, 3} = {3, 2, 1}; they are considered equivalent. However, it is less confusing to order the elements in a set as a matter of convention, so {1, 2, 3} would be preferred to {3, 2, 1} or {2, 3, 1}, although all three sets are equivalent.</p>
+<p>Note that {1, 2, 2} is not a valid set since set do not repeat elements; 2 is present or not, having it twice in the set is meaningless.</p>
+<ul>
+<li>http://en.wikipedia.org/wiki/Set_(mathematics)</li>
+</ul>
+<h2>Complex Types</h2>
+<h3>Graphs</h3>
+<p>Graphs are a set of vertices (singular: vertex, somtimes also called nodes) where some pair of vertices are connected by edges (sometimes called links).</p>
+<p>A popular notation for graphs is <code>G = (V, E)</code>, where V is a set of vertices which are connected by edges E, which are 2-element subsets of V.</p>
+<p>For example:</p>
+<pre><code>    V = {1, 2, 3, 4, 5, 6}
+    E = {{1, 2}, {1, 5}, {2, 3}, {2, 5}, {3, 4}, {4, 5}, {4, 6}}
+</code></pre>
+<p>... is a valid graph.</p>
+<ul>
+<li>http://en.wikipedia.org/wiki/Graph_(mathematics)</li>
+</ul>
+<h3>Matrix</h3>
+<p>A matrix is a rectangular 2D-array of elements arranges in <em>rows</em> and <em>columns</em>.</p>
+<p>A column is vertical whereas a row is horizontal.</p>
+<p>A common convention with matrices is that the first number (y) represents the column, and the second (x) the line. In general, column represent different <em>dimentions</em>: they represent different type of entities whereas the line elements represent another instance of the same type of entity.</p>
+<p>Matrixes can be represented in plain-text files using a capital letter followed by an underscore, then the column and row number: M_y,x. For example, the last element of a 3x3 matrix 'M' is denoted as M_3,3.</p>
+<p>The complete matrix can be enumerated by using square brackets. Since it is hard to represent matrices in a a text file, the coma (;) represents the end of a line. So [1, 2, 3; 4, 5, 6] is the same as:</p>
+<pre><code>[1, 2, 3
+ 4, 5, 6]
+</code></pre>
+<p>Transpose is 'T', so [1, 2, 3; 4, 5, 6]T is:</p>
+<pre><code>[1, 4
+ 2, 5
+ 3, 6]
+</code></pre>
+<p>http://en.wikipedia.org/wiki/Matrix_(mathematics)</p>
+<h2>References and Links</h2>
+<ul>
+<li>Commonly used mathematical symbols: http://en.wikipedia.org/wiki/ISO_31-11</li>
+<li>Graph notation and set examples: http://en.wikipedia.org/wiki/Graph_(mathematics)</li>
+<li>Hash functions: http://research.microsoft.com/pubs/64588/hash_survey.pdf, check section 2.1.</li>
+</ul>

@@ -55,12 +55,43 @@ dext.insertCode('bst.cpp')
 
 dext.insertCode('bst.cpp.out')
 
-## Notes
+## Understanding the Recursive Nature of the Tree
 
-Inorder traversal always yield the nodes in sorted order.
+Considering all edges can exist or not, a node can only be in two configurations:
 
-### Node Deletion
+               p
+              /
+             /
+            a
+           / \
+          /   \
+         lc   rc
+
+or:
+
+          p
+           \
+            \
+             a
+            / \
+           /   \
+          lc   rc
+
+... that is, a node can either have a parent or not, a left or right child or not, and the parent can either be a left or a right parent.
+
+The parent-child relationship is recursive. This has the following interesting properties:
+
+    - When walking up from a node to a root, the current node is _smaller than every right parent_ and _bigger than every left parent_. This can be inferred directly by the parent child relationship that every node in the left child subtree is smaller than the current node. So, as you walk up as a left child, you _must_ be smaller than the parent node.
+
+    - If a node has both a right parent and a right child, both are larger than the current node and the right child is smaller than the right parent. This is because the right child is to the left of the right parent, therefore smaller.
+
+## Node Deletion
 
 You need to maintain the fundamental property of the BST: _for any node, all left children are smaller, all right children are bigger_. 
 
 After locating the node to delete, it is a matter of stitching the tree back together. The way to do it is to find a node in the tree that you can _switch_ with the node to delete so that the fundamental property of BST mentioned above is still obeyed.
+
+## Notes
+
+- Inorder traversal always yield the nodes in sorted order.
+

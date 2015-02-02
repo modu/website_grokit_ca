@@ -23,12 +23,11 @@ Literals are simple values. For example, in `int i = 1`, i is a literal. Literal
 
 An array is a collection of elements. Those elements can be literals, or complex objects.
 
-Examples:
+Arrays uses square brackets: [1, 2, 3, 4, 1, 2].
 
-		C++: int myArray[] = {1, 2, 3, 4, 1, 2};
-		Python: myArray = [1, 2, 3, 4, 1, 2]
+They are a collection of element with no special restrictions (can repeat, no specific order). Arrays are usually contiguous in memory.
 
-Arrays are usually contiguous in memory. Note that many languages (such as C++) use a notation that conflicts with that is typically used in Mathematics: curly banquets '{' and '}' are usually reserved for _sets_, where values are not allowed to repeat.
+Note that many languages (such as C++) use curly brackets as array initializers -- that conflicts with that is typically used in Mathematics: curly banquets '{' and '}' are usually reserved for _sets_.
 
 ### Tuple
 
@@ -53,6 +52,8 @@ Set use curly brackets; {1, 2, 3} is a set of items 1, 2 and 3.
 Since order does not matter in sets, {1, 2, 3} = {3, 2, 1}; they are considered equivalent. However, it is less confusing to order the elements in a set as a matter of convention, so {1, 2, 3} would be preferred to {3, 2, 1} or {2, 3, 1}, although all three sets are equivalent.
 
 Note that {1, 2, 2} is not a valid set since set do not repeat elements; 2 is present or not, having it twice in the set is meaningless.
+
+- http://en.wikipedia.org/wiki/Set_(mathematics)
 
 ## Complex Types
 

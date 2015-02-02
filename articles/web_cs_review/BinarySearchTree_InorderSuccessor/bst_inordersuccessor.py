@@ -1,50 +1,42 @@
 
 import random
 
-import dcore.ds.bst as bst
+import dcore.cs.bst as bst
 
+def smallest(node):
+    if node.left is None:
+        return node
+    else:
+        return smallest(node.left)
 
-def firstLeftChildUp(n):
-    if n.parent is None:
+def firstRightParent(node):
+    if node.parent is None:
         return None
-    while not bst.BST.isLeftChild(n, n.parent):
-        n = n.parent
-        if n is None or n.parent is None:
-            return None
-    return n.parent
 
+    if node.parent.left == node:
+        return node.parent
+    else:
+        return firstRightParent(node.parent) 
 
 def getInorderNext(n):
-    if n.parent is None:
-        if n.right is None:
-            return None
-        return bst.BST.leftmostChild(n.right)
-    elif bst.BST.isLeftChild(n, n.parent):
-        if n.right is None:
-            return n.parent
-        return bst.BST.leftmostChild(n.right)
-    else:
-        if n.right is not None:
-            return bst.BST.leftmostChild(n.right)
-        else:
-            return firstLeftChildUp(n.parent)
+    if n.right is not None:
+        return smallest(n.right)
+
+    return firstRightParent(n)
 
 if __name__ == '__main__':
-    nTest = 1
+    nTest = 10000
     for i in range(0, nTest):
         tree = bst.buildRandomBST(35)
-        tree.toGraph()
         treeArray = tree.asInorderArray()
-        print(treeArray)
 
         pos = random.randint(0, len(treeArray) - 1)
         n = tree.getNodeFromValue(treeArray[pos])
-        print(n)
 
         nn = getInorderNext(n)
-        print(nn)
 
         if len(treeArray) == pos + 1:
             assert nn is None
         else:
+            #print('Returned, actual answer:', nn.value, treeArray[pos + 1])
             assert nn.value == treeArray[pos + 1]
