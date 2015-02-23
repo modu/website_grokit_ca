@@ -54,6 +54,7 @@ Since order does not matter in sets, {1, 2, 3} = {3, 2, 1}; they are considered 
 Note that {1, 2, 2} is not a valid set since set do not repeat elements; 2 is present or not, having it twice in the set is meaningless.
 
 - http://en.wikipedia.org/wiki/Set_(mathematics)
+- http://0a.io/0a-explains-set-theory-and-axiomatic-systems-with-pics-and-gifs
 
 ## Complex Types
 
