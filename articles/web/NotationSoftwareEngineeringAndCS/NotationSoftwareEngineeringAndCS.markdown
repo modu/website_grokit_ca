@@ -54,6 +54,7 @@ Since order does not matter in sets, {1, 2, 3} = {3, 2, 1}; they are considered 
 Note that {1, 2, 2} is not a valid set since set do not repeat elements; 2 is present or not, having it twice in the set is meaningless.
 
 - http://en.wikipedia.org/wiki/Set_(mathematics)
+- http://en.wikipedia.org/wiki/Set-builder_notation
 
 ## Complex Types
 
@@ -71,6 +72,7 @@ For example:
 ... is a valid graph.
 
 - http://en.wikipedia.org/wiki/Graph_(mathematics)
+- @@todo: adjacency list and matrix notation for graph.
 
 ### Matrix
 

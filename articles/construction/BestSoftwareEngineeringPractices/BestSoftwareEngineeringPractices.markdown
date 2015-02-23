@@ -13,6 +13,10 @@ For example, DRY principle. Want to have this page so that I can eventually poin
 
 Make sure that all of those come with references and justifications.
 
+# How to Stay on Top
+
+- Always want to play at the limit of your ability: 6 pronged approach sharpen the saw, motivation and reason for all of those.
+
 ## Why Isn't There a Good Answer to this Question Yet?
 
 It is shocking that science has not yet gotten around to answer the question given how much is at stake. I think the base of the problem is similar to the failure of economics to predict actual outcome before the advent of behavioral economics. Behavioral economy is a relatively new field, and the first to acknowledge that you cannot assume that all actors in an economic system are rational -- you have to acknowledge that humans do not always act in a rational way (see [cognitive biases](http://en.wikipedia.org/wiki/Cognitive_bias)) in order to predict crowd behavior and its economic impact.
@@ -42,6 +46,7 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - Use reversible path (pragmatic programmer).
 - DP: total number of possible states.
 - engineering principles: management, look at incentives, do not trust good human nature, it only goes so far
+- ZULU time EVERYWHERE
 
 - [Agile Manifesto](http://agilemanifesto.org/)
 --> Robert C. Martin book about SOLID.
@@ -50,6 +55,11 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - Magic is not good --- LOOK AT THAT, ONLY A LINE OF CODE! Compromise complexity, obscurity, less flexibility.
 
 - Dependency injection, micro-services : beware the buzzwords. Does it reduce complexity
+
+# Logging
+
+- Logs from ALL machines accessible / queryable in one place.
+- Logging in a tree based structure log4js, dynamic enable disable part of tree.
 
 # Principles
 

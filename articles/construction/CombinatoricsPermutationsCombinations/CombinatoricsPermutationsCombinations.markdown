@@ -37,3 +37,5 @@ http://en.wikipedia.org/wiki/Binomial_coefficient#Combinatorics_and_statistics
 # References
 
 - https://www.khanacademy.org/math/algebra2/polynomial_and_rational/binomial_theorem/v/binomial-theorem-and-combinatorics-intuition
+
+- http://www.cplusplus.com/reference/algorithm/next_permutation/

@@ -34,7 +34,7 @@ def index(request, param):
     csiq_binary = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_binary'])
     csiq_string = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_string'])
     csiq_graph = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_graph'])
-    csiq_math = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_math'])
+    #csiq_math = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_math'])
     csiq_heap = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_heap'])
     
     t = Template(readResource('main.html'))
@@ -48,7 +48,7 @@ def index(request, param):
                              'csiq_binary': csiq_binary,
                              'csiq_string': csiq_string,
                              'csiq_graph': csiq_graph,
-                             'csiq_math': csiq_math,
+                             #'csiq_math': csiq_math,
                              'csiq_heap': csiq_heap,
                              'ads': _getHtmlAdCode()
                              }))
