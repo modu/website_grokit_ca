@@ -55,6 +55,7 @@ Note that {1, 2, 2} is not a valid set since set do not repeat elements; 2 is pr
 
 - http://en.wikipedia.org/wiki/Set_(mathematics)
 - http://en.wikipedia.org/wiki/Set-builder_notation
+- http://0a.io/0a-explains-set-theory-and-axiomatic-systems-with-pics-and-gifs
 
 ## Complex Types
 
