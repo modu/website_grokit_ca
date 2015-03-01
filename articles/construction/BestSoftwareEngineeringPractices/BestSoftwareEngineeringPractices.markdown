@@ -47,6 +47,8 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - DP: total number of possible states.
 - engineering principles: management, look at incentives, do not trust good human nature, it only goes so far
 - ZULU time EVERYWHERE
+- Usability: should grab 5 people, they use the code, it behaves as they expect (also see http://www.joelonsoftware.com/uibook/chapters/fog0000000057.html). Python's "least-surprise" principle.
+- Documentation and changes: python's PEP.
 
 - [Agile Manifesto](http://agilemanifesto.org/)
 --> Robert C. Martin book about SOLID.
