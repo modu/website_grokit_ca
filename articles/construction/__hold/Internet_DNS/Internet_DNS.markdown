@@ -94,7 +94,7 @@ Tool to use to play with DNS: nslookup.
 If there are only 13 root servers, it must be trivial to DDoS the DNS service, right? Actually, no. Because of:
 
 - DNS is cached at multiple level. Your computer has a cache, your router has one, your ISP has one, ... If all 13 root servers were to go down for a minute or two, you would probably never notice.
-- Those 13 servers are actually replicated on ~250 servers worldwide. Through multi-cast, those servers get resolved to the closest one to you. Someone trying to (naively) take one down, would only take the server down for a small part of the internet. A really cool place to see where those servers are is: http://www.root-servers.org/.
+- Those 13 servers are actually replicated on ~250 servers worldwide. Through any-cast, those servers get resolved to the closest one to you. Someone trying to (naively) take one down, would only take the server down for a small part of the internet. A really cool place to see where those servers are is: http://www.root-servers.org/.
 
 # Things not Covered
 
