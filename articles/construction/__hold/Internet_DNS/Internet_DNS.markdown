@@ -1,7 +1,9 @@
 
 # DNS (Domain Name System) in a Nutshell
 
-The DNS is used to translate a FQDN (e.g: http://www.grokit.ca) into an IP address (e.g: 74.125.20.121). This is necessary since FQDNs themselves are not used to convey data on the Internet, IP addresses are. FQDNs are used because we, humans, can remember better long series of letters than long series of numbers. Therefore, we built a system to allow us to type a (human-readable) FQDN in a browser that the computer covertly resolves into an IP address. This IP address can actually be used to convey data on the Internet.
+The DNS is used to translate a FQDN (e.g: http://www.grokit.ca) into an IP address (e.g: 74.125.20.121). 
+
+Even though you type a human-readable address in your browser, this address is not directly used to convey data on the Internet (IP addresses are). FQDNs are used because we, humans, can remember better long series of letters than long series of numbers. Therefore, we built a system to allow us to type a (human-readable) FQDN in a browser that gets resolved into an IP address the DNS. This IP address can then be used to convey data over the Internet.
 
 ## Looking at the bits on The Wire
 
