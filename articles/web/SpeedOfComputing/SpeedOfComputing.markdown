@@ -14,7 +14,7 @@ Since a frontend instance will likely handle ~ 1Gbps, you need 6 instances at th
 
 Now, you can assume that those frontend instances will pass that data to backend machines. Since you can expect a much higher throughput in machine-to-machine data transfer (given the they are in the same cloud), you only need 1 backend instance to handle that load (assuming 10Gbps transfer data rate).
 
-However, that backend will need to store that data. Assuming sequential writes, you can write 1 picture in ~2 ms. This means that you need at least two backend instances in order to handle the write speed. You probably need to shard the data across many more machines if you do not want to run out of space, but 2 machines can handle the _load_.
+However, that backend will need to store that data. Assuming sequential writes, you can write 1 picture in ~2 ms (remember that if you cannot assume sequential writes, every seek on a non-SSD drive will take ~10ms). This means that you need at least two backend instances in order to handle the write speed. You probably need to shard the data across many more machines if you do not want to run out of space, but 2 machines can handle the _load_.
 
 ## Reference Table: Speed of A Computer
 
