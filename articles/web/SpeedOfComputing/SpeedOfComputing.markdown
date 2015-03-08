@@ -40,6 +40,8 @@ However, that backend will need to store that data. Assuming sequential writes, 
         Read 1 MB sequentially from HD       20,000,000   ns   20    ms  50   MB/s  (80x memory, 20X SSD)
         Read 4K randomly from HD                180,000   ns    0.18 ms  0.75 MB/s
         
+        Intra rack Datacenter operation                        0.5   ms
+        Inter-rack datacenter operation                         5    ms
         Disk seek                                              10    ms             (20x datacenter roundtrip)
         Send packet US-West->US-East->US-West                  30    ms
         Send packet CA->Netherlands->CA                       150    ms
