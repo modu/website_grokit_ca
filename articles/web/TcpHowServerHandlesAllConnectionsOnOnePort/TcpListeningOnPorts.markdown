@@ -61,3 +61,9 @@ If you connect with another client and do netstat again, you will see the follow
         tcp        0      0 192.168.1.10:500        192.168.1.13:26813      ESTABLISHED -
 
 ... that is, the client used another random port for the connection. So there is never confusion between which connections should send to which port -- every connection has a unique 5-tuple. The TCP/IP packets head out with the (foreign ip, foreign port) in the IP header, and it is the right place since it is the right destination (IP identifies the client) and the right port (same as the random port that the initial message came in with, which was randomly picked by the client and guaranteed to be unique).
+
+# TODOs / Improvements
+
+- Append how NAT works. Don't forget to talk about resolving port conflicts: https://tools.ietf.org/html/rfc4787 4.2.1. Port Assignment Behavior.
+- Replace tcp hpw with netcat http://www.debian-administration.org/article/58/Netcat_The_TCP/IP_Swiss_army_knife
+- 
