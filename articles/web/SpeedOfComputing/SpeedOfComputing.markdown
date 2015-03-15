@@ -14,7 +14,7 @@ Since a frontend instance will likely handle ~ 1Gbps, you need 6 instances at th
 
 Now, you can assume that those frontend instances will pass that data to backend machines. Since you can expect a much higher throughput in machine-to-machine data transfer (given the they are in the same cloud), you only need 1 backend instance to handle that load (assuming 10Gbps transfer data rate).
 
-However, that backend will need to store that data. Assuming sequential writes, you can write 1 picture in ~2 ms. This means that you need at least two backend instances in order to handle the write speed. You probably need to shard the data across many more machines if you do not want to run out of space, but 2 machines can handle the _load_.
+However, that backend will need to store that data. Assuming sequential writes, you can write 1 picture in ~2 ms (remember that if you cannot assume sequential writes, every seek on a non-SSD drive will take ~10ms). This means that you need at least two backend instances in order to handle the write speed. You probably need to shard the data across many more machines if you do not want to run out of space, but 2 machines can handle the _load_.
 
 ## Reference Table: Speed of A Computer
 
@@ -40,8 +40,12 @@ However, that backend will need to store that data. Assuming sequential writes, 
         Read 1 MB sequentially from HD       20,000,000   ns   20    ms  50   MB/s  (80x memory, 20X SSD)
         Read 4K randomly from HD                180,000   ns    0.18 ms  0.75 MB/s
         
-        Disk seek                            10,000,000   ns   10    ms             (20x datacenter roundtrip)
-        Send packet CA->Netherlands->CA     150,000,000   ns  150    ms
+        Intra rack Datacenter operation                         0.5  ms?
+        Inter-rack datacenter operation                         5    ms?
+        Disk seek                                              10    ms             (20x datacenter roundtrip)
+        Send packet US-West->US-East->US-West                  30    ms
+        Send packet CA->Netherlands->CA                       150    ms
+
 
 Table credit: 
 

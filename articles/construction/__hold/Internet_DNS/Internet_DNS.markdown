@@ -1,7 +1,9 @@
 
 # DNS (Domain Name System) in a Nutshell
 
-The DNS is used to translate a FQDN (e.g: http://www.grokit.ca) into an IP address (e.g: 74.125.20.121). This is necessary since FQDNs themselves are not used to convey data on the Internet, IP addresses are. FQDNs are used because we, humans, can remember better long series of letters than long series of numbers. Therefore, we built a system to allow us to type a (human-readable) FQDN in a browser that the computer covertly resolves into an IP address. This IP address can actually be used to convey data on the Internet.
+The DNS is used to translate a FQDN (e.g: http://www.grokit.ca) into an IP address (e.g: 74.125.20.121). 
+
+Even though you type a human-readable address in your browser, this address is not directly used to convey data on the Internet (IP addresses are). FQDNs are used because we, humans, can remember better long series of letters than long series of numbers. Therefore, we built a system to allow us to type a (human-readable) FQDN in a browser that gets resolved into an IP address the DNS. This IP address can then be used to convey data over the Internet.
 
 ## Looking at the bits on The Wire
 
@@ -86,3 +88,14 @@ Now you understand the first step necessary for your browser to go from that eas
 DNS queries are issued as UDP requests on port 53. Nowadays, other protocols such as TCP are supported by most DNS servers, but the principle of the service is the same.
 
 Tool to use to play with DNS: nslookup.
+
+## What if Someone Tries to DDoS the DNS?
+
+If there are only 13 root servers, it must be trivial to DDoS the DNS service, right? Actually, no. Because of:
+
+- DNS is cached at multiple level. Your computer has a cache, your router has one, your ISP has one, ... If all 13 root servers were to go down for a minute or two, you would probably never notice.
+- Those 13 servers are actually replicated on ~250 servers worldwide. Through any-cast, those servers get resolved to the closest one to you. Someone trying to (naively) take one down, would only take the server down for a small part of the internet. A really cool place to see where those servers are is: http://www.root-servers.org/.
+
+# Things not Covered
+
+- Hierearchical structure of DNS (web.wikipedia.org: org is a node, wikipedia, then web). Nodes are organized by zones.
