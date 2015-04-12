@@ -28,7 +28,6 @@ It seems reasonable to instigate metric systems in software companies, but becau
 # TO write and order
 
 - Expose your work to others, code in the wild. Github, post of reddit, ...
-- SOLID
 - Joel's post: unit-tests, ...
 - Code complete 2: ref & management
 - Manage complexity [CC2], add functionality without adding complexity.
@@ -49,14 +48,22 @@ It seems reasonable to instigate metric systems in software companies, but becau
 - ZULU time EVERYWHERE
 - Usability: should grab 5 people, they use the code, it behaves as they expect (also see http://www.joelonsoftware.com/uibook/chapters/fog0000000057.html). Python's "least-surprise" principle.
 - Documentation and changes: python's PEP.
+- when you are new to a system, enumerate the pricipal pieces of the architecture and the big level understanding on how they are implemented and shoulb behave. Review sporadically and ensure that you have excellent understanding.
+- b.eng: comment on previous: make sure you understand the big story, and disregard the minutia. If the minutia is odd from the big story, might want to change the minutia.
+- most people do not organize data well. If you worked on 4 main projects a year, make sure you always have autorative plave (website, folder on your HD, ...) when you can write / read documentation on it after the fact. Make sure there is only ONE AUTHORITATIVE COPY OF THE DATA. Many copies will result in confusion.
+- Like a recursive algorithm: make sure that what you do always bring one step closer to goal. Then just do the thing. 
 
 - [Agile Manifesto](http://agilemanifesto.org/)
---> Robert C. Martin book about SOLID.
+- Robert C. Martin book about SOLID.
 --> Other people.co
 
 - Magic is not good --- LOOK AT THAT, ONLY A LINE OF CODE! Compromise complexity, obscurity, less flexibility.
 
 - Dependency injection, micro-services : beware the buzzwords. Does it reduce complexity
+
+b.end(social): ask yourself: what can I do to help them achieve their goals?
+b.eng talk with intent: do not say anything unless the result of talking is clear in your head. This eliminate the blah blah.
+eng. best: predict / expect: rule to test knowledge: should be able to predict. if can't predict, update model. If model is too complicated, then the system needs to be simplified
 
 # Logging
 

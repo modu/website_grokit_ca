@@ -13,6 +13,8 @@ js_outer = '<script type="text/javascript">%s</script>'
 def genHtml(folderOut):
 
     files = os.listdir('.')
+    files = [f for f in files if f.find('__pycache') == -1]
+
     for f in files:
         shutil.copyfile(f, os.path.join(f, os.path.join(folderOut, f)))
 

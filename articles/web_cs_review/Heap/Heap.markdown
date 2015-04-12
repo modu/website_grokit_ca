@@ -13,6 +13,10 @@ Given that for popMax(), you need to remove the root, put the 'last' element of 
 
 - Can you use the heap to implement a sorting algorithm? What are the advantages / disadvantages compared to quicksort?
 
+- In a BST, the relationship is left / right, in a heap, it is up / down (all nodes under need to be <, does not matter is left or right). 
+
+- Avl balanced tree can be used as a heap. You could also use a linked list, but performance would be awful for obvious reasons.
+
 # Code
 
 dext.insertCode('heap.cpp')
