@@ -53,6 +53,14 @@ Since order does not matter in sets, {1, 2, 3} = {3, 2, 1}; they are considered 
 
 Note that {1, 2, 2} is not a valid set since set do not repeat elements; 2 is present or not, having it twice in the set is meaningless.
 
+#### Set Relationship
+
+A ⊆ B indicates that A is a _subset_ of B.
+
+A ⊆ B holds true for: A = {1, 2}, B = {1, 2, 3} since all element of A are also in B.
+
+#### Set References
+
 - http://en.wikipedia.org/wiki/Set_(mathematics)
 - http://en.wikipedia.org/wiki/Set-builder_notation
 - http://0a.io/0a-explains-set-theory-and-axiomatic-systems-with-pics-and-gifs
