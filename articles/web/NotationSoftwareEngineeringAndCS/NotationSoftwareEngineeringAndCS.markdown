@@ -74,7 +74,7 @@ For example:
 
 Since E is a set of set, it implies that the edges are not directed and that there are no self loops. In order to have either of those, E would need to be a set of tuples; e.g.: E = {(1,2), (2,1), (2,2), ...}. Here (2, 1) implies a directed edge from vertex 2 to 1.
 
-For a complete yet accessible review of graph and their use in CS, see [MIT6_042, section 5.1.1] (http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/readings/MIT6_042JF10_notes.pdf).
+For a complete yet accessible review of graphs and their use in CS, see [MIT6_042, section 5.1.1] (http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/readings/MIT6_042JF10_notes.pdf).
 
 ### Matrix
 
