@@ -108,6 +108,11 @@ Transpose is 'T', so [1, 2, 3; 4, 5, 6]T is:
 
 http://en.wikipedia.org/wiki/Matrix_(mathematics)
 
+## Logic Symbols
+
+∀: for all
+∃: there exist
+
 ## References and Links
 
 - Commonly used mathematical symbols: http://en.wikipedia.org/wiki/ISO_31-11
