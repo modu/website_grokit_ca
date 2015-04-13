@@ -63,6 +63,7 @@ A ⊆ B holds true for: A = {1, 2}, B = {1, 2, 3} since all element of A are als
 
 - http://en.wikipedia.org/wiki/Set_(mathematics)
 - http://en.wikipedia.org/wiki/Set-builder_notation
+- http://en.wikipedia.org/wiki/Set_theory
 - http://0a.io/0a-explains-set-theory-and-axiomatic-systems-with-pics-and-gifs
 
 ## Complex Types
