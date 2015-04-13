@@ -119,3 +119,4 @@ http://en.wikipedia.org/wiki/Matrix_(mathematics)
 - Graph notation and set examples: http://en.wikipedia.org/wiki/Graph_(mathematics)
 - Hash functions: http://research.microsoft.com/pubs/64588/hash_survey.pdf, check section 2.1.
 - http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/readings/MIT6_042JF10_notes.pdf 
+- http://en.wikipedia.org/wiki/First-order_logic
