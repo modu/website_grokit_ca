@@ -16,3 +16,9 @@ It is built using Django and Google App Engine. In order to deploy you will have
 - Have a way to automatically link to github pages (just have a convention for URL in /cnt?)
 - Make image / files nesting happen with an automatic name-space.
 - Make the computer science thing a normal article + 301.
+
+## Blogging Platform with .docx Files
+
+(https://gist.github.com/vzvenyach/7278543)
+unoconv -f html test.docx
+pandoc -f html -t markdown -o test.md test.html
