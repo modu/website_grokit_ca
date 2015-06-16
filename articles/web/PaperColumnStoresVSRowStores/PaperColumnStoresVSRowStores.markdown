@@ -26,10 +26,10 @@ However, the reason RS optimizations to me more CS-like did not yield good resul
 
 ### 1.1 Vocabulary:
 
-Entity: unit of data stored in a database (e.g.: person: (Paul, CA, 25)).
-Attribute: Sub-part of entity (e.g.: person.age).
-Predicate: {true, false} function used to filter entities (e.g.: person.age > 25).
-Locality of reference: it is much faster to access data in a contiguous manner.
+- Entity: unit of data stored in a database (e.g.: person: (Paul, CA, 25)).
+- Attribute: Sub-part of entity (e.g.: person.age).
+- Predicate: {true, false} function used to filter entities (e.g.: person.age > 25).
+- Locality of reference: it is much faster to access data in a contiguous manner.
 
 ### 1.2 Review of RS / CS
 
