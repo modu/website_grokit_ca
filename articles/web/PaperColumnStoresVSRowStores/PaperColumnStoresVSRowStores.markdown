@@ -35,14 +35,14 @@ Locality of reference: it is much faster to access data in a contiguous manner.
 
 #### 1.2.1 RS Typical Schema
 
-                   (name)       (country)     (age)
-                 column_1    column_2   column_3
-Entity_1      Paul              CA                 25
-Entity_2      Mary             CA                 95
-[...] 
-Entity_n      Jeanne          US                 61
+                       (name)       (country)     (age)
+                     column_1    column_2   column_3
+    Entity_1      Paul              CA                 25
+    Entity_2      Mary             CA                 95
+    [...] 
+    Entity_n      Jeanne          US                 61
 
-Data is stored on disk in a row-fashion: Paul, CA, 25; Mary, CA, 95; … 61;
+Data is stored on disk in a row-fashion: Paul, CA, 25; Mary, CA, 95; ... 61;.
 
 Without any database administrator set constraint, the data is stored in an Index Allocation Map (IAM), which is basically a contigious array of data in no particular order alongside with an index ordered by id [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html]. This means that delegates operating on columns stored in IAM must scan the entire table.
 
@@ -54,7 +54,7 @@ It is possible to have indexes on more than one index per table, but that necess
 
 The data is stored in disk in a column-fashion. The previous examples would have 3 columns: (names: Paul, Mary, Jeanne), (country: CA, CA, US), (ages: 25, 95, 61). The entity the data belongs to is identified by the index in the column at which the data is located [CStore_Paper, http://db.csail.mit.edu/projects/cstore/vldb.pdf].
 
-@@ read more. @@ is it typically kept sorted by column? (cid-sorted, entity-id, value) with an index to not lose track of entity-ids?
+**@@ read more. @@ is it typically kept sorted by column? (cid-sorted, entity-id, value) with an index to not lose track of entity-ids?**
 
 ## 4. Row Oriented Execution
 
@@ -68,11 +68,11 @@ Entities are split in tables, one table per attribute. Since entities are not ne
 
 For example, the name column of the example RS in 1.2.2 becomes:
 
-(position, value)
--------------------
-(2, Mary)
-(1, Paul)
-(n, Jeanne)
+    (position, value)
+    -------------------
+    (2, Mary)
+    (1, Paul)
+    (n, Jeanne)
 
 When doing a query on m columns, m-1 joins on the entity ID must be done. In order to speed-up joins, the authors tried to either cluster-index each table or use hash joins.
 
