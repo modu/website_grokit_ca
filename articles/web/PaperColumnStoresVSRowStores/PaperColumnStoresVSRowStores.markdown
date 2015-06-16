@@ -6,17 +6,17 @@ SQL databases are typically row-oriented. These row-stores (RS) are well suited 
 
 This paper compares the performance of RS and column-stores (CS) databases for those workloads. The contributions are:
 
-Comparison of RS and CS databases on a standard benchmark.
-Lists, explain and measure gains of different optimizations in CS databases.
-Address the question of whether adapting the schema of a RS to me more CS-like can yield similar performance gain as switching to a CS database.
-Proposes and measures the performance of a novel optimization for CS databases: invisible join.
+1. Comparison of RS and CS databases on a standard benchmark.
+2. Lists, explain and measure gains of different optimizations in CS databases.
+3. Address the question of whether adapting the schema of a RS to me more CS-like can yield similar performance gain as switching to a CS database.
+4. Proposes and measures the performance of a novel optimization for CS databases: invisible join.
 
 The main findings are:
 
-CS can outperform RS by about a factor 10 _for some workloads_. 
-Performance gains: late materialization: 3x, compression: 2x.
-Attempts to adapt RS schemas to be more CS-like by method such as vertical partitioning, creating indexes for every column and optimal materialized views did not improve performance of RS as much as switching to CS.
-Invisible join improves performance by 50%.
+1. CS can outperform RS by about a factor 10 _for some workloads_. 
+2. Performance gains: late materialization: 3x, compression: 2x.
+3. Attempts to adapt RS schemas to be more CS-like by method such as vertical partitioning, creating indexes for every column and optimal materialized views did not improve performance of RS as much as switching to CS.
+4. Invisible join improves performance by 50%.
 
 Those results suggest that one should pick a database system that is well suited for the expected workload.
 
