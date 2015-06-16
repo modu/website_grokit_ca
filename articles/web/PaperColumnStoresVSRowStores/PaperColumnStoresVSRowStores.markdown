@@ -105,7 +105,7 @@ An issue with column late materialization is that data from the different column
 An invisible join consist of the following steps:
 
 - Apply predicates on dimension tables.
-- Create 1 hash table per column. Hash is of <key →{0,1}>.
+- Create 1 hash table per column. Hash is of key → {0,1}.
 - Do a binary AND on all keys (keep only keys that satisfy all predicates).
 
 It is not clear to me how this is fundamentally different from late materialization. Also, after 3, the materialization will also be done out of order for all columns but the first one (assuming no correlation between column orders).
