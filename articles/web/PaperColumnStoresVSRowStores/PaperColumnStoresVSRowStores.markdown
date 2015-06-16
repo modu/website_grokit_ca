@@ -33,29 +33,6 @@ However, the reason RS optimizations to me more CS-like did not yield good resul
 - Predicate: {true, false} function used to filter entities (e.g.: person.age > 25).
 - Locality of reference: it is much faster to access data in a contiguous manner.
 
-### 1.2 Review of RS / CS
-
-#### 1.2.1 RS Typical Schema
-
-                  (name)      (country)   (age)
-                  column_1    column_2    column_3
-    Entity_1      Paul        CA          25
-    Entity_2      Mary        CA          95
-    [...] 
-    Entity_n      Jeanne      US          61
-
-Data is stored on disk in a row-fashion: Paul, CA, 25; Mary, CA, 95; ... 61;.
-
-Without any database administrator set constraint, the data is stored in an Index Allocation Map (IAM), which is basically a contigious array of data in no particular order alongside with an index ordered by id [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html]. This means that delegates operating on columns stored in IAM must scan the entire table.
-
-Databases allow to create one clustered index per table, which structures the data in a B-Tree whose keys are one of the column of the table (where that column has the property to have guaranteed unique entries).
-
-It is possible to have indexes on more than one index per table, but that necessitates that creation of another data structure (B-Tree again) containing a tuple of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency.
-
-#### 1.2.2 CS Typical Schema
-
-The data is stored in disk in a column-fashion. The previous examples would have 3 columns: (names: Paul, Mary, Jeanne), (country: CA, CA, US), (ages: 25, 95, 61). The entity the data belongs to is identified by the index in the column at which the data is located [CStore_Paper, http://db.csail.mit.edu/projects/cstore/vldb.pdf].
-
 ## 4. Row Oriented Execution
 
 Section 4 discusses optimizations that can be introduced to a RS database to mimic a CS database.
