@@ -2,8 +2,6 @@
 
 Link to paper: [ACM website for citations](http://dl.acm.org/citation.cfm?id=1376712), [full pdf](http://db.csail.mit.edu/projects/cstore/abadi-sigmod08.pdf).
 
-**Keywords**: hash function, consistent hashing, random trees, distributed systems.
-
 ## Overview
 
 SQL databases are typically row-oriented. These row-stores (RS) are well suited for applications such as customer relationship management, but ill-suited for online analytical processing (OLAP) such as data mining.
