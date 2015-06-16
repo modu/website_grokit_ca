@@ -53,8 +53,17 @@ Since order does not matter in sets, {1, 2, 3} = {3, 2, 1}; they are considered 
 
 Note that {1, 2, 2} is not a valid set since set do not repeat elements; 2 is present or not, having it twice in the set is meaningless.
 
+#### Set Relationship
+
+A ⊆ B indicates that A is a _subset_ of B.
+
+A ⊆ B holds true for: A = {1, 2}, B = {1, 2, 3} since all element of A are also in B.
+
+#### Set References
+
 - http://en.wikipedia.org/wiki/Set_(mathematics)
 - http://en.wikipedia.org/wiki/Set-builder_notation
+- http://en.wikipedia.org/wiki/Set_theory
 - http://0a.io/0a-explains-set-theory-and-axiomatic-systems-with-pics-and-gifs
 
 ## Complex Types
@@ -72,8 +81,9 @@ For example:
 
 ... is a valid graph.
 
-- http://en.wikipedia.org/wiki/Graph_(mathematics)
-- @@todo: adjacency list and matrix notation for graph.
+Since E is a set of set, it implies that the edges are not directed and that there are no self loops. In order to have either of those, E would need to be a set of tuples; e.g.: E = {(1,2), (2,1), (2,2), ...}. Here (2, 1) implies a directed edge from vertex 2 to 1.
+
+For a complete yet accessible review of graphs and their use in CS, see [MIT6_042, section 5.1.1] (http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/readings/MIT6_042JF10_notes.pdf).
 
 ### Matrix
 
@@ -98,8 +108,15 @@ Transpose is 'T', so [1, 2, 3; 4, 5, 6]T is:
 
 http://en.wikipedia.org/wiki/Matrix_(mathematics)
 
+## Logic Symbols
+
+∀: for all
+∃: there exist
+
 ## References and Links
 
 - Commonly used mathematical symbols: http://en.wikipedia.org/wiki/ISO_31-11
 - Graph notation and set examples: http://en.wikipedia.org/wiki/Graph_(mathematics)
 - Hash functions: http://research.microsoft.com/pubs/64588/hash_survey.pdf, check section 2.1.
+- http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/readings/MIT6_042JF10_notes.pdf 
+- http://en.wikipedia.org/wiki/First-order_logic
