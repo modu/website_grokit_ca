@@ -32,9 +32,14 @@
 <p>Set use curly brackets; {1, 2, 3} is a set of items 1, 2 and 3.</p>
 <p>Since order does not matter in sets, {1, 2, 3} = {3, 2, 1}; they are considered equivalent. However, it is less confusing to order the elements in a set as a matter of convention, so {1, 2, 3} would be preferred to {3, 2, 1} or {2, 3, 1}, although all three sets are equivalent.</p>
 <p>Note that {1, 2, 2} is not a valid set since set do not repeat elements; 2 is present or not, having it twice in the set is meaningless.</p>
+<h4>Set Relationship</h4>
+<p>A ⊆ B indicates that A is a <em>subset</em> of B.</p>
+<p>A ⊆ B holds true for: A = {1, 2}, B = {1, 2, 3} since all element of A are also in B.</p>
+<h4>Set References</h4>
 <ul>
 <li>http://en.wikipedia.org/wiki/Set_(mathematics)</li>
 <li>http://en.wikipedia.org/wiki/Set-builder_notation</li>
+<li>http://en.wikipedia.org/wiki/Set_theory</li>
 <li>http://0a.io/0a-explains-set-theory-and-axiomatic-systems-with-pics-and-gifs</li>
 </ul>
 <h2>Complex Types</h2>
@@ -46,10 +51,8 @@
     E = {{1, 2}, {1, 5}, {2, 3}, {2, 5}, {3, 4}, {4, 5}, {4, 6}}
 </code></pre>
 <p>... is a valid graph.</p>
-<ul>
-<li>http://en.wikipedia.org/wiki/Graph_(mathematics)</li>
-<li>@@todo: adjacency list and matrix notation for graph.</li>
-</ul>
+<p>Since E is a set of set, it implies that the edges are not directed and that there are no self loops. In order to have either of those, E would need to be a set of tuples; e.g.: E = {(1,2), (2,1), (2,2), ...}. Here (2, 1) implies a directed edge from vertex 2 to 1.</p>
+<p>For a complete yet accessible review of graphs and their use in CS, see [MIT6_042, section 5.1.1] (http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/readings/MIT6_042JF10_notes.pdf).</p>
 <h3>Matrix</h3>
 <p>A matrix is a rectangular 2D-array of elements arranges in <em>rows</em> and <em>columns</em>.</p>
 <p>A column is vertical whereas a row is horizontal.</p>
@@ -65,9 +68,14 @@
  3, 6]
 </code></pre>
 <p>http://en.wikipedia.org/wiki/Matrix_(mathematics)</p>
+<h2>Logic Symbols</h2>
+<p>∀: for all
+∃: there exist</p>
 <h2>References and Links</h2>
 <ul>
 <li>Commonly used mathematical symbols: http://en.wikipedia.org/wiki/ISO_31-11</li>
 <li>Graph notation and set examples: http://en.wikipedia.org/wiki/Graph_(mathematics)</li>
 <li>Hash functions: http://research.microsoft.com/pubs/64588/hash_survey.pdf, check section 2.1.</li>
+<li>http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/readings/MIT6_042JF10_notes.pdf </li>
+<li>http://en.wikipedia.org/wiki/First-order_logic</li>
 </ul>
