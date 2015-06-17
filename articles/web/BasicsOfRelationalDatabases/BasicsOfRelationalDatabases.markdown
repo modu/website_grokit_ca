@@ -74,5 +74,5 @@ List of SQL commands: http://www.w3schools.com/sql/
 
 # Code
 
-dext.insertFile(‘sql_intro.py’)
+dext.insertFile('sql_intro.py')
 
