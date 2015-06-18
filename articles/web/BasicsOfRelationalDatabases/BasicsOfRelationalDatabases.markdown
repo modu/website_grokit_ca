@@ -5,12 +5,13 @@
 Relational databases are structured in _tables_ that can refer to each other. A table is organized in _rows_ of information (also called a _record_). Each row has a set of _attributes_, which can be thought of as a property of a row. When grouped together, those attributes are referred to as a _column_ and typically have an associated name. The important thing to remember: **everything** is a value in a table.
 
 	Table: friends_list
-			  (name)      (country)   (age)
-			  column_1    column_2    column_3
-	    Row_1         Paul        CA          25
-	    Row_2         Mary        CA          95
-	    [...] 
-	    Row_n         Jeanne      US          61
+
+		(name)      (country)   (age)
+		column_1    column_2    column_3
+	Row_1   Paul        CA          25
+	Row_2   Mary        CA          95
+	[...] 
+	Row_n   Jeanne      US          61
 
 In the above example, a row of data of table ‘friends_list’ is (Paul, CA, 25). ‘95’ is the ‘age’ _attribute_ for Row_2 (name: Mary). Every table has a _primary key_, which uniquely identifies a row. In our example, the primary key could be the ‘name’ column (assuming that the names are unique in the whole database; in reality, primary keys are typically unique positive integers).
 
@@ -28,14 +29,17 @@ For more information on the _data structure implementation_, I strongly suggest 
 
 ### Relations Between Tables
 
-Using simply one long table, it would be hard to represent arbitrary _composite_ data without duplication. For example, in the example table of the previous section, what would happen if in addition to a county, we have query that require the population and gini coefficient for every person in the table?
+Using simply one long table (a set of flat rows), it would be hard to represent arbitrary _composite_ data without duplication. For example, in the table of the previous section, what would happen if in addition to a county, we have query that require the population and gini coefficient for every person in the table?
 
-It is possible to extend the table to contain columns ‘population’, ‘gini’ next to the ‘country’ column. This duplicate the information which wastes spaces and makes a simple update (CA’s population + 1 → need to change all entries where ‘country’ = ‘CA’). A widely used relational model is the star schema [RDBMS_StarSchema, https://en.wikipedia.org/wiki/Star_schema], where the main table is called the _fact table_ and the anxiliary tables are called _dimensions tables_. Attributes in the fact tables that refer to records in a dimension table use a _foreign key_, which is really just a pointer to an entry in a different table.
+It is possible to extend the table to contain columns ‘population’, ‘gini’ next to the ‘country’ column. This duplicates the information which wastes spaces and makes a simple update (CA’s population + 1 →  need to change all entries where ‘country’ = ‘CA’). A widely used relational model is the star schema [RDBMS_StarSchema, https://en.wikipedia.org/wiki/Star_schema], where the main table is called the _fact table_ and the anxiliary tables are called _dimensions tables_. Attributes in the fact tables that refer to records in a dimension table use a _foreign key_, which is really just a pointer to an entry in a different table.
 
-[@@REPEAT TABLE BUT WITH IDs instead of countries]
-CA: 121
-US: 92
-DE: 100
+	Table: countries 
+
+		(name)      (population)
+	Row_1   CA          35         
+	Row_2   US          350        
+	[...] 
+	Row_n   DE          85       
 
 ### The SQL Language
 
@@ -61,6 +65,7 @@ Tuple materialization.
 
 ## Column-Store Relational Database
 
+@@@read more about that
 [CStore, http://db.csail.mit.edu/projects/cstore/vldb.pdf]
 
 The data is stored in disk in a column-fashion. The previous examples would have 3 columns: (names: Paul, Mary, Jeanne), (country: CA, CA, US), (ages: 25, 95, 61). The Record the data belongs to is identified by the index in the column at which the data is located [CStore_Paper, http://db.csail.mit.edu/projects/cstore/vldb.pdf].

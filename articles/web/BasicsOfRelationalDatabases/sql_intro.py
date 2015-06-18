@@ -50,7 +50,7 @@ def query(conn):
 def queryWithImplicitJoin(conn):
     cursor = conn.cursor()
     
-    sql_cmd = """SELECT name, age FROM friends_list WHERE age > 40;"""
+    sql_cmd = """SELECT name, age, country FROM friends_list WHERE age > 40;"""
     print(sql_cmd)
     ro = cursor.execute(sql_cmd)
     for r in ro:
