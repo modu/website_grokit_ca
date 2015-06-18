@@ -6,8 +6,8 @@ Relational databases are structured in _tables_ that can refer to each other. A 
 
     Table: friends_list
 
-    (name)      (country)   (age)
-    column_1    column_2    column_3
+            (name)      (country)   (age)
+            column_1    column_2    column_3
     Row_1   Paul        CA          25
     Row_2   Mary        CA          95
     [...] 
