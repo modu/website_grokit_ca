@@ -25,28 +25,28 @@ def index(request, param):
     #raise Exception(str(tags))
     
     csiq_trees = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_trees'])
-    csiq_linkedlist = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_linkedlist'])
+    #csiq_linkedlist = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_linkedlist'])
     csiq_hash = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_hash'])
     csiq_elementary = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_elementary'])
     binary_search = webdoc_render.renderListEntries_CleanAndSimple(tags['binary search'])
     csiq_sort = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_sort'])
     csiq_combinatorics = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_combinatorics'])
-    csiq_binary = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_binary'])
-    csiq_string = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_string'])
+    #csiq_binary = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_binary'])
+    #csiq_string = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_string'])
     csiq_graph = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_graph'])
     #csiq_math = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_math'])
     csiq_heap = webdoc_render.renderListEntries_CleanAndSimple(tags['csiq_heap'])
     
     t = Template(readResource('main.html'))
     html = t.render(Context({'csiq_trees': csiq_trees,
-                             'csiq_linkedlist': csiq_linkedlist,
+                             #'csiq_linkedlist': csiq_linkedlist,
                              'csiq_hash': csiq_hash,
                              'csiq_elementary': csiq_elementary,
                              'binary_search': binary_search,
                              'csiq_sort': csiq_sort,
                              'csiq_combinatorics': csiq_combinatorics,
-                             'csiq_binary': csiq_binary,
-                             'csiq_string': csiq_string,
+                             #'csiq_binary': csiq_binary,
+                             #'csiq_string': csiq_string,
                              'csiq_graph': csiq_graph,
                              #'csiq_math': csiq_math,
                              'csiq_heap': csiq_heap,
