@@ -10,30 +10,20 @@ body {
 }
 
 
-h1, h2, h3 {
-	/*margin-top: 0.5em;*/
+h1 {
 	font-family: Georgia, "Times New Roman", Times, serif; 
+	border-bottom: 2px solid gray;
 	color: #626456;
 }
 
-h1 {
-	/*letter-spacing: -.075em;*/
-	/*font-size: 2.2em;*/
-}
-
 h2 {
-	/*
-	letter-spacing: -.05em;
-	font-size: 1.8em;
-	font-weight: normal;
+	font-family: Georgia, "Times New Roman", Times, serif; 
 	color: #8D8E85;
-	*/
 }
 
 h3 {
-	/*
-	font-size: 1.3em;
-	*/
+	font-family: Georgia, "Times New Roman", Times, serif; 
+	color: #626456;
 }
 
 p {
