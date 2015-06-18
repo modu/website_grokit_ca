@@ -27,9 +27,9 @@ It is possible to have __indexes__ on more than one column, but requires the cre
 
 ## Relations Between Tables
 
-Using simply one long table (a set of flat rows), it would be hard to represent arbitrary _composite_ data without duplication. For example, in the table of the previous section, what would happen if in addition to a county, we have query that require the population and gini coefficient for every person in the table?
+Using simply one long table (a set of flat rows), it would be hard to represent arbitrary _composite_ data without duplication. For example, in the table of the previous section, what would happen if in addition to a county, we have query that require the population and capital (of the country they live in) for every person in the table?
 
-It is possible to extend the table to contain columns ‘population’, ‘gini’ next to the ‘country’ column. This duplicates the information which wastes spaces and makes a simple update (CA’s population + 1 →  need to change all entries where ‘country’ = ‘CA’). A widely used relational model is the __star schema__ [RDBMS_StarSchema, https://en.wikipedia.org/wiki/Star_schema], where the main table is called the _fact table_ and the anxiliary tables are called _dimensions tables_. Attributes in the fact tables that refer to records in a dimension table use a _foreign key_, which is really just a pointer to an entry in a different table.
+It is possible to extend the table to contain columns ‘population’, ‘capital’ next to the ‘country’ column. This duplicates the information which wastes spaces and makes a simple update (CA’s population + 1 →  need to change all entries where ‘country’ = ‘CA’). A widely used relational model is the __star schema__ [RDBMS_StarSchema, https://en.wikipedia.org/wiki/Star_schema], where the main table is called the __fact table__ and the anxiliary tables are called __dimensions tables__. Attributes in the fact tables that refer to records in a dimension table use a __foreign key__, which is really just a pointer to an entry in a different table.
 
     Table: countries 
 
