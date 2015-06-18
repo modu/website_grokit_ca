@@ -44,17 +44,17 @@ SQL is a language that allows to run operation on a database. This section has a
 At the base, A SQL query consists of:
 
     SELECT <column_1, column_2, ..., column_n>
-    FROM <table_1, table_2, ..., table_n>
-    WHERE <predicate_1>
-    AND   <predicate_2>
+    FROM   <table_1, table_2, ..., table_n>
+    WHERE  <predicate_1>
+    AND    <predicate_2>
     [...]
-    AND   <predicate_n>
+    AND    <predicate_n>
 
 For example:
 
     SELECT name, age 
-    FROM friend 
-    WHERE age > 40
+    FROM   friend 
+    WHERE  age > 40
     
 ...outputs:
 
@@ -68,7 +68,7 @@ One of the principal insight to get is that when selecting from more than one ta
 SQL:
 
     SELECT friend.name, friend.age 
-    FROM friend, country 
+    FROM   friend, country 
     
 Output:
 
