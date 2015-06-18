@@ -1,0 +1,185 @@
+<h1>Short Introduction to Relational DataBase Management Systems (RDBMS).</h1>
+<h2>Interface and Architecture of Typical Row-Store Relational Database</h2>
+<p>Relational databases are structured in <em>tables</em> that can refer to each other. A table is organized in <em>rows</em> of information (also called a <em>record</em>). Each row has a set of <em>attributes</em>, which can be thought of as a property of a row. When grouped together, those attributes are referred to as a <em>column</em> and typically have an associated name. The important thing to remember: <strong>everything</strong> is a value in a table.</p>
+<pre><code>Table: friends_list
+
+        (name)      (country)   (age)
+        column_1    column_2    column_3
+Row_1   Paul        CA          25
+Row_2   Mary        CA          95
+[...] 
+Row_n   Jeanne      US          61
+</code></pre>
+<p>In the above example, a row of data of table ‘friends_list’ is (Paul, CA, 25). ‘95’ is the ‘age’ <em>attribute</em> for Row_2 (name: Mary). Every table has a <em>primary key</em>, which uniquely identifies a row. In our example, the primary key could be the ‘name’ column (assuming that the names are unique in the whole database; in reality, primary keys are typically unique positive integers).</p>
+<p>For historical reasons, RDBMS typically (physicalle) organize data by rows (because most early databases were dealing with online transaction processing (OLTP) type data). The physical data is stored on disk in a row-order: Paul, CA, 25; Mary, CA, 95; ... 61;. Next section will delve more in how the data is actually structured.</p>
+<h3>How Tables Map to Data-Structures</h3>
+<p>Without any database administrator set constraint, the data is stored in an Index Allocation Map (IAM), which is basically a contigious array of data in no particular order alongside with an index ordered by id [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html]. This means that operations on columns stored in IAM must scan the entire table.</p>
+<p>It is possible to create one (and only one!) clustered index per table, which structures data in a B-Tree whose keys are one of the column of the table (where that column has the property to have guaranteed unique entries).</p>
+<p>It is possible to have indexes on more than one column, but requires the creation of a side-index (B-Tree again) containing tuples of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency (everytime an entyr is update, so must its index).</p>
+<h3>Relations Between Tables</h3>
+<p>Using simply one long table (a set of flat rows), it would be hard to represent arbitrary <em>composite</em> data without duplication. For example, in the table of the previous section, what would happen if in addition to a county, we have query that require the population and gini coefficient for every person in the table?</p>
+<p>It is possible to extend the table to contain columns ‘population’, ‘gini’ next to the ‘country’ column. This duplicates the information which wastes spaces and makes a simple update (CA’s population + 1 →  need to change all entries where ‘country’ = ‘CA’). A widely used relational model is the star schema [RDBMS_StarSchema, https://en.wikipedia.org/wiki/Star_schema], where the main table is called the <em>fact table</em> and the anxiliary tables are called <em>dimensions tables</em>. Attributes in the fact tables that refer to records in a dimension table use a <em>foreign key</em>, which is really just a pointer to an entry in a different table.</p>
+<pre><code>Table: countries
+
+        (name)      (population)   (capital)
+Row_1   CA          35.16          Ottawa 
+Row_2   US          318.9          Washington
+</code></pre>
+<h3>The SQL Language</h3>
+<p>SQL is a language that allows to run operation on a database. This section has a few examples of the language, please refer to the appendix for a python script that allows you to play with a SQL database. We will cover only simple queries to read data, but the fundamental remains the same to read data.</p>
+<p>At the base, A SQL query consists of:</p>
+<pre><code>SELECT &lt;column_1, column_2, ..., column_n&gt;
+FROM &lt;table_1, table_2, ..., table_n&gt;
+WHERE &lt;predicate_1&gt;
+AND   &lt;predicate_2&gt;
+[...]
+AND   &lt;predicate_n&gt;
+</code></pre>
+<p>For example:</p>
+<pre><code>SELECT name, age 
+FROM friend 
+WHERE age &gt; 40
+</code></pre>
+<p>...outputs:</p>
+<pre><code>('Mary', 95)
+('Jeanne', 61)
+</code></pre>
+<p>The basic mode of operation is simple to understand. First, the SELECT clause defines which <em>elements</em> need to form the output. Those can be from the truth table or any of the dimension table. The FROM clause defines the source tables. The WHERE is just a set of predicate. The predicate run one-by-one, if any data is missing to run the predicate it is fetched from the dimension table. If all predicates match then the data will form the output.</p>
+<p>One of the principal insight to get is that when selecting from more than one table, the SQL engine will basically do a cross product of the two tables (another way to think of it is a double nested loop):</p>
+<p>SQL:</p>
+<pre><code>SELECT friend.name, friend.age 
+FROM friend, country
+</code></pre>
+<p>Output:</p>
+<pre><code>('Paul', 25)
+('Paul', 25)
+('Mary', 95)
+('Mary', 95)
+('Jeanne', 61)
+('Jeanne', 61)
+</code></pre>
+<p>This can seem counter-intuitive. But looking at what we ask the engine, it makes perfect sense. The SELECT statement asks to form a 2-tuple of (name, age) from two tables. It does not matter that we actually do not ask for any of the data from the 'country' table in the SELECT clause. The FROM clause has two tables, therefore the cross product of the two tables (for every row of country, for every row of friend) is generated. Since there is not WHERE clause (no predicate), all outputs are 'positibe and form the output.</p>
+<p>This is important to understand since, for example, in this more sensible query:</p>
+<pre><code>SELECT friend.name, friend.age, country.capital, country.population
+FROM   friend, country 
+WHERE  friend.country = country.name
+AND    friend.age &gt; 40
+</code></pre>
+<p>The output looks very reasoneable:    </p>
+<pre><code>('Mary', 95, 'Ottawa', 35.16)
+('Jeanne', 61, 'Washington', 318.9)
+</code></pre>
+<p>... so it is easy to forget that the SQL engine may potentially have to go over all 6 combinations of the cross product of 'friends X country'. Fortunately for us, SQL typically will execute the predicate in order of <em>selectivity</em>, so the total number of operations is much smaller than the cross product of all table referenced. However, degenerate queries where all predicates return true most of the time can quickly bring a SQL engine to its knees for large enough table.</p>
+<h2>Column-Store Relational Database</h2>
+<p>@@@read more about that</p>
+<p>The data is stored in disk in a column-fashion. The previous examples would have 3 columns: (names: Paul, Mary, Jeanne), (country: CA, CA, US), (ages: 25, 95, 61). The Record the data belongs to is identified by the index in the column at which the data is located [CStore_Paper, http://db.csail.mit.edu/projects/cstore/vldb.pdf].</p>
+<h1>Appendix: Example SQL Code</h1>
+<p><strong>[Inserted file: sql_intro.py.]</strong></p>
+<pre><code>import os
+import sqlite3
+
+DB_FILE = 'database.db'
+
+def createFriendsTable(conn):
+    """
+    This creates the _truth table_, the table at the center of the star schema.
+    """
+
+    c = conn.cursor()
+
+    c.execute("CREATE TABLE friend (name TEXT, country TEXT, age INT)") 
+    conn.commit()
+
+def createCountryTable(conn):
+    """
+    This is a _dimension table_, which means that it contain auxiliary for the truth table that is refered
+    to by a foreign key.
+    """
+
+    c = conn.cursor()
+
+    c.execute("CREATE TABLE country (name TEXT, capital TEXT, population FLOAT)") 
+    conn.commit()
+
+def insertFriendToDB(conn, friendName, friendCountry, friendAge):
+
+    cursor = conn.cursor()
+
+    sql_cmd = "INSERT INTO friend VALUES ('%s', '%s', %i)" % (friendName, friendCountry, friendAge)
+    cursor.execute(sql_cmd)
+    conn.commit()
+
+def insertCountriesToDB(conn, name, capital, population):
+
+    cursor = conn.cursor()
+
+    sql_cmd = "INSERT INTO country VALUES ('%s', '%s', %f)" % (name, capital, population)
+    cursor.execute(sql_cmd)
+    conn.commit()
+
+def query(conn):
+    cursor = conn.cursor()
+
+    # SELECT *   -&gt; ('Paul', 'CA', 25)
+    # SELECT age -&gt; (25,)
+    sql_cmd = """
+    SELECT name, age 
+    FROM friend 
+    WHERE age &gt; 40
+    """
+
+    print(sql_cmd)
+    ro = cursor.execute(sql_cmd)
+    for r in ro:
+        print(r)
+
+def queryCrossProduct(conn):
+    cursor = conn.cursor()
+
+    sql_cmd = """
+    SELECT friend.name, friend.age 
+    FROM friend, country 
+    """
+
+    print(sql_cmd)
+    ro = cursor.execute(sql_cmd)
+    for r in ro:
+        print(r)
+
+def queryWithImplicitJoin(conn):
+    cursor = conn.cursor()
+
+    sql_cmd = """
+    SELECT friend.name, friend.age, country.capital, country.population
+    FROM friend, country 
+    WHERE friend.country = country.name
+    AND   friend.age &gt; 40
+    """
+
+    print(sql_cmd)
+    ro = cursor.execute(sql_cmd)
+    for r in ro:
+        print(r)
+
+if __name__ == '__main__':
+
+    if os.path.isfile(DB_FILE):
+        os.remove(DB_FILE)
+
+    conn = sqlite3.connect(DB_FILE)
+    createFriendsTable(conn)
+    createCountryTable(conn)
+
+    insertFriendToDB(conn, 'Paul', 'CA', 25)
+    insertFriendToDB(conn, 'Mary', 'CA', 95)
+    insertFriendToDB(conn, 'Jeanne', 'US', 61)
+
+    insertCountriesToDB(conn, 'CA', 'Ottawa', 35.16)
+    insertCountriesToDB(conn, 'US', 'Washington', 318.9)
+
+    query(conn)
+    queryCrossProduct(conn)
+    queryWithImplicitJoin(conn)
+
+    conn.close()
+</code></pre>

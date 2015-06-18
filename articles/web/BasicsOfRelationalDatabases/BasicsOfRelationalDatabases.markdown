@@ -103,5 +103,5 @@ The data is stored in disk in a column-fashion. The previous examples would have
 
 # Appendix: Example SQL Code
 
-dext.insertFile('sql_intro.py')
+dext.insertCode('sql_intro.py')
 

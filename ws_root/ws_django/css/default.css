@@ -1,43 +1,47 @@
 
 body {
     margin: 20px 0;
-    margin-left: 225px;
+    margin-left: 255px;
     margin-right: 225px;
-    background: #F5F5F5;
+    /*background: #F5F5F5;*/
+    font-family: 'Georgia', serif; 
+    font-size: 18px; 
+    color: #000;
 }
 
-body, th, td, input, textarea {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 13px;
-	color: #080808;
-}
 
 h1, h2, h3 {
-	margin-top: 0.5em;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	/*margin-top: 0.5em;*/
+	font-family: Georgia, "Times New Roman", Times, serif; 
 	color: #626456;
 }
 
 h1 {
-	letter-spacing: -.075em;
-	font-size: 2.2em;
+	/*letter-spacing: -.075em;*/
+	/*font-size: 2.2em;*/
 }
 
 h2 {
+	/*
 	letter-spacing: -.05em;
 	font-size: 1.8em;
 	font-weight: normal;
 	color: #8D8E85;
+	*/
 }
 
 h3 {
+	/*
 	font-size: 1.3em;
+	*/
 }
 
 p {
+	/*
 	margin-top: 0.5em;
 	line-height: 1.5em;
 	font-size: 1.1em;
+	*/
 }
 
 a {
@@ -54,6 +58,7 @@ a:hover {
 
 pre {
   border: 1pt solid #AEBDCC;
+  font-size: 0.8em;
   background-color: #F3F5F7;
   padding: 5pt;
   font-family: courier, monospace;
@@ -118,6 +123,5 @@ pre.comment {
 }
 /* sidebar_left right end */
 
-/*** layout-end ***/
 
 

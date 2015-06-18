@@ -3,7 +3,7 @@
 
 # Simple Example of a Deadlock
 
-dext.insertFile('deadlock_simple.cc')
+dext.insertcode('deadlock_simple.cc')
 
 # To Check
 
