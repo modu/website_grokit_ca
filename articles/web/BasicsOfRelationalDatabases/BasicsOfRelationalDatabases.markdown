@@ -2,27 +2,27 @@
 
 ## Interface and Architecture of Typical Row-Store Relational Database
 
-Relational databases are structured in a set of _tables_ that refer to each other. A table is organized in _rows_ of information. A row is also called a _record_. Each row has a set of _attributes_, which can be thought of as a property of a row. When grouped together, those attributes are referred to as a _column_ and typically have an associated name. The important thing to remember: **everything** is a value in a table.
+Relational databases are structured in _tables_ that can refer to each other. A table is organized in _rows_ of information (also called a _record_). Each row has a set of _attributes_, which can be thought of as a property of a row. When grouped together, those attributes are referred to as a _column_ and typically have an associated name. The important thing to remember: **everything** is a value in a table.
 
-Table: friends_list
-                  (name)      (country)   (age)
-                  column_1    column_2    column_3
-    Record_1      Paul        CA          25
-    Record_2      Mary        CA          95
-    [...] 
-    Record_n      Jeanne      US          61
+	Table: friends_list
+			  (name)      (country)   (age)
+			  column_1    column_2    column_3
+	    Row_1         Paul        CA          25
+	    Row_2         Mary        CA          95
+	    [...] 
+	    Row_n         Jeanne      US          61
 
-In the above example, a row of data of table ‘friends_list’ is (Paul, CA, 25). ‘95’ is the ‘age’ _attribute_ for Record_2 (name: Mary). Every table has a _primary key_, which uniquely identifies a row. In our example, the primary key could be the ‘name’ column (assuming that the names are unique in the whole database; in reality, primary keys are typically unique positive integers).
+In the above example, a row of data of table ‘friends_list’ is (Paul, CA, 25). ‘95’ is the ‘age’ _attribute_ for Row_2 (name: Mary). Every table has a _primary key_, which uniquely identifies a row. In our example, the primary key could be the ‘name’ column (assuming that the names are unique in the whole database; in reality, primary keys are typically unique positive integers).
 
-For historical reasons, RDBMS typically organize assume that data is best organized by rows (because most early databases were dealing with online transaction processing (OLTP) type data). The physical data is stored on disk in a row-order: Paul, CA, 25; Mary, CA, 95; ... 61;. Next section will delve more in how the data is actually structured.
+For historical reasons, RDBMS typically (physicalle) organize data by rows (because most early databases were dealing with online transaction processing (OLTP) type data). The physical data is stored on disk in a row-order: Paul, CA, 25; Mary, CA, 95; ... 61;. Next section will delve more in how the data is actually structured.
 
 ### How Tables Map to Data-Structures
 
-Without any database administrator set constraint, the data is stored in an Index Allocation Map (IAM), which is basically a contigious array of data in no particular order alongside with an index ordered by id [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html]. This means that delegates operating on columns stored in IAM must scan the entire table.
+Without any database administrator set constraint, the data is stored in an Index Allocation Map (IAM), which is basically a contigious array of data in no particular order alongside with an index ordered by id [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html]. This means that operations on columns stored in IAM must scan the entire table.
 
-Databases allow to create one clustered index per table, which structures the data in a B-Tree whose keys are one of the column of the table (where that column has the property to have guaranteed unique entries).
+It is possible to create one (and only one!) clustered index per table, which structures data in a B-Tree whose keys are one of the column of the table (where that column has the property to have guaranteed unique entries).
 
-It is possible to have indexes on more than one index per table, but that necessitates that creation of another data structure (B-Tree again) containing a tuple of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency.
+It is possible to have indexes on more than one column, but requires the creation of a side-index (B-Tree again) containing tuples of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency (everytime an entyr is update, so must its index).
 
 For more information on the _data structure implementation_, I strongly suggest reading [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html].
 
