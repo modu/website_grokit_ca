@@ -4,18 +4,17 @@ import sqlite3
 
 DB_FILE = 'database.db'
 
-def createTable(conn):
+def createFriendsTable(conn):
     """
     This creates the _truth table_, the table at the center of the star schema.
     """
     
     c = conn.cursor()
     
-    # @@ have country in a foreign key
-    c.execute("CREATE TABLE friends_list (name TEXT, country TEXT, age INT)") 
+    c.execute("CREATE TABLE friend (name TEXT, country TEXT, age INT)") 
     conn.commit()
     
-def createCountry(conn):
+def createCountryTable(conn):
     """
     This is a _dimension table_, which means that it contain auxiliary for the truth table that is refered
     to by a foreign key.
@@ -23,16 +22,22 @@ def createCountry(conn):
     
     c = conn.cursor()
     
-    # @@ have country in a foreign key -- is this automatic?
-    c.execute("CREATE TABLE countries (name TEXT, capital TEXT, population INT)") 
+    c.execute("CREATE TABLE country (name TEXT, capital TEXT, population FLOAT)") 
     conn.commit()    
     
 def insertFriendToDB(conn, friendName, friendCountry, friendAge):
     
     cursor = conn.cursor()
     
-    sql_cmd = "INSERT INTO friends_list VALUES ('%s', '%s', %i)" % (friendName, friendCountry, friendAge)
-    print(sql_cmd)
+    sql_cmd = "INSERT INTO friend VALUES ('%s', '%s', %i)" % (friendName, friendCountry, friendAge)
+    cursor.execute(sql_cmd)
+    conn.commit()
+
+def insertCountriesToDB(conn, name, capital, population):
+    
+    cursor = conn.cursor()
+    
+    sql_cmd = "INSERT INTO country VALUES ('%s', '%s', %f)" % (name, capital, population)
     cursor.execute(sql_cmd)
     conn.commit()
 
@@ -41,16 +46,40 @@ def query(conn):
     
     # SELECT *   -> ('Paul', 'CA', 25)
     # SELECT age -> (25,)
-    sql_cmd = """SELECT name, age FROM friends_list WHERE age > 40;"""
+    sql_cmd = """
+    SELECT name, age 
+    FROM friend 
+    WHERE age > 40
+    """
+
     print(sql_cmd)
     ro = cursor.execute(sql_cmd)
     for r in ro:
         print(r)
     
+def queryCrossProduct(conn):
+    cursor = conn.cursor()
+    
+    sql_cmd = """
+    SELECT friend.name, friend.age 
+    FROM friend, country 
+    """ 
+
+    print(sql_cmd)
+    ro = cursor.execute(sql_cmd)
+    for r in ro:
+        print(r)
+
 def queryWithImplicitJoin(conn):
     cursor = conn.cursor()
     
-    sql_cmd = """SELECT name, age, country FROM friends_list WHERE age > 40;"""
+    sql_cmd = """
+    SELECT friend.name, friend.age, country.capital, country.population
+    FROM friend, country 
+    WHERE friend.country = country.name
+    AND   friend.age > 40
+    """ 
+
     print(sql_cmd)
     ro = cursor.execute(sql_cmd)
     for r in ro:
@@ -60,14 +89,21 @@ if __name__ == '__main__':
 
     if os.path.isfile(DB_FILE):
         os.remove(DB_FILE)
+
     conn = sqlite3.connect(DB_FILE)
-    createTable(conn)
+    createFriendsTable(conn)
+    createCountryTable(conn)
      
     insertFriendToDB(conn, 'Paul', 'CA', 25)
-    insertFriendToDB(conn, 'Mary ', 'CA', 95)
-    insertFriendToDB(conn, 'Jeanne ', 'US', 61)
+    insertFriendToDB(conn, 'Mary', 'CA', 95)
+    insertFriendToDB(conn, 'Jeanne', 'US', 61)
+
+    insertCountriesToDB(conn, 'CA', 'Ottawa', 35.16)
+    insertCountriesToDB(conn, 'US', 'Washington', 318.9)
     
     query(conn)
+    queryCrossProduct(conn)
+    queryWithImplicitJoin(conn)
     
     conn.close()
 
