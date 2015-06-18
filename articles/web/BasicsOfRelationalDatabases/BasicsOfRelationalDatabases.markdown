@@ -6,12 +6,12 @@ Relational databases are structured in _tables_ that can refer to each other. A 
 
   Table: friends_list
 
-    (name)      (country)   (age)
-    column_1    column_2    column_3
-  Row_1   Paul        CA          25
-  Row_2   Mary        CA          95
-  [...] 
-  Row_n   Jeanne      US          61
+           (name)      (country)   (age)
+           column_1    column_2    column_3
+   Row_1   Paul        CA          25
+   Row_2   Mary        CA          95
+   [...] 
+   Row_n   Jeanne      US          61
 
 In the above example, a row of data of table ‘friends_list’ is (Paul, CA, 25). ‘95’ is the ‘age’ _attribute_ for Row_2 (name: Mary). Every table has a _primary key_, which uniquely identifies a row. In our example, the primary key could be the ‘name’ column (assuming that the names are unique in the whole database; in reality, primary keys are typically unique positive integers).
 
