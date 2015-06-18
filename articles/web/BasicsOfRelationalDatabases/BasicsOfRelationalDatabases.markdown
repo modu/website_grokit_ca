@@ -61,7 +61,7 @@ For example:
     ('Mary', 95)
     ('Jeanne', 61)
 
-### How Operations are Executes
+### How Operations are Executed
 
 The basic mode of operation is simple to understand. First, the SELECT clause defines which _elements_ need to form the output. Those can be from the truth table or any of the dimension table. The FROM clause defines the source tables. The WHERE is just a set of predicate. The predicate run one-by-one, if any data is missing to run the predicate it is fetched from the dimension table. If all predicates match then the data will form the output.
 
