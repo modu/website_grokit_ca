@@ -17,14 +17,6 @@ In the above example, a row of data of table ‘friends_list’ is (Paul, CA, 25
 
 For historical reasons, RDBMS typically (physicalle) organize data by rows (because most early databases were dealing with online transaction processing (OLTP) type data). The physical data is stored on disk in a row-order: Paul, CA, 25; Mary, CA, 95; ... 61;. Next section will delve more in how the data is actually structured.
 
-## How Tables Map to Data-Structures
-
-Without any database administrator set constraint, the data is stored in an __Index Allocation Map__ (IAM), which is basically a contigious array of data in no particular order alongside with an index ordered by id [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html]. This means that operations on columns stored in IAM must scan the entire table.
-
-It is possible to create one (and only one!) __clustered index__ per table, which structures data in a __B-Tree__ whose keys are one of the column of the table (where that column has the property to have guaranteed unique entries).
-
-It is possible to have __indexes__ on more than one column, but requires the creation of a side-index (data structure: B-Tree again) containing tuples of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency (everytime an entry is updated, so must its index).
-
 ## Relations Between Tables
 
 Using simply one long table (a set of flat rows), it would be hard to represent arbitrary _composite_ data without duplication. For example, in the table of the previous section, what would happen if in addition to a county, we have query that require the population and capital (of the country they live in) for every person in the table?
@@ -36,6 +28,14 @@ It is possible to extend the table to contain columns ‘population’, ‘capit
             (name)      (population)   (capital)
     Row_1   CA          35.16          Ottawa 
     Row_2   US          318.9          Washington
+
+## How Tables Map to Data-Structures
+
+Without any database administrator set constraint, the data is stored in an __Index Allocation Map__ (IAM), which is basically a contigious array of data in no particular order alongside with an index ordered by id [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html]. This means that operations on columns stored in IAM must scan the entire table.
+
+It is possible to create one (and only one!) __clustered index__ per table, which structures data in a __B-Tree__ whose keys are one of the column of the table (where that column has the property to have guaranteed unique entries).
+
+It is possible to have __indexes__ on more than one column, but requires the creation of a side-index (data structure: B-Tree again) containing tuples of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency (everytime an entry is updated, so must its index).
 
 ## The SQL Language
 
