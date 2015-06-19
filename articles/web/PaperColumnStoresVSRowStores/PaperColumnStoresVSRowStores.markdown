@@ -98,11 +98,11 @@ This has the potential to be faster than _early materialization_ since:
 
 ##### No superfluous data is read
 
-In a RS, the data is stored in row-order, which means that after the original seek (which is the slowest operation in a read -- sequential read is extremely fast), only a bit of data can be read (the column required to run the predicate for the row) before having to seek again. 
+Is a RS, some of the fields for a row might not be needed, but they need to be read anyways. Using CS / late materialization, no superfluous data is read.
 
 ##### Locality of Reference
 
-Is a RS, some of the fields for a row might not be needed, but they need to be read anyways. Using CS / late materialization, no superfluous data is read.
+In a RS, the data is stored in row-order, which means that after the original seek (which is the slowest operation in a read -- sequential read is extremely fast), only a bit of data can be read (the column required to run the predicate for the row) before having to seek again. 
 
 ##### No Partial Tuples Constructed
 
