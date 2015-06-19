@@ -114,12 +114,6 @@ The last section of 5.2 covered block iteration and why it is faster. It is wort
 
 ### 5.4 Author’s Innovation: Invisible Join
 
-An issue with column late materialization is that data from the different columns is extracted out-of-order in the final tuple materialization, which has performance cost due to bad locality of reference.
+Their innovation if a form of late materialization that they call __invisible join__ with an added optimization that result in less _out of order_ accesses.
 
-An invisible join consist of the following steps:
-
-- Apply predicates on dimension tables.
-- Create 1 hash table per column. Hash is of key ? {0,1}.
-- Do a binary AND on all keys (keep only keys that satisfy all predicates).
-
-It is not clear to me how this is fundamentally different from late materialization. Also, after 3, the materialization will also be done out of order for all columns but the first one (assuming no correlation between column orders).
+In late materialization, when the output n-tuple is being constructed, only one of the column will likely be in sorted order. Because of _locality of reference_, reading the columns out-of-order is relatively slow.
