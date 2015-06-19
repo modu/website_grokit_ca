@@ -86,11 +86,9 @@ For example, in a typical SQL query:
 
 ... all predicates must return true for the engine to have to return the data from the SELECT line to the user. This means that it can skip fetching some of the data if a predicate is false. Therefore, the data is fetched in a __pipeline join__ in order of __predicate selectivity__.
 
-+ PIPELINE JOIN
+This means that the SQL engine will progressively build a tuple of data as it processes the predicates. When it needs data from another table, it does an implicit join, applies the predicate, if the predicate return true it appends the data to the tuple and keep going.
 
-Predicate are run in order of most to least selective: the next predicate to run is fetched, if any data is missing it is fetched using a join operation and appended to the tuple. 
-
-Once the operation is done for a row, a n-tuple is kept in memory and the same steps are repeated on the next row until all rows are done.
+This process is called __early materialization__ because the tuple is materialized from the moment the first predicate is run. If all predicate are run and the last one return false, the partially built tuple is simply discarded.
 
 #### Late Materialization
 
