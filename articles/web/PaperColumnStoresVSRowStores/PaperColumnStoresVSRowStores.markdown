@@ -63,7 +63,7 @@ Denormalize the data in tuples which fit the predicates that are often run on th
 
 ## 5. Column Oriented Execution
 
-This section reviews optimization that a CS can use.
+This section reviews optimization that a CS can use. Most of those optimizations hinge on the idea that in CS, you can do thing faster since you do not need to read / process unrelated data (that you necessarily have to skip over if processing row-by-row).
 
 ### 5.1 Compression
 
