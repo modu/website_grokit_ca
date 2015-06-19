@@ -114,7 +114,7 @@ Since after doing the AND of all the columns it is possible to skip all rows for
 
 The last section of 5.2 covered block iteration and why it is faster. It is worth mentioning that CS can also take advantage of the fact that column data will either be all fixed width, or all variable width. This means that column that are fixed width can be processed much faster. In RS, if any of the column of an record is of variable width, the whole record become variable width and that does away with the possible optimizations.
 
-### 5.4 Author’s Innovation: Invisible Join
+##### Invisible Join
 
 Their innovation if a form of late materialization that they call __invisible join__ with an added optimization that result in less _out of order_ accesses.
 
