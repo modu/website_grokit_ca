@@ -104,8 +104,6 @@ The last section of 5.2 covered block iteration and why it is faster. It is wort
 
 ### 5.4 Author’s Innovation: Invisible Join
 
-See 5.2 for an overview of early and late materialization.
-
 An issue with column late materialization is that data from the different columns is extracted out-of-order in the final tuple materialization, which has performance cost due to bad locality of reference.
 
 An invisible join consist of the following steps:
