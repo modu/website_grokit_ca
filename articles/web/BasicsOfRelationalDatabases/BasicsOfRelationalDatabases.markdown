@@ -107,12 +107,14 @@ It is easy to forget that the SQL engine may potentially have to go over all 6 c
 
 ## Transactions
 
-An example from [MySQL](https://dev.mysql.com/doc/refman/5.0/en/commit.html):
+SQL supports transaction on generic statements. An example from [MySQL](https://dev.mysql.com/doc/refman/5.0/en/commit.html):
 
     START TRANSACTION;
     SELECT @A:=SUM(salary) FROM table1 WHERE type=1;
     UPDATE table2 SET summary=@A WHERE type=1;
     COMMIT;
+
+At the cost of efficiency (think about what it means for locking data), this is a principal advantage over KVP where transaction support is fundamentally more limited.
 
 # Appendix: Example SQL Code
 
