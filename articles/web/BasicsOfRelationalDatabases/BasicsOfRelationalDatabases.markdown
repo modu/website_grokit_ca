@@ -2,7 +2,7 @@
 
 ## Interface and Architecture of Typical Row-Store Relational Database
 
-Relational databases are structured in _tables_ that can refer to each other. A table is organized in _rows_ of information (also called a _record_). Each row has a set of _attributes_, which can be thought of as a property of a row. When grouped together, those attributes are referred to as a _column_ and typically have an associated name. An important thing to remember: _everything is a value in a table_.
+Relational databases are structured in __tables__ that can refer to each other. A table is organized in __rows__ of information (also called a __record__). Each row has a set of __attributes__, which can be thought of as a property of a row. When grouped together, those attributes are referred to as a __column__ and typically have an associated name.
 
     Table: friends_list
 
