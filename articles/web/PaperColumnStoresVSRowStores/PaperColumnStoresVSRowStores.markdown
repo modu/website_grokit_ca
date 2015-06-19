@@ -4,25 +4,25 @@ Link to paper: [ACM website for citations](http://dl.acm.org/citation.cfm?id=137
 
 ## Overview
 
-SQL databases are typically row-oriented. These row-stores (RS) are well suited for applications such as customer relationship management, but ill-suited for online analytical processing (OLAP) such as data mining.
+SQL databases are typically row-oriented. These row-stores (RS) are well suited for applications such as __customer relationship management__, but ill-suited for online __analytical processing__ (OLAP) such as data mining.
 
-This paper compares the performance of RS and column-stores (CS) databases for those workloads. The contributions are:
+This paper compares the performance of RS and column-stores (CS) databases. The contributions are:
 
 1. Comparison of RS and CS databases on a standard benchmark.
-2. Lists, explain and measure gains of different optimizations in CS databases.
-3. Address the question of whether adapting the schema of a RS to me more CS-like can yield similar performance gain as switching to a CS database.
-4. Proposes and measures the performance of a novel optimization for CS databases: invisible join.
+2. Lists, explain and measure __gains__ of different __optimizations__ in __CS__ databases.
+3. Address the question of whether __adapting__ the schema of a __RS__ to me more CS-like can yield similar performance gain as __switching__ to a CS database.
+4. Proposes and measures the performance of a __novel optimization__ for CS databases: __invisible join__.
 
 The __main findings__ are:
 
-1. CS can outperform RS by about a factor 10 _for some workloads_. 
+1. CS can outperform RS by about a factor 10 __for some workloads__. 
 2. Performance gains: late materialization: 3x, compression: 2x.
-3. Attempts to adapt RS schemas to be more CS-like by method such as vertical partitioning, creating indexes for every column and optimal materialized views did not improve performance of RS as much as switching to CS.
+3. Attempts to adapt RS schemas to be more CS-like by method such as __vertical partitioning__, creating __indexes for every column__ and __optimal materialized views__ did not improve performance of RS as much as switching to CS.
 4. Invisible join improves performance by 50%.
 
 Those results suggest that one should pick a database system that is well suited for the expected workload.
 
-However, the reason RS optimizations to me more CS-like did not yield good result does not mean that it is not possible to build a RS database that can have similar performances under OLAP workload given CS-like optimizations are not done. The authors claim that _current_ RS databases are not coded in a way that can take advantage of those optimizations.
+However, the reason RS optimizations did not yield good result does not mean that it is not possible to build a RS database that can have _similar performances under OLAP workload given CS-like optimizations_. The authors claim that __current__ RS databases are __not coded in a way__ that can take advantage of those optimizations.
 
 ## 1. Introduction
 
