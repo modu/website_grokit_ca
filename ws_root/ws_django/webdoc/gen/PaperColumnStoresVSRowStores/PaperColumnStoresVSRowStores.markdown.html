@@ -9,7 +9,7 @@
 <li>Address the question of whether adapting the schema of a RS to me more CS-like can yield similar performance gain as switching to a CS database.</li>
 <li>Proposes and measures the performance of a novel optimization for CS databases: invisible join.</li>
 </ol>
-<p>The main findings are:</p>
+<p>The <strong>main findings</strong> are:</p>
 <ol>
 <li>CS can outperform RS by about a factor 10 <em>for some workloads</em>. </li>
 <li>Performance gains: late materialization: 3x, compression: 2x.</li>
@@ -27,10 +27,11 @@
 <li>Locality of reference: it is much faster to access data in a contiguous manner.</li>
 </ul>
 <h2>4. Row Oriented Execution</h2>
-<p>Section 4 discusses optimizations that can be introduced to a RS database to mimic a CS database.</p>
+<p>Section 4 discusses <strong>optimizations</strong> that can be introduced to a <strong>RS</strong> database to <strong>mimic</strong> a <strong>CS</strong> database.</p>
 <p>Although those optimization seem like a good idea, the authors show that none of them perform particularly well.</p>
 <h3>4.1 Vertical Partitioning</h3>
-<p>Entities are split in tables, one table per attribute. Since entities are not necessarily stored in order (hence the need for IAM), each attribute table stores the value alongside its position id (~= primary key of row the attribute belong to).</p>
+<p>Entities are split in tables, one table per attribute. </p>
+<p>Since entities are not necessarily stored in order (hence the need for IAM), each attribute table stores the value alongside its position id (~= primary key of row the attribute belong to).</p>
 <p>For example, the name column of the example RS in 1.2.2 becomes a list of (position, value) tuples:</p>
 <pre><code>(2, Mary)
 (1, Paul)
@@ -43,10 +44,26 @@
 <p>Denormalize the data in tuples which fit the predicates that are often run on the database.</p>
 <h2>5. Column Oriented Execution</h2>
 <h3>5.1 Compression</h3>
-<p>Data in a column has less variance than data across rows (less entropy), it can therefore be compressed more efficiently. The main gain from compression is reduced I/O, rather than saving disk space. One must take care to select appropriate compression algorithms where speed of decompression is optimized at the cost of saving disk space. Another saving from compression is that some predicates can operate directly on (smaller) compressed data (think of binary comparison for example).</p>
+<p>Data in a <strong>column</strong> has <strong>less variance</strong> than data across rows (less entropy), it can therefore be compressed more efficiently. The main <strong>gain</strong> from compression is <strong>reduced I/O</strong>, rather than saving disk space. One must take care to select appropriate compression algorithms where speed of decompression is optimized at the cost of saving disk space. Another saving from compression is that some predicates can operate directly on (smaller) compressed data (think of binary comparison for example).</p>
 <h3>5.2 Early Materialization, Late Materialization</h3>
-<p>In a CS database, tuples that represent the data needed to run the query’s predicates for a row are materialized in a row-by-row order. Materialization is the creation of a tuple that represents the information required to complete an operation, which can be any of the columns in the row in addition data which is present in other table(s) (and that must be fetched with a join operation). Predicate are run in order of most to least selective: the next predicate to run is fetched, if any data is missing it is fetched using a join operation and appended to the tuple. Once the operation is done for a row, a n-tuple is kept in memory and the same steps are repeated on the next row until all rows are done.</p>
-<p>In a CS database, the predicates can be run on the columns separately. Since entities in a column are at a fixed offset, that allows to keep a simple binary mask (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate, and doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. Then, the tuple are materialized (hence ‘late materialization’). This avoids partial materialization for entities that eventually have a predicate that return false. It is also significantly faster to do things this way since no superfluous data is read. In a RS, the data is stored in row-order, which means that after the original seek (which is the slowest operation in a read -- sequential read is extremely fast), only a bit of data can be read (the column required to run the predicate for the row) before having to seek again. In CS, a large chunk of column information can be sequentially read, which is much more efficient.</p>
+<p><strong>Materialization</strong> is the creation of a tuple that represents information required to complete an operation, which can be any of the attribute from any of the tables (attribute in dimension tables must be fetched with a join operation). </p>
+<h4>Early Materialization</h4>
+<p>To complete a query, it is necessary to fetch the information from the SELECT statement in addition to all information necessary to run all the predicates.</p>
+<p>For example, in a typical SQL query:</p>
+<pre><code>    SELECT &lt;column_1, column_2, ..., column_n&gt;
+    FROM   &lt;table_1, table_2, ..., table_n&gt;
+    WHERE  &lt;predicate_1&gt;
+    AND    &lt;predicate_2&gt;
+    [...]
+    AND    &lt;predicate_n&gt;
+</code></pre>
+<p>... all predicates must return true for the engine to have to return the data from the SELECT line to the user. This means that it can skip fetching some of the data if a predicate is false. Therefore, the data is fetched in a <strong>pipeline join</strong> in order of <strong>predicate selectivity</strong>.</p>
+<p>This means that the SQL engine will progressively build a tuple of data as it processes the predicates. When it needs data from another table, it does an implicit join, applies the predicate, if the predicate return true it appends the data to the tuple and keep going.</p>
+<p>This process is called <strong>early materialization</strong> because the tuple is materialized from the moment the first predicate is run. If all predicates are run and the last one return false, the partially built tuple is simply discarded.</p>
+<h4>Late Materialization</h4>
+<p>In a CS database, the predicates can be run on the columns separately. Since entities in a column are at a fixed offset, that allows to keep a simple binary mask (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate, and doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. Then, the tuple are materialized (hence ‘late materialization’). </p>
+<p>This avoids partial materialization for entities that eventually have a predicate that return false. </p>
+<p>It is also significantly faster to do things this way since no superfluous data is read. In a RS, the data is stored in row-order, which means that after the original seek (which is the slowest operation in a read -- sequential read is extremely fast), only a bit of data can be read (the column required to run the predicate for the row) before having to seek again. In CS, a large chunk of column information can be sequentially read, which is much more efficient.</p>
 <h3>5.3 Block Iteration</h3>
 <p>The last section of 5.2 covered block iteration and why it is faster. It is worth mentioning that CS can also take advantage of the fact that column data will either be all fixed width, or all variable width. This means that column that are fixed width can be processed much faster. In RS, if any of the column of an record is of variable width, the whole record become variable width and that does away with the possible optimizations.</p>
 <h3>5.4 Author’s Innovation: Invisible Join</h3>
