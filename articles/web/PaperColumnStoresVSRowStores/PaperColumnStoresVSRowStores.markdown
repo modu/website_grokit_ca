@@ -106,7 +106,7 @@ Is a RS, some of the fields for a row might not be needed, but they need to be r
 
 ##### No Partial Tuples Constructed
 
-Since after doing the AND of all the columns it is possible to skip all rows for which one of the predicate is false. In RS / early materialization, the evaluation of predicate is done in a pipelined fashion, which means that if 9 out of 10 predicates are true and the 10th is false, a 9-tuple is constructed and thrown away.
+Since after doing the AND of all the columns it is possible to skip all rows for which one of the predicate is false. In RS / early materialization, the evaluation of predicate is done in a pipelined fashion, which means that if 9 out of 10 predicates are true and the 10th is false, a 9-tuple is constructed and thrown away. A 9-bit mask is necessarily smaller than a 9-tuple.
 
 ##### Block Iteration
 
