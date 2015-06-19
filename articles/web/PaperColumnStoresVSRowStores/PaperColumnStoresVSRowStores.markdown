@@ -69,7 +69,19 @@ Data in a __column__ has __less variance__ than data across rows (less entropy),
 
 ### 5.2 Early Materialization, Late Materialization
 
-In a CS database, tuples that represent the data needed to run the query’s predicates for a row are materialized in a row-by-row order. Materialization is the creation of a tuple that represents the information required to complete an operation, which can be any of the columns in the row in addition data which is present in other table(s) (and that must be fetched with a join operation). Predicate are run in order of most to least selective: the next predicate to run is fetched, if any data is missing it is fetched using a join operation and appended to the tuple. Once the operation is done for a row, a n-tuple is kept in memory and the same steps are repeated on the next row until all rows are done.
+**Materialization** is the creation of a tuple that represents information required to complete an operation, which can be any of the attribute from any of the tables (attribute in dimension tables must be fetched with a join operation). 
+
+#### Early Materialization
+
+In a CS database, tuples that represent the data needed to run the query’s predicates for a row are materialized in a row-by-row order. 
+
+
+
++ PIPELINE JOIN
+
+Predicate are run in order of most to least selective: the next predicate to run is fetched, if any data is missing it is fetched using a join operation and appended to the tuple. Once the operation is done for a row, a n-tuple is kept in memory and the same steps are repeated on the next row until all rows are done.
+
+#### Late Materialization
 
 In a CS database, the predicates can be run on the columns separately. Since entities in a column are at a fixed offset, that allows to keep a simple binary mask (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate, and doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. Then, the tuple are materialized (hence ‘late materialization’). This avoids partial materialization for entities that eventually have a predicate that return false. It is also significantly faster to do things this way since no superfluous data is read. In a RS, the data is stored in row-order, which means that after the original seek (which is the slowest operation in a read -- sequential read is extremely fast), only a bit of data can be read (the column required to run the predicate for the row) before having to seek again. In CS, a large chunk of column information can be sequentially read, which is much more efficient.
 
