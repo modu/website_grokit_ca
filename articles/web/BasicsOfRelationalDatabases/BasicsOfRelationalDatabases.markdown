@@ -13,9 +13,9 @@ Relational databases are structured in __tables__ that can refer to each other. 
     [...] 
     Row_n   Jeanne      US          61
 
-In the above example, a row of data of table ‘friends_list’ is (Paul, CA, 25). ‘95’ is the ‘age’ _attribute_ for Row_2 (name: Mary). Every table has a _primary key_, which uniquely identifies a row. In our example, the primary key could be the ‘name’ column (assuming that the names are unique in the whole database; in reality, primary keys are typically unique positive integers).
+In the above example, a row of data of table ‘friends_list’ is (Paul, CA, 25). ‘95’ is the ‘age’ _attribute_ for Row_2 (name: Mary). Every table has a __primary key__, which uniquely identifies a row. In our example, the primary key could be the ‘name’ column (assuming that the names are unique in the whole database; in reality, primary keys are typically unique positive integers).
 
-For historical reasons, RDBMS typically (physicalle) organize data by rows (because most early databases were dealing with online transaction processing (OLTP) type data). The physical data is stored on disk in a row-order: Paul, CA, 25; Mary, CA, 95; ... 61;. Next section will delve more in how the data is actually structured.
+For historical reasons, RDBMS typically (physicalle) organize data by rows (because most early databases were dealing with online transaction processing (OLTP) type data). The physical __data__ is __stored__ on disk in a __row-order__: Paul, CA, 25; Mary, CA, 95; ... 61;. Next section will delve more in how the data is actually structured.
 
 ## Relations Between Tables
 
