@@ -61,13 +61,17 @@
 <p>This means that the SQL engine will progressively build a tuple of data as it processes the predicates. When it needs data from another table, it does an implicit join, applies the predicate, if the predicate return true it appends the data to the tuple and keep going.</p>
 <p>This process is called <strong>early materialization</strong> because the tuple is materialized from the moment the first predicate is run. If all predicates are run and the last one return false, the partially built tuple is simply discarded.</p>
 <h4>Late Materialization</h4>
-<p>In a CS database, the predicates can be run on the columns separately. Since entities in a column are at a fixed offset, that allows to keep a simple binary mask (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate, and doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. Then, the tuple are materialized (hence ‘late materialization’). </p>
-<p>This avoids partial materialization for entities that eventually have a predicate that return false. </p>
-<p>It is also significantly faster to do things this way since no superfluous data is read. In a RS, the data is stored in row-order, which means that after the original seek (which is the slowest operation in a read -- sequential read is extremely fast), only a bit of data can be read (the column required to run the predicate for the row) before having to seek again. In CS, a large chunk of column information can be sequentially read, which is much more efficient.</p>
-<h3>5.3 Block Iteration</h3>
+<p>Assuming CS (data in a column is stored sequentially), it is very efficient to apply predicates column-by-column instead of row-by-row. Since in a CS, <em>entities in a column are at a fixed offset</em>, that allows to keep a simple <strong>binary mask</strong> (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate. Doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. After this is done, the final output n-tuple can be materialized.</p>
+<p>This has the potential to be faster than <em>early materialization</em> since:</p>
+<h5>No superfluous data is read</h5>
+<p>Is a RS, some of the fields for a row might not be needed, but they need to be read anyways. Using CS / late materialization, no superfluous data is read.</p>
+<h5>Locality of Reference</h5>
+<p>In a RS, the data is stored in row-order, which means that after the original seek (which is the slowest operation in a read -- sequential read is extremely fast), only a bit of data can be read (the column required to run the predicate for the row) before having to seek again. </p>
+<h5>No Partial Tuples Constructed</h5>
+<p>Since after doing the AND of all the columns it is possible to skip all rows for which one of the predicate is false. In RS / early materialization, the evaluation of predicate is done in a pipelined fashion, which means that if 9 out of 10 predicates are true and the 10th is false, a 9-tuple is constructed and thrown away. A 9-bit mask is necessarily smaller than a 9-tuple.</p>
+<h5>Block Iteration</h5>
 <p>The last section of 5.2 covered block iteration and why it is faster. It is worth mentioning that CS can also take advantage of the fact that column data will either be all fixed width, or all variable width. This means that column that are fixed width can be processed much faster. In RS, if any of the column of an record is of variable width, the whole record become variable width and that does away with the possible optimizations.</p>
 <h3>5.4 Author’s Innovation: Invisible Join</h3>
-<p>See 5.2 for an overview of early and late materialization.</p>
 <p>An issue with column late materialization is that data from the different columns is extracted out-of-order in the final tuple materialization, which has performance cost due to bad locality of reference.</p>
 <p>An invisible join consist of the following steps:</p>
 <ul>

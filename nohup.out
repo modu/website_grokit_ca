@@ -1,0 +1,12 @@
+Dropbox is already running!
+defined(@array) is deprecated at /usr/bin/shutter line 3736.
+	(Maybe you should just omit the defined()?)
+defined(@array) is deprecated at /usr/bin/shutter line 3747.
+	(Maybe you should just omit the defined()?)
+WARNING: gnome-web-photo is missing --> screenshots of websites will be disabled!
+
+WARNING: Net::DBus::GLib is missing --> Ubuntu One support will be disabled!
+
+WARNING: Image::ExifTool is missing --> writing Exif information will be disabled!
+
+GLib-CRITICAL **: Source ID 324 was not found when attempting to remove it at /usr/bin/shutter line 7256.

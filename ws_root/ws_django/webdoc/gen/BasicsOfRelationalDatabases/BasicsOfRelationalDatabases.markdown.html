@@ -1,6 +1,6 @@
 <h1>Short Introduction to Relational DataBase Management Systems (RDBMS).</h1>
 <h2>Interface and Architecture of Typical Row-Store Relational Database</h2>
-<p>Relational databases are structured in <em>tables</em> that can refer to each other. A table is organized in <em>rows</em> of information (also called a <em>record</em>). Each row has a set of <em>attributes</em>, which can be thought of as a property of a row. When grouped together, those attributes are referred to as a <em>column</em> and typically have an associated name. An important thing to remember: <em>everything is a value in a table</em>.</p>
+<p>Relational databases are structured in <strong>tables</strong> that can refer to each other. A table is organized in <strong>rows</strong> of information (also called a <strong>record</strong>). Each row has a set of <strong>attributes</strong>, which can be thought of as a property of a row. When grouped together, those attributes are referred to as a <strong>column</strong> and typically have an associated name.</p>
 <pre><code>Table: friends_list
 
         (name)      (country)   (age)
@@ -15,7 +15,7 @@ Row_n   Jeanne      US          61
 <h2>How Tables Map to Data-Structures</h2>
 <p>Without any database administrator set constraint, the data is stored in an <strong>Index Allocation Map</strong> (IAM), which is basically a contigious array of data in no particular order alongside with an index ordered by id [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html]. This means that operations on columns stored in IAM must scan the entire table.</p>
 <p>It is possible to create one (and only one!) <strong>clustered index</strong> per table, which structures data in a <strong>B-Tree</strong> whose keys are one of the column of the table (where that column has the property to have guaranteed unique entries).</p>
-<p>It is possible to have <strong>indexes</strong> on more than one column, but requires the creation of a side-index (data structure: B-Tree again) containing tuples of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency (everytime an entyr is update, so must its index).</p>
+<p>It is possible to have <strong>indexes</strong> on more than one column, but requires the creation of a side-index (data structure: B-Tree again) containing tuples of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency (everytime an entry is updated, so must its index).</p>
 <h2>Relations Between Tables</h2>
 <p>Using simply one long table (a set of flat rows), it would be hard to represent arbitrary <em>composite</em> data without duplication. For example, in the table of the previous section, what would happen if in addition to a county, we have query that require the population and capital (of the country they live in) for every person in the table?</p>
 <p>It is possible to extend the table to contain columns ‘population’, ‘capital’ next to the ‘country’ column. This duplicates the information which wastes spaces and makes a simple update (CA’s population + 1 ?  need to change all entries where ‘country’ = ‘CA’). A widely used relational model is the <strong>star schema</strong> [RDBMS_StarSchema, https://en.wikipedia.org/wiki/Star_schema], where the main table is called the <strong>fact table</strong> and the anxiliary tables are called <strong>dimensions tables</strong>. Attributes in the fact tables that refer to records in a dimension table use a <strong>foreign key</strong>, which is really just a pointer to an entry in a different table.</p>
@@ -45,7 +45,7 @@ WHERE  age &gt; 40
 ('Jeanne', 61)
 </code></pre>
 <h3>How Operations are Executed</h3>
-<p>The basic mode of operation is simple to understand. First, the SELECT clause defines which <em>elements</em> need to form the output. Those can be from the fact table or any of the dimension table. The FROM clause defines the source tables. The WHERE is just a set of predicate. The predicate run one-by-one, if any data is missing to run the predicate it is fetched from the dimension table. If all predicates match then the data will form the output.</p>
+<p>The SELECT clause defines which <em>elements</em> need to form the output. The elements can be from the fact table or any of the dimension table. The FROM clause defines the source tables. The WHERE is just a set of predicate. The predicates run one-by-one, if any data is missing to run the predicate, it is fetched from the dimension table. If all predicates match then the elements from the SELECT will be part of the output (the current <em>row</em> is part of the output).</p>
 <h3>Think of Cross Products</h3>
 <p>One of the principal insight to get is that when selecting from more than one table, the SQL engine will basically do a cross product of the two tables (another way to think of it is a double nested loop):</p>
 <p>SQL:</p>
@@ -75,9 +75,6 @@ AND    friend.age &gt; 40
 <p>The main insight here is the odd-looking line <em>WHERE  friend.country = country.name</em>. This is what links (<em>joins</em>) two tables together: an entity in table 'friend' <em>relates</em> to an entity in table 'country' if the predicate is true. This is called an <em>implicit join</em>.</p>
 <h4>Predicates Order and Selectivity</h4>
 <p>It is easy to forget that the SQL engine may potentially have to go over all 6 combinations of the cross product of 'friends X country'. Fortunately for us, SQL typically will execute the predicate in order of <em>selectivity</em>, so the total number of operations is much smaller than the cross product of all table referenced. However, degenerate queries where all predicates return true most of the time can quickly bring a SQL engine to its knees for large enough table.</p>
-<h2>Column-Store Relational Database</h2>
-<p>@@@read more about that</p>
-<p>The data is stored in disk in a column-fashion. The previous examples would have 3 columns: (names: Paul, Mary, Jeanne), (country: CA, CA, US), (ages: 25, 95, 61). The Record the data belongs to is identified by the index in the column at which the data is located [CStore_Paper, http://db.csail.mit.edu/projects/cstore/vldb.pdf].</p>
 <h1>Appendix: Example SQL Code</h1>
 <p><strong>[Inserted file: sql_intro.py.]</strong></p>
 <pre><code>import os
