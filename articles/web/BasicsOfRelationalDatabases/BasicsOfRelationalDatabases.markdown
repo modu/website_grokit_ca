@@ -114,7 +114,7 @@ SQL supports transaction on generic statements. An example from [MySQL](https://
     UPDATE table2 SET summary=@A WHERE type=1;
     COMMIT;
 
-At the cost of efficiency (think about what it means for locking data), this is a principal advantage over KVP where transaction support is fundamentally more limited.
+At the cost of efficiency (think about what it means for locking data), this is a principal advantage over Key-Value Pair datastores where transaction support is fundamentally more limited (because information is sharded accross different machines).
 
 # Appendix: Example SQL Code
 
