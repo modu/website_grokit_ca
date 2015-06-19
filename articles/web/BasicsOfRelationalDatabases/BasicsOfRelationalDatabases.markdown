@@ -23,7 +23,7 @@ Without any database administrator set constraint, the data is stored in an __In
 
 It is possible to create one (and only one!) __clustered index__ per table, which structures data in a __B-Tree__ whose keys are one of the column of the table (where that column has the property to have guaranteed unique entries).
 
-It is possible to have __indexes__ on more than one column, but requires the creation of a side-index (data structure: B-Tree again) containing tuples of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency (everytime an entyr is update, so must its index).
+It is possible to have __indexes__ on more than one column, but requires the creation of a side-index (data structure: B-Tree again) containing tuples of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency (everytime an entry is updated, so must its index).
 
 ## Relations Between Tables
 
