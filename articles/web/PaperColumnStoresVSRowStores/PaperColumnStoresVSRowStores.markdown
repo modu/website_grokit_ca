@@ -35,13 +35,15 @@ However, the reason RS optimizations to me more CS-like did not yield good resul
 
 ## 4. Row Oriented Execution
 
-Section 4 discusses optimizations that can be introduced to a RS database to mimic a CS database.
+Section 4 discusses __optimizations__ that can be introduced to a __RS__ database to __mimic__ a __CS__ database.
 
 Although those optimization seem like a good idea, the authors show that none of them perform particularly well.
 
 ### 4.1 Vertical Partitioning
 
-Entities are split in tables, one table per attribute. Since entities are not necessarily stored in order (hence the need for IAM), each attribute table stores the value alongside its position id (~= primary key of row the attribute belong to).
+Entities are split in tables, one table per attribute. 
+
+Since entities are not necessarily stored in order (hence the need for IAM), each attribute table stores the value alongside its position id (~= primary key of row the attribute belong to).
 
 For example, the name column of the example RS in 1.2.2 becomes a list of (position, value) tuples:
 
