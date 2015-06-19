@@ -88,11 +88,15 @@ For example, in a typical SQL query:
 
 This means that the SQL engine will progressively build a tuple of data as it processes the predicates. When it needs data from another table, it does an implicit join, applies the predicate, if the predicate return true it appends the data to the tuple and keep going.
 
-This process is called __early materialization__ because the tuple is materialized from the moment the first predicate is run. If all predicate are run and the last one return false, the partially built tuple is simply discarded.
+This process is called __early materialization__ because the tuple is materialized from the moment the first predicate is run. If all predicates are run and the last one return false, the partially built tuple is simply discarded.
 
 #### Late Materialization
 
-In a CS database, the predicates can be run on the columns separately. Since entities in a column are at a fixed offset, that allows to keep a simple binary mask (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate, and doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. Then, the tuple are materialized (hence ‘late materialization’). This avoids partial materialization for entities that eventually have a predicate that return false. It is also significantly faster to do things this way since no superfluous data is read. In a RS, the data is stored in row-order, which means that after the original seek (which is the slowest operation in a read -- sequential read is extremely fast), only a bit of data can be read (the column required to run the predicate for the row) before having to seek again. In CS, a large chunk of column information can be sequentially read, which is much more efficient.
+In a CS database, the predicates can be run on the columns separately. Since entities in a column are at a fixed offset, that allows to keep a simple binary mask (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate, and doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. Then, the tuple are materialized (hence ‘late materialization’). 
+
+This avoids partial materialization for entities that eventually have a predicate that return false. 
+
+It is also significantly faster to do things this way since no superfluous data is read. In a RS, the data is stored in row-order, which means that after the original seek (which is the slowest operation in a read -- sequential read is extremely fast), only a bit of data can be read (the column required to run the predicate for the row) before having to seek again. In CS, a large chunk of column information can be sequentially read, which is much more efficient.
 
 ### 5.3 Block Iteration
 
