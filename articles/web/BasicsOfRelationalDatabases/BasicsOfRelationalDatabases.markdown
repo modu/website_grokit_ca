@@ -105,12 +105,6 @@ The main insight here is the odd-looking line _WHERE  friend.country = country.n
 
 It is easy to forget that the SQL engine may potentially have to go over all 6 combinations of the cross product of 'friends X country'. Fortunately for us, SQL typically will execute the predicate in order of _selectivity_, so the total number of operations is much smaller than the cross product of all table referenced. However, degenerate queries where all predicates return true most of the time can quickly bring a SQL engine to its knees for large enough table.
 
-## Column-Store Relational Database
-
-@@@read more about that
-
-The data is stored in disk in a column-fashion. The previous examples would have 3 columns: (names: Paul, Mary, Jeanne), (country: CA, CA, US), (ages: 25, 95, 61). The Record the data belongs to is identified by the index in the column at which the data is located [CStore_Paper, http://db.csail.mit.edu/projects/cstore/vldb.pdf].
-
 # Appendix: Example SQL Code
 
 dext.insertCode('sql_intro.py')
