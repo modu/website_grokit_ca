@@ -13,7 +13,7 @@ This paper compares the performance of RS and column-stores (CS) databases for t
 3. Address the question of whether adapting the schema of a RS to me more CS-like can yield similar performance gain as switching to a CS database.
 4. Proposes and measures the performance of a novel optimization for CS databases: invisible join.
 
-The main findings are:
+The __main findings__ are:
 
 1. CS can outperform RS by about a factor 10 _for some workloads_. 
 2. Performance gains: late materialization: 3x, compression: 2x.
@@ -63,7 +63,7 @@ Denormalize the data in tuples which fit the predicates that are often run on th
 
 ### 5.1 Compression
 
-Data in a column has less variance than data across rows (less entropy), it can therefore be compressed more efficiently. The main gain from compression is reduced I/O, rather than saving disk space. One must take care to select appropriate compression algorithms where speed of decompression is optimized at the cost of saving disk space. Another saving from compression is that some predicates can operate directly on (smaller) compressed data (think of binary comparison for example).
+Data in a __column__ has __less variance__ than data across rows (less entropy), it can therefore be compressed more efficiently. The main __gain__ from compression is __reduced I/O__, rather than saving disk space. One must take care to select appropriate compression algorithms where speed of decompression is optimized at the cost of saving disk space. Another saving from compression is that some predicates can operate directly on (smaller) compressed data (think of binary comparison for example).
 
 ### 5.2 Early Materialization, Late Materialization
 
