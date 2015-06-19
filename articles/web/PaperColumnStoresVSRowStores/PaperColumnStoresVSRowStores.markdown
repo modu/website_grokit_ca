@@ -73,13 +73,24 @@ Data in a __column__ has __less variance__ than data across rows (less entropy),
 
 #### Early Materialization
 
-In a CS database, tuples that represent the data needed to run the query’s predicates for a row are materialized in a row-by-row order. 
+To complete a query, it is necessary to fetch the information from the SELECT statement in addition to all information necessary to run all the predicates.
 
+For example, in a typical SQL query:
 
+        SELECT <column_1, column_2, ..., column_n>
+        FROM   <table_1, table_2, ..., table_n>
+        WHERE  <predicate_1>
+        AND    <predicate_2>
+        [...]
+        AND    <predicate_n>
+
+... all predicates must return true for the engine to have to return the data from the SELECT line to the user. This means that it can skip fetching some of the data if a predicate is false. Therefore, the data is fetched in a __pipeline join__ in order of __predicate selectivity__.
 
 + PIPELINE JOIN
 
-Predicate are run in order of most to least selective: the next predicate to run is fetched, if any data is missing it is fetched using a join operation and appended to the tuple. Once the operation is done for a row, a n-tuple is kept in memory and the same steps are repeated on the next row until all rows are done.
+Predicate are run in order of most to least selective: the next predicate to run is fetched, if any data is missing it is fetched using a join operation and appended to the tuple. 
+
+Once the operation is done for a row, a n-tuple is kept in memory and the same steps are repeated on the next row until all rows are done.
 
 #### Late Materialization
 
