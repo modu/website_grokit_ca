@@ -29,7 +29,7 @@ It is possible to have __indexes__ on more than one column, but requires the cre
 
 Using simply one long table (a set of flat rows), it would be hard to represent arbitrary _composite_ data without duplication. For example, in the table of the previous section, what would happen if in addition to a county, we have query that require the population and capital (of the country they live in) for every person in the table?
 
-It is possible to extend the table to contain columns ‘population’, ‘capital’ next to the ‘country’ column. This duplicates the information which wastes spaces and makes a simple update (CA’s population + 1 →  need to change all entries where ‘country’ = ‘CA’). A widely used relational model is the __star schema__ [RDBMS_StarSchema, https://en.wikipedia.org/wiki/Star_schema], where the main table is called the __fact table__ and the anxiliary tables are called __dimensions tables__. Attributes in the fact tables that refer to records in a dimension table use a __foreign key__, which is really just a pointer to an entry in a different table.
+It is possible to extend the table to contain columns ‘population’, ‘capital’ next to the ‘country’ column. This duplicates the information which wastes spaces and makes a simple update (CA’s population + 1 ?  need to change all entries where ‘country’ = ‘CA’). A widely used relational model is the __star schema__ [RDBMS_StarSchema, https://en.wikipedia.org/wiki/Star_schema], where the main table is called the __fact table__ and the anxiliary tables are called __dimensions tables__. Attributes in the fact tables that refer to records in a dimension table use a __foreign key__, which is really just a pointer to an entry in a different table.
 
     Table: countries 
 
@@ -63,7 +63,7 @@ For example:
 
 ### How Operations are Executed
 
-The basic mode of operation is simple to understand. First, the SELECT clause defines which _elements_ need to form the output. Those can be from the truth table or any of the dimension table. The FROM clause defines the source tables. The WHERE is just a set of predicate. The predicate run one-by-one, if any data is missing to run the predicate it is fetched from the dimension table. If all predicates match then the data will form the output.
+The basic mode of operation is simple to understand. First, the SELECT clause defines which _elements_ need to form the output. Those can be from the fact table or any of the dimension table. The FROM clause defines the source tables. The WHERE is just a set of predicate. The predicate run one-by-one, if any data is missing to run the predicate it is fetched from the dimension table. If all predicates match then the data will form the output.
 
 ### Think of Cross Products
 
