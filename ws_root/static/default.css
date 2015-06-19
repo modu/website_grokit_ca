@@ -18,6 +18,7 @@ h1 {
 
 h2 {
 	font-family: Georgia, "Times New Roman", Times, serif; 
+	border-bottom: 1px solid gray;
 	color: #8D8E85;
 }
 
