@@ -105,6 +105,15 @@ The main insight here is the odd-looking line _WHERE  friend.country = country.n
 
 It is easy to forget that the SQL engine may potentially have to go over all 6 combinations of the cross product of 'friends X country'. Fortunately for us, SQL typically will execute the predicate in order of _selectivity_, so the total number of operations is much smaller than the cross product of all table referenced. However, degenerate queries where all predicates return true most of the time can quickly bring a SQL engine to its knees for large enough table.
 
+## Transactions
+
+An example from [MySQL](https://dev.mysql.com/doc/refman/5.0/en/commit.html):
+
+    START TRANSACTION;
+    SELECT @A:=SUM(salary) FROM table1 WHERE type=1;
+    UPDATE table2 SET summary=@A WHERE type=1;
+    COMMIT;
+
 # Appendix: Example SQL Code
 
 dext.insertCode('sql_intro.py')
