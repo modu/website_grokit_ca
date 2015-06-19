@@ -37,11 +37,11 @@ However, the reason RS optimizations did not yield good result does not mean tha
 
 Section 4 discusses __optimizations__ that can be introduced to a __RS__ database to __mimic__ a __CS__ database.
 
-Although those optimization seem like a good idea, the authors show that none of them perform particularly well.
+Although those optimization seem like a good idea, the authors show that __none__ of them __perform__ particularly __well__.
 
 ### 4.1 Vertical Partitioning
 
-Entities are split in tables, one table per attribute. 
+Vertical partitioning: __entities are split in tables__, one table per attribute. 
 
 Since entities are not necessarily stored in order (hence the need for IAM), each attribute table stores the value alongside its position id (~= primary key of row the attribute belong to).
 
@@ -62,6 +62,8 @@ Leave the data as in a RS, but create an index for every column.
 Denormalize the data in tuples which fit the predicates that are often run on the database.
 
 ## 5. Column Oriented Execution
+
+This section reviews optimization that a CS can use.
 
 ### 5.1 Compression
 
