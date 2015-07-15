@@ -57,8 +57,8 @@ def solve(I, W):
     return recurse(0, I, S, W, {})
 
 #filename = 'knapsack_large.in'
-filename = 'knapsack_small.in'
-#filename = 'k_tiny.in'
+#filename = 'knapsack_small.in'
+filename = 'k_tiny.in'
 
 W, I = readProblem(filename)
 
