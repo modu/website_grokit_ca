@@ -16,14 +16,9 @@ h1 {
 	color: #626456;
 }
 
-h2 {
+h2,h3,h4,h5,h6 {
 	font-family: Georgia, "Times New Roman", Times, serif; 
 	color: #8D8E85;
-}
-
-h3 {
-	font-family: Georgia, "Times New Roman", Times, serif; 
-	color: #626456;
 }
 
 p {

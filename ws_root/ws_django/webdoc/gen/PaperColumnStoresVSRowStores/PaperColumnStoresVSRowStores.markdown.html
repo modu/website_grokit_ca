@@ -1,23 +1,23 @@
 <h1>Paper Reading Notes: Column-Stores vs. Row-Stores: How Different Are They Really?</h1>
 <p>Link to paper: <a href="http://dl.acm.org/citation.cfm?id=1376712">ACM website for citations</a>, <a href="http://db.csail.mit.edu/projects/cstore/abadi-sigmod08.pdf">full pdf</a>.</p>
 <h2>Overview</h2>
-<p>SQL databases are typically row-oriented. These row-stores (RS) are well suited for applications such as customer relationship management, but ill-suited for online analytical processing (OLAP) such as data mining.</p>
-<p>This paper compares the performance of RS and column-stores (CS) databases for those workloads. The contributions are:</p>
+<p>SQL databases are typically row-oriented. These row-stores (RS) are well suited for applications such as <strong>customer relationship management</strong>, but ill-suited for online <strong>analytical processing</strong> (OLAP) such as data mining.</p>
+<p>This paper compares the performance of RS and column-stores (CS) databases. The contributions are:</p>
 <ol>
 <li>Comparison of RS and CS databases on a standard benchmark.</li>
-<li>Lists, explain and measure gains of different optimizations in CS databases.</li>
-<li>Address the question of whether adapting the schema of a RS to me more CS-like can yield similar performance gain as switching to a CS database.</li>
-<li>Proposes and measures the performance of a novel optimization for CS databases: invisible join.</li>
+<li>Lists, explain and measure <strong>gains</strong> of different <strong>optimizations</strong> in <strong>CS</strong> databases.</li>
+<li>Address the question of whether <strong>adapting</strong> the schema of a <strong>RS</strong> to me more CS-like can yield similar performance gain as <strong>switching</strong> to a CS database.</li>
+<li>Proposes and measures the performance of a <strong>novel optimization</strong> for CS databases: <strong>invisible join</strong>.</li>
 </ol>
 <p>The <strong>main findings</strong> are:</p>
 <ol>
-<li>CS can outperform RS by about a factor 10 <em>for some workloads</em>. </li>
+<li>CS can outperform RS by about a factor 10 <strong>for some workloads</strong>. </li>
 <li>Performance gains: late materialization: 3x, compression: 2x.</li>
-<li>Attempts to adapt RS schemas to be more CS-like by method such as vertical partitioning, creating indexes for every column and optimal materialized views did not improve performance of RS as much as switching to CS.</li>
+<li>Attempts to adapt RS schemas to be more CS-like by method such as <strong>vertical partitioning</strong>, creating <strong>indexes for every column</strong> and <strong>optimal materialized views</strong> did not improve performance of RS as much as switching to CS.</li>
 <li>Invisible join improves performance by 50%.</li>
 </ol>
 <p>Those results suggest that one should pick a database system that is well suited for the expected workload.</p>
-<p>However, the reason RS optimizations to me more CS-like did not yield good result does not mean that it is not possible to build a RS database that can have similar performances under OLAP workload given CS-like optimizations are not done. The authors claim that <em>current</em> RS databases are not coded in a way that can take advantage of those optimizations.</p>
+<p>However, the reason RS optimizations did not yield good result does not mean that it is not possible to build a RS database that can have <em>similar performances under OLAP workload given CS-like optimizations</em>. The authors claim that <strong>current</strong> RS databases are <strong>not coded in a way</strong> that can take advantage of those optimizations.</p>
 <h2>1. Introduction</h2>
 <h3>1.1 Vocabulary:</h3>
 <ul>
@@ -28,9 +28,9 @@
 </ul>
 <h2>4. Row Oriented Execution</h2>
 <p>Section 4 discusses <strong>optimizations</strong> that can be introduced to a <strong>RS</strong> database to <strong>mimic</strong> a <strong>CS</strong> database.</p>
-<p>Although those optimization seem like a good idea, the authors show that none of them perform particularly well.</p>
+<p>Although those optimization seem like a good idea, the authors show that <strong>none</strong> of them <strong>perform</strong> particularly <strong>well</strong>.</p>
 <h3>4.1 Vertical Partitioning</h3>
-<p>Entities are split in tables, one table per attribute. </p>
+<p>Vertical partitioning: <strong>entities are split in tables</strong>, one table per attribute. </p>
 <p>Since entities are not necessarily stored in order (hence the need for IAM), each attribute table stores the value alongside its position id (~= primary key of row the attribute belong to).</p>
 <p>For example, the name column of the example RS in 1.2.2 becomes a list of (position, value) tuples:</p>
 <pre><code>(2, Mary)
@@ -43,6 +43,7 @@
 <h3>4.3 Materialized View</h3>
 <p>Denormalize the data in tuples which fit the predicates that are often run on the database.</p>
 <h2>5. Column Oriented Execution</h2>
+<p>This section reviews optimization that a CS can use. Most of those optimizations hinge on the idea that in CS, you can do thing faster since you do not need to read / process unrelated data (that you necessarily have to skip over if processing row-by-row).</p>
 <h3>5.1 Compression</h3>
 <p>Data in a <strong>column</strong> has <strong>less variance</strong> than data across rows (less entropy), it can therefore be compressed more efficiently. The main <strong>gain</strong> from compression is <strong>reduced I/O</strong>, rather than saving disk space. One must take care to select appropriate compression algorithms where speed of decompression is optimized at the cost of saving disk space. Another saving from compression is that some predicates can operate directly on (smaller) compressed data (think of binary comparison for example).</p>
 <h3>5.2 Early Materialization, Late Materialization</h3>
@@ -71,12 +72,6 @@
 <p>Since after doing the AND of all the columns it is possible to skip all rows for which one of the predicate is false. In RS / early materialization, the evaluation of predicate is done in a pipelined fashion, which means that if 9 out of 10 predicates are true and the 10th is false, a 9-tuple is constructed and thrown away. A 9-bit mask is necessarily smaller than a 9-tuple.</p>
 <h5>Block Iteration</h5>
 <p>The last section of 5.2 covered block iteration and why it is faster. It is worth mentioning that CS can also take advantage of the fact that column data will either be all fixed width, or all variable width. This means that column that are fixed width can be processed much faster. In RS, if any of the column of an record is of variable width, the whole record become variable width and that does away with the possible optimizations.</p>
-<h3>5.4 Author’s Innovation: Invisible Join</h3>
-<p>An issue with column late materialization is that data from the different columns is extracted out-of-order in the final tuple materialization, which has performance cost due to bad locality of reference.</p>
-<p>An invisible join consist of the following steps:</p>
-<ul>
-<li>Apply predicates on dimension tables.</li>
-<li>Create 1 hash table per column. Hash is of key ? {0,1}.</li>
-<li>Do a binary AND on all keys (keep only keys that satisfy all predicates).</li>
-</ul>
-<p>It is not clear to me how this is fundamentally different from late materialization. Also, after 3, the materialization will also be done out of order for all columns but the first one (assuming no correlation between column orders).</p>
+<h5>Invisible Join</h5>
+<p>Their innovation if a form of late materialization that they call <strong>invisible join</strong> with an added optimization that result in less <em>out of order</em> accesses.</p>
+<p>In late materialization, when the output n-tuple is being constructed, only one of the column will likely be in sorted order. Because of <em>locality of reference</em>, reading the columns out-of-order is relatively slow.</p>
