@@ -41,8 +41,6 @@ If you have floating point values for the weight, then the amount of memory you 
 
 It may be more efficient to use the standard table approach where you build a 2D array for of i / w.
 
-The fastest solution is most likely to use a branch and bound approach.
-
 # References
 
 - [Wikipedia](http://en.wikipedia.org/wiki/Knapsack_problem).
