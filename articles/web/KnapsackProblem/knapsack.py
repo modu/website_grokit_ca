@@ -18,8 +18,8 @@ def readProblem(filename):
 
     I = []
     for i in range(n):
-        [(int(x), int(y)) for x, y in [fh.readline().strip().split(' ')]]
-        I.append(X)
+        X = [(int(x), int(y)) for x, y in [fh.readline().strip().split(' ')]]
+        I.append(X[0])
 
     return (currWeight, I)
 
