@@ -9,9 +9,6 @@ Solution for problem as stated in https://class.coursera.org/algo2-2012-001/quiz
 - Use branch and bound and compare performance.
 """
 
-import copy
-
-
 def readProblem(filename):
     fh = open(filename)
     currWeight, n = [int(x) for x in fh.readline().strip().split(' ')]
@@ -24,23 +21,25 @@ def readProblem(filename):
     return (currWeight, I)
 
 
-def recurse(i, I, S, currWeight, memo):
+def recurse(i, S, currWeight, memo):
+    """
+    i = current position in S.
+    S: [(v0, w0), ..., (vn, wn)]
+    """
 
     if memo.get((i, currWeight)) is not None:
         return memo[(i, currWeight)]
 
-    if i == len(I):
+    if i == len(S):
         return 0
 
-    if currWeight - I[i][1] >= 0:
-        cPick = recurse(i + 1, I, S, currWeight - I[i][1], memo)
-        cPick += I[i][0]
+    if currWeight - S[i][1] >= 0:
+        cPick = recurse(i + 1, S, currWeight - S[i][1], memo)
+        cPick += S[i][0]
     else:
         cPick = -int(1e20)
 
-    S.remove(i)
-    cNoPick = recurse(i + 1, I, S, currWeight, memo)
-    S.add(i)
+    cNoPick = recurse(i + 1, S, currWeight, memo)
 
     if cNoPick >= cPick:
         sol = cNoPick
@@ -51,10 +50,8 @@ def recurse(i, I, S, currWeight, memo):
 
     return sol
 
-
 def solve(I, W):
-    S = set(range(len(I)))
-    return recurse(0, I, S, W, {})
+    return recurse(0, I, W, {})
 
 #filename = 'knapsack_large.in'
 #filename = 'knapsack_small.in'

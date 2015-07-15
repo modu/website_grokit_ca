@@ -31,8 +31,8 @@ def readProblem(filename):
 
     I = []
     for i in range(n):
-        [(int(x), int(y)) for x, y in [fh.readline().strip().split(' ')]]
-        I.append(X)
+        X = [(int(x), int(y)) for x, y in [fh.readline().strip().split(' ')]]
+        I.append(X[0])
 
     return (currWeight, I)
 
@@ -43,26 +43,22 @@ def recurse(i, I, S, currWeight, memo):
         return memo[(i, currWeight)]
 
     if i == len(I):
-        return 0, []
+        return 0
 
     if currWeight - I[i][1] &gt;= 0:
-        cPick, pathP = recurse(i + 1, I, S, currWeight - I[i][1], memo)
+        cPick = recurse(i + 1, I, S, currWeight - I[i][1], memo)
         cPick += I[i][0]
-        # The pathP and such are not necessary to solve the problem, it is
-        # there so that we can check the path.
-        pathP = copy.copy(pathP)
-        pathP.append(i)
     else:
         cPick = -int(1e20)
 
     S.remove(i)
-    cNoPick, pathNp = recurse(i + 1, I, S, currWeight, memo)
+    cNoPick = recurse(i + 1, I, S, currWeight, memo)
     S.add(i)
 
     if cNoPick &gt;= cPick:
-        sol = [cNoPick, pathNp]
+        sol = cNoPick
     else:
-        sol = [cPick, pathP]
+        sol = cPick
 
     memo[(i, currWeight)] = sol
 
@@ -73,20 +69,14 @@ def solve(I, W):
     S = set(range(len(I)))
     return recurse(0, I, S, W, {})
 
-# filename = 'knapsack_large.in'
-# filename = 'knapsack_small.in'
+#filename = 'knapsack_large.in'
+#filename = 'knapsack_small.in'
 filename = 'k_tiny.in'
 
 W, I = readProblem(filename)
 
 s = solve(I, W)
 print(s)
-
-t = 0
-for p in s[1]:
-    print('%i: %s' % (p, I[p]))
-    t += I[p][0]
-print('Total: %i.' % t)
 </code></pre>
 <p><strong>[Inserted file: k_tiny.in.]</strong></p>
 <pre><code>750 15
@@ -117,7 +107,6 @@ Large: 2595819
 <p>If you have floating point values for the weight, then the amount of memory you need to hold is not bounded by n*W. Let's say all n items have different floating point weights, it is possible that you never land on the same weight value for a given i.</p>
 <h1>Other Approaches</h1>
 <p>It may be more efficient to use the standard table approach where you build a 2D array for of i / w.</p>
-<p>The fastest solution is most likely to use a branch and bound approach.</p>
 <h1>References</h1>
 <ul>
 <li><a href="http://en.wikipedia.org/wiki/Knapsack_problem">Wikipedia</a>.</li>
