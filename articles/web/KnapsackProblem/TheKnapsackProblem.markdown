@@ -1,11 +1,11 @@
 
 # The Knapsack Problem
 
-You have a knapsack of size W and a set 'S' of n items of value v and weight w: S = {(v1, w1), (v2, w2), ..., (vn, wn)}. \\(W, vi, wi \in \mathbb{N}\\)
+You have a knapsack of size W and a set 'S' of n items of value v and weight w: S = {(v1, w1), (v2, w2), ..., (vn, wn)}. \\(W, vi, wi \in \mathbb{N}\\).
 
 Find the combinations of items in set S that yield the highest combined value whilst having a total weight w <= W.
 
-Assumption(s): all weights are non-negative integers. This is the _unbounded knapsack problem_.
+Note: since all weights are non-negative integers, this is the _unbounded knapsack problem_.
 
 ## Brute Force
 
