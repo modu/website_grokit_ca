@@ -9,7 +9,7 @@ Assumption(s): all weights are non-negative integers. This is the _unbounded kna
 
 ## Brute Force
 
-The simplest way to approach this problem is to just iterate all the possible \\(2^n\\) items combinations (each item can be either in the bad or not in the bag), discard the combinations that do not satisfy the weight constraint and output the item combination that has the maximum value.
+The simplest way to approach this problem is to just iterate all the possible \\(|\mathcal{P}(S)| = 2^n\\) items combinations (each item can be either in the bad or not in the bag), discard the combinations that do not satisfy the weight constraint and output the item combination that has the maximum value.
 
 However, for values n > 30, this becomes [computationally unfeasible](http://www.grokit.ca/cnt/ComputationallyFeasible/).
 
