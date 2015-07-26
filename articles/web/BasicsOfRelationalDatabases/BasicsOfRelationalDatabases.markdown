@@ -2,7 +2,7 @@
 
 ## Interface and Architecture of Typical Row-Store Relational Database
 
-Relational databases are structured in __tables__ that can refer to each other. A table is organized in __rows__ of information (also called a __record__). Each row has a set of __attributes__, which can be thought of as a property of a row. When grouped together, those attributes are referred to as a __column__ and typically have an associated name.
+Relational databases are structured in _tables_ that can refer to each other. A table is organized in _rows_ of information (also called a _record_). Each row has a set of _attributes_, which can be thought of as a property of a row. When grouped together, those attributes are referred to as a _column_ and typically have an associated name.
 
     Table: friends_list
 
@@ -13,15 +13,15 @@ Relational databases are structured in __tables__ that can refer to each other. 
     [...] 
     Row_n   Jeanne      US          61
 
-In the above example, a row of data of table ‘friends_list’ is (Paul, CA, 25). ‘95’ is the ‘age’ _attribute_ for Row_2 (name: Mary). Every table has a __primary key__, which uniquely identifies a row. In our example, the primary key could be the ‘name’ column (assuming that the names are unique in the whole database; in reality, primary keys are typically unique positive integers).
+In the above example, a row of data of table ‘friends_list’ is (Paul, CA, 25). ‘95’ is the ‘age’ _attribute_ for Row_2 (name: Mary). Every table has a _primary key_, which uniquely identifies a row. In our example, the primary key could be the ‘name’ column (assuming that the names are unique in the whole database; in reality, primary keys are typically unique positive integers).
 
-For historical reasons, RDBMS typically (physicalle) organize data by rows (because most early databases were dealing with online transaction processing (OLTP) type data). The physical __data__ is __stored__ on disk in a __row-order__: Paul, CA, 25; Mary, CA, 95; ... 61;. Next section will delve more in how the data is actually structured.
+For historical reasons, RDBMS typically (physically) organize data by rows (because most early databases were dealing with online transaction processing (OLTP) type data). The physical _data_ is _stored_ on disk in a _row-order_: Paul, CA, 25; Mary, CA, 95; ... 61;. Next section will delve more in how the data is actually structured.
 
 ## Relations Between Tables
 
 Using simply one long table (a set of flat rows), it would be hard to represent arbitrary _composite_ data without duplication. For example, in the table of the previous section, what would happen if in addition to a county, we have query that require the population and capital (of the country they live in) for every person in the table?
 
-It is possible to extend the table to contain columns ‘population’, ‘capital’ next to the ‘country’ column. This duplicates the information which wastes spaces and makes a simple update (CA’s population + 1 ?  need to change all entries where ‘country’ = ‘CA’). A widely used relational model is the __star schema__ [RDBMS_StarSchema, https://en.wikipedia.org/wiki/Star_schema], where the main table is called the __fact table__ and the anxiliary tables are called __dimensions tables__. Attributes in the fact tables that refer to records in a dimension table use a __foreign key__, which is really just a pointer to an entry in a different table.
+It is possible to extend the table to contain columns ‘population’, ‘capital’ next to the ‘country’ column. This duplicates the information which wastes spaces and makes a simple update (CA’s population + 1 ?  need to change all entries where ‘country’ = ‘CA’). A widely used relational model is the _star schema_ [RDBMS_StarSchema, https://en.wikipedia.org/wiki/Star_schema], where the main table is called the _fact table_ and the ancilliary tables are called _dimensions tables_. Attributes in the fact tables that refer to records in a dimension table use a _foreign key_, which is really just a pointer to an entry in a different table.
 
     Table: countries 
 
@@ -31,11 +31,11 @@ It is possible to extend the table to contain columns ‘population’, ‘capit
 
 ## How Tables Map to Data-Structures
 
-Without any database administrator set constraint, the data is stored in an __Index Allocation Map__ (IAM), which is basically a contigious array of data in no particular order alongside with an index ordered by id [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html]. This means that operations on columns stored in IAM must scan the entire table.
+Without any database administrator set constraint, the data is stored in an _Index Allocation Map_ (IAM), which is basically a contiguous array of data in no particular order alongside with an index ordered by id [Web_SQL_Datastructures, http://www.akadia.com/services/sqlsrv_data_structure.html]. This means that operations on columns stored in IAM must scan the entire table.
 
-It is possible to create one (and only one!) __clustered index__ per table, which structures data in a __B-Tree__ whose keys are one of the column of the table (where that column has the property to have guaranteed unique entries).
+It is possible to create one (and only one!) _clustered index_ per table, which structures data in a _B-Tree_ whose keys are one of the column of the table (where that column has the property to have guaranteed unique entries).
 
-It is possible to have __indexes__ on more than one column, but requires the creation of a side-index (data structure: B-Tree again) containing tuples of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency (everytime an entry is updated, so must its index).
+It is possible to have _indexes_ on more than one column, but requires the creation of a side-index (data structure: B-Tree again) containing tuples of (b-tree-id, actual-data-ref). Of course, this comes at the cost of more disk-data and more work to maintain consistency (every time an entry is updated, so must its index).
 
 ## The SQL Language
 
@@ -83,7 +83,7 @@ Output:
     ('Jeanne', 61)
     ('Jeanne', 61)
 
-This can seem counter-intuitive. But looking at what we ask the engine, it makes perfect sense. The SELECT statement asks to form a 2-tuple of (name, age) from two tables. It does not matter that we actually do not ask for any of the data from the 'country' table in the SELECT clause. The FROM clause has two tables, therefore the cross product of the two tables (for every row of country, for every row of friend) is generated. Since there is not WHERE clause (no predicate), all outputs are 'positibe and form the output.
+This can seem counter-intuitive. But looking at what we ask the engine, it makes perfect sense. The SELECT statement asks to form a 2-tuple of (name, age) from two tables. It does not matter that we actually do not ask for any of the data from the 'country' table in the SELECT clause. The FROM clause has two tables, therefore the cross product of the two tables (for every row of country, for every row of friend) is generated. Since there is not WHERE clause (no predicate), all outputs are positive and form the output.
 
 ### Implicit Join
 
@@ -94,7 +94,7 @@ This is important to understand since, for example, in this more sensible query:
     WHERE  friend.country = country.name
     AND    friend.age > 40
 
-The output looks very reasoneable:    
+The output looks very reasonable:    
 
     ('Mary', 95, 'Ottawa', 35.16)
     ('Jeanne', 61, 'Washington', 318.9)
@@ -114,7 +114,7 @@ SQL supports transaction on generic statements. An example from [MySQL](https://
     UPDATE table2 SET summary=@A WHERE type=1;
     COMMIT;
 
-At the cost of efficiency (think about what it means for locking data), this is a principal advantage over Key-Value Pair datastores where transaction support is fundamentally more limited (because information is sharded accross different machines).
+At the cost of efficiency (think about what it means for locking data), this is a principal advantage over Key-Value Pair datastores where transaction support is fundamentally more limited (because information is sharded across different machines).
 
 # Appendix: Example SQL Code
 
