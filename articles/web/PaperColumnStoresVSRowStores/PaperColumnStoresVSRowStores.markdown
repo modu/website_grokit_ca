@@ -4,25 +4,25 @@ Link to paper: [ACM website for citations](http://dl.acm.org/citation.cfm?id=137
 
 ## Overview
 
-SQL databases are typically row-oriented. These row-stores (RS) are well suited for applications such as __customer relationship management__, but ill-suited for online __analytical processing__ (OLAP) such as data mining.
+SQL databases are typically row-oriented. These row-stores (RS) are well suited for applications such as _customer relationship management_, but ill-suited for online _analytical processing_ (OLAP) such as data mining.
 
 This paper compares the performance of RS and column-stores (CS) databases. The contributions are:
 
 1. Comparison of RS and CS databases on a standard benchmark.
-2. Lists, explain and measure __gains__ of different __optimizations__ in __CS__ databases.
-3. Address the question of whether __adapting__ the schema of a __RS__ to me more CS-like can yield similar performance gain as __switching__ to a CS database.
-4. Proposes and measures the performance of a __novel optimization__ for CS databases: __invisible join__.
+2. Lists, explain and measure _gains_ of different _optimizations_ in _CS_ databases.
+3. Address the question of whether _adapting_ the schema of a _RS_ to me more CS-like can yield similar performance gain as _switching_ to a CS database.
+4. Proposes and measures the performance of a _novel optimization_ for CS databases: _invisible join_.
 
-The __main findings__ are:
+The _main findings_ are:
 
-1. CS can outperform RS by about a factor 10 __for some workloads__. 
+1. CS can outperform RS by about a factor 10 _for some workloads_. 
 2. Performance gains: late materialization: 3x, compression: 2x.
-3. Attempts to adapt RS schemas to be more CS-like by method such as __vertical partitioning__, creating __indexes for every column__ and __optimal materialized views__ did not improve performance of RS as much as switching to CS.
+3. Attempts to adapt RS schemas to be more CS-like by method such as _vertical partitioning_, creating _indexes for every column_ and _optimal materialized views_ did not improve performance of RS as much as switching to CS.
 4. Invisible join improves performance by 50%.
 
 Those results suggest that one should pick a database system that is well suited for the expected workload.
 
-However, the reason RS optimizations did not yield good result does not mean that it is not possible to build a RS database that can have _similar performances under OLAP workload given CS-like optimizations_. The authors claim that __current__ RS databases are __not coded in a way__ that can take advantage of those optimizations.
+However, the reason RS optimizations did not yield good result does not mean that it is not possible to build a RS database that can have _similar performances under OLAP workload given CS-like optimizations_. The authors claim that _current_ RS databases are _not coded in a way_ that can take advantage of those optimizations.
 
 ## 1. Introduction
 
@@ -35,13 +35,13 @@ However, the reason RS optimizations did not yield good result does not mean tha
 
 ## 4. Row Oriented Execution
 
-Section 4 discusses __optimizations__ that can be introduced to a __RS__ database to __mimic__ a __CS__ database.
+Section 4 discusses _optimizations_ that can be introduced to a _RS_ database to _mimic_ a _CS_ database.
 
-Although those optimization seem like a good idea, the authors show that __none__ of them __perform__ particularly __well__.
+Although those optimization seem like a good idea, the authors show that _none_ of them _perform_ particularly _well_.
 
 ### 4.1 Vertical Partitioning
 
-Vertical partitioning: __entities are split in tables__, one table per attribute. 
+Vertical partitioning: _entities are split in tables_, one table per attribute. 
 
 Since entities are not necessarily stored in order (hence the need for IAM), each attribute table stores the value alongside its position id (~= primary key of row the attribute belong to).
 
@@ -67,7 +67,7 @@ This section reviews optimization that a CS can use. Most of those optimizations
 
 ### 5.1 Compression
 
-Data in a __column__ has __less variance__ than data across rows (less entropy), it can therefore be compressed more efficiently. The main __gain__ from compression is __reduced I/O__, rather than saving disk space. One must take care to select appropriate compression algorithms where speed of decompression is optimized at the cost of saving disk space. Another saving from compression is that some predicates can operate directly on (smaller) compressed data (think of binary comparison for example).
+Data in a _column_ has _less variance_ than data across rows (less entropy), it can therefore be compressed more efficiently. The main _gain_ from compression is _reduced I/O_, rather than saving disk space. One must take care to select appropriate compression algorithms where speed of decompression is optimized at the cost of saving disk space. Another saving from compression is that some predicates can operate directly on (smaller) compressed data (think of binary comparison for example).
 
 ### 5.2 Early Materialization, Late Materialization
 
@@ -86,15 +86,15 @@ For example, in a typical SQL query:
         [...]
         AND    <predicate_n>
 
-... all predicates must return true for the engine to have to return the data from the SELECT line to the user. This means that it can skip fetching some of the data if a predicate is false. Therefore, the data is fetched in a __pipeline join__ in order of __predicate selectivity__.
+... all predicates must return true for the engine to have to return the data from the SELECT line to the user. This means that it can skip fetching some of the data if a predicate is false. Therefore, the data is fetched in a _pipeline join_ in order of _predicate selectivity_.
 
 This means that the SQL engine will progressively build a tuple of data as it processes the predicates. When it needs data from another table, it does an implicit join, applies the predicate, if the predicate return true it appends the data to the tuple and keep going.
 
-This process is called __early materialization__ because the tuple is materialized from the moment the first predicate is run. If all predicates are run and the last one return false, the partially built tuple is simply discarded.
+This process is called _early materialization_ because the tuple is materialized from the moment the first predicate is run. If all predicates are run and the last one return false, the partially built tuple is simply discarded.
 
 #### Late Materialization
 
-Assuming CS (data in a column is stored sequentially), it is very efficient to apply predicates column-by-column instead of row-by-row. Since in a CS, _entities in a column are at a fixed offset_, that allows to keep a simple __binary mask__ (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate. Doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. After this is done, the final output n-tuple can be materialized.
+Assuming CS (data in a column is stored sequentially), it is very efficient to apply predicates column-by-column instead of row-by-row. Since in a CS, _entities in a column are at a fixed offset_, that allows to keep a simple _binary mask_ (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate. Doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. After this is done, the final output n-tuple can be materialized.
 
 This has the potential to be faster than _early materialization_ since:
 
@@ -116,6 +116,6 @@ The last section of 5.2 covered block iteration and why it is faster. It is wort
 
 ##### Invisible Join
 
-Their innovation if a form of late materialization that they call __invisible join__ with an added optimization that result in less _out of order_ accesses.
+Their innovation if a form of late materialization that they call _invisible join_ with an added optimization that result in less _out of order_ accesses.
 
 In late materialization, when the output n-tuple is being constructed, only one of the column will likely be in sorted order. Because of _locality of reference_, reading the columns out-of-order is relatively slow.
