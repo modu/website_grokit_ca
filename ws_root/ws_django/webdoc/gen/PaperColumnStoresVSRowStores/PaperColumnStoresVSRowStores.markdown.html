@@ -1,23 +1,23 @@
 <h1>Paper Reading Notes: Column-Stores vs. Row-Stores: How Different Are They Really?</h1>
 <p>Link to paper: <a href="http://dl.acm.org/citation.cfm?id=1376712">ACM website for citations</a>, <a href="http://db.csail.mit.edu/projects/cstore/abadi-sigmod08.pdf">full pdf</a>.</p>
 <h2>Overview</h2>
-<p>SQL databases are typically row-oriented. These row-stores (RS) are well suited for applications such as <strong>customer relationship management</strong>, but ill-suited for online <strong>analytical processing</strong> (OLAP) such as data mining.</p>
+<p>SQL databases are typically row-oriented. These row-stores (RS) are well suited for applications such as <em>customer relationship management</em>, but ill-suited for online <em>analytical processing</em> (OLAP) such as data mining.</p>
 <p>This paper compares the performance of RS and column-stores (CS) databases. The contributions are:</p>
 <ol>
 <li>Comparison of RS and CS databases on a standard benchmark.</li>
-<li>Lists, explain and measure <strong>gains</strong> of different <strong>optimizations</strong> in <strong>CS</strong> databases.</li>
-<li>Address the question of whether <strong>adapting</strong> the schema of a <strong>RS</strong> to me more CS-like can yield similar performance gain as <strong>switching</strong> to a CS database.</li>
-<li>Proposes and measures the performance of a <strong>novel optimization</strong> for CS databases: <strong>invisible join</strong>.</li>
+<li>Lists, explain and measure <em>gains</em> of different <em>optimizations</em> in <em>CS</em> databases.</li>
+<li>Address the question of whether <em>adapting</em> the schema of a <em>RS</em> to me more CS-like can yield similar performance gain as <em>switching</em> to a CS database.</li>
+<li>Proposes and measures the performance of a <em>novel optimization</em> for CS databases: <em>invisible join</em>.</li>
 </ol>
-<p>The <strong>main findings</strong> are:</p>
+<p>The <em>main findings</em> are:</p>
 <ol>
-<li>CS can outperform RS by about a factor 10 <strong>for some workloads</strong>. </li>
+<li>CS can outperform RS by about a factor 10 <em>for some workloads</em>. </li>
 <li>Performance gains: late materialization: 3x, compression: 2x.</li>
-<li>Attempts to adapt RS schemas to be more CS-like by method such as <strong>vertical partitioning</strong>, creating <strong>indexes for every column</strong> and <strong>optimal materialized views</strong> did not improve performance of RS as much as switching to CS.</li>
+<li>Attempts to adapt RS schemas to be more CS-like by method such as <em>vertical partitioning</em>, creating <em>indexes for every column</em> and <em>optimal materialized views</em> did not improve performance of RS as much as switching to CS.</li>
 <li>Invisible join improves performance by 50%.</li>
 </ol>
 <p>Those results suggest that one should pick a database system that is well suited for the expected workload.</p>
-<p>However, the reason RS optimizations did not yield good result does not mean that it is not possible to build a RS database that can have <em>similar performances under OLAP workload given CS-like optimizations</em>. The authors claim that <strong>current</strong> RS databases are <strong>not coded in a way</strong> that can take advantage of those optimizations.</p>
+<p>However, the reason RS optimizations did not yield good result does not mean that it is not possible to build a RS database that can have <em>similar performances under OLAP workload given CS-like optimizations</em>. The authors claim that <em>current</em> RS databases are <em>not coded in a way</em> that can take advantage of those optimizations.</p>
 <h2>1. Introduction</h2>
 <h3>1.1 Vocabulary:</h3>
 <ul>
@@ -27,10 +27,10 @@
 <li>Locality of reference: it is much faster to access data in a contiguous manner.</li>
 </ul>
 <h2>4. Row Oriented Execution</h2>
-<p>Section 4 discusses <strong>optimizations</strong> that can be introduced to a <strong>RS</strong> database to <strong>mimic</strong> a <strong>CS</strong> database.</p>
-<p>Although those optimization seem like a good idea, the authors show that <strong>none</strong> of them <strong>perform</strong> particularly <strong>well</strong>.</p>
+<p>Section 4 discusses <em>optimizations</em> that can be introduced to a <em>RS</em> database to <em>mimic</em> a <em>CS</em> database.</p>
+<p>Although those optimization seem like a good idea, the authors show that <em>none</em> of them <em>perform</em> particularly <em>well</em>.</p>
 <h3>4.1 Vertical Partitioning</h3>
-<p>Vertical partitioning: <strong>entities are split in tables</strong>, one table per attribute. </p>
+<p>Vertical partitioning: <em>entities are split in tables</em>, one table per attribute. </p>
 <p>Since entities are not necessarily stored in order (hence the need for IAM), each attribute table stores the value alongside its position id (~= primary key of row the attribute belong to).</p>
 <p>For example, the name column of the example RS in 1.2.2 becomes a list of (position, value) tuples:</p>
 <pre><code>(2, Mary)
@@ -45,7 +45,7 @@
 <h2>5. Column Oriented Execution</h2>
 <p>This section reviews optimization that a CS can use. Most of those optimizations hinge on the idea that in CS, you can do thing faster since you do not need to read / process unrelated data (that you necessarily have to skip over if processing row-by-row).</p>
 <h3>5.1 Compression</h3>
-<p>Data in a <strong>column</strong> has <strong>less variance</strong> than data across rows (less entropy), it can therefore be compressed more efficiently. The main <strong>gain</strong> from compression is <strong>reduced I/O</strong>, rather than saving disk space. One must take care to select appropriate compression algorithms where speed of decompression is optimized at the cost of saving disk space. Another saving from compression is that some predicates can operate directly on (smaller) compressed data (think of binary comparison for example).</p>
+<p>Data in a <em>column</em> has <em>less variance</em> than data across rows (less entropy), it can therefore be compressed more efficiently. The main <em>gain</em> from compression is <em>reduced I/O</em>, rather than saving disk space. One must take care to select appropriate compression algorithms where speed of decompression is optimized at the cost of saving disk space. Another saving from compression is that some predicates can operate directly on (smaller) compressed data (think of binary comparison for example).</p>
 <h3>5.2 Early Materialization, Late Materialization</h3>
 <p><strong>Materialization</strong> is the creation of a tuple that represents information required to complete an operation, which can be any of the attribute from any of the tables (attribute in dimension tables must be fetched with a join operation). </p>
 <h4>Early Materialization</h4>
@@ -58,11 +58,11 @@
     [...]
     AND    &lt;predicate_n&gt;
 </code></pre>
-<p>... all predicates must return true for the engine to have to return the data from the SELECT line to the user. This means that it can skip fetching some of the data if a predicate is false. Therefore, the data is fetched in a <strong>pipeline join</strong> in order of <strong>predicate selectivity</strong>.</p>
+<p>... all predicates must return true for the engine to have to return the data from the SELECT line to the user. This means that it can skip fetching some of the data if a predicate is false. Therefore, the data is fetched in a <em>pipeline join</em> in order of <em>predicate selectivity</em>.</p>
 <p>This means that the SQL engine will progressively build a tuple of data as it processes the predicates. When it needs data from another table, it does an implicit join, applies the predicate, if the predicate return true it appends the data to the tuple and keep going.</p>
-<p>This process is called <strong>early materialization</strong> because the tuple is materialized from the moment the first predicate is run. If all predicates are run and the last one return false, the partially built tuple is simply discarded.</p>
+<p>This process is called <em>early materialization</em> because the tuple is materialized from the moment the first predicate is run. If all predicates are run and the last one return false, the partially built tuple is simply discarded.</p>
 <h4>Late Materialization</h4>
-<p>Assuming CS (data in a column is stored sequentially), it is very efficient to apply predicates column-by-column instead of row-by-row. Since in a CS, <em>entities in a column are at a fixed offset</em>, that allows to keep a simple <strong>binary mask</strong> (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate. Doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. After this is done, the final output n-tuple can be materialized.</p>
+<p>Assuming CS (data in a column is stored sequentially), it is very efficient to apply predicates column-by-column instead of row-by-row. Since in a CS, <em>entities in a column are at a fixed offset</em>, that allows to keep a simple <em>binary mask</em> (bit at offset i represents delegate on record at offset i) for all entities that are true for a predicate. Doing a binary AND for the bitmasks of all predicates yields the entities that pass all predicates. After this is done, the final output n-tuple can be materialized.</p>
 <p>This has the potential to be faster than <em>early materialization</em> since:</p>
 <h5>No superfluous data is read</h5>
 <p>Is a RS, some of the fields for a row might not be needed, but they need to be read anyways. Using CS / late materialization, no superfluous data is read.</p>
@@ -73,5 +73,5 @@
 <h5>Block Iteration</h5>
 <p>The last section of 5.2 covered block iteration and why it is faster. It is worth mentioning that CS can also take advantage of the fact that column data will either be all fixed width, or all variable width. This means that column that are fixed width can be processed much faster. In RS, if any of the column of an record is of variable width, the whole record become variable width and that does away with the possible optimizations.</p>
 <h5>Invisible Join</h5>
-<p>Their innovation if a form of late materialization that they call <strong>invisible join</strong> with an added optimization that result in less <em>out of order</em> accesses.</p>
+<p>Their innovation if a form of late materialization that they call <em>invisible join</em> with an added optimization that result in less <em>out of order</em> accesses.</p>
 <p>In late materialization, when the output n-tuple is being constructed, only one of the column will likely be in sorted order. Because of <em>locality of reference</em>, reading the columns out-of-order is relatively slow.</p>
