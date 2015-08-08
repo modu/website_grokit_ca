@@ -7,7 +7,7 @@ window.requestAnimFrame =
     window.msRequestAnimationFrame ||
     function (callback) {
         window.setTimeout(callback, 1000 / 30);
-};
+    };
 
 // Global variables accessible everywhere.
 var canvas, world;
