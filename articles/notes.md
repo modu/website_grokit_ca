@@ -1,7 +1,5 @@
 
-- Change web to highq.
-
-- Make it so that where something is in just makes sure it has that tag.
+# TODO
 
 # To Write About
 

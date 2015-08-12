@@ -7,23 +7,24 @@ This is not really an article but a dump of different tools and commands that ar
 
 ## Dump Private Key + Public Certificate from Password Protected .pfx File
 
-openssl pkcs12 -in certificate.pfx -nodes
+		openssl pkcs12 -in certificate.pfx -nodes
+
 (You will be prompted for password.)
 
 ## Dump Private Key Only to File from Password Protected .pfx File
 
-openssl pkcs12 -in certificate.pfx -nocerts -out privateKey.pem -nodes
+		openssl pkcs12 -in certificate.pfx -nocerts -out privateKey.pem -nodes
 
 ## Dump Certificate and Public Key from Password Protected .pfx File
 
-openssl pkcs12 -in yourP12File.pfx -clcerts -nokeys -out publicCert.pem
-openssl x509 -pubkey -noout -in publicCert.pem
+		openssl pkcs12 -in yourP12File.pfx -clcerts -nokeys -out publicCert.pem
+		openssl x509 -pubkey -noout -in publicCert.pem
 
 ## Generate Cert (another way)
 
-openssl genrsa 2048 > private.pem
-openssl req -x509 -new -key private.pem -out public.pem
-openssl pkcs12 -export -in public.pem -inkey private.pem -out mycert.pfx
+		openssl genrsa 2048 > private.pem
+		openssl req -x509 -new -key private.pem -out public.pem
+		openssl pkcs12 -export -in public.pem -inkey private.pem -out mycert.pfx
 
 Note: .pem files are same as .cer files.
 
