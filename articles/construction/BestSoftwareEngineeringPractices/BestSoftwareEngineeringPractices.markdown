@@ -65,6 +65,8 @@ b.end(social): ask yourself: what can I do to help them achieve their goals?
 b.eng talk with intent: do not say anything unless the result of talking is clear in your head. This eliminate the blah blah.
 eng. best: predict / expect: rule to test knowledge: should be able to predict. if can't predict, update model. If model is too complicated, then the system needs to be simplified
 
+engineering: signs that your application sucks: you cannot run your component easily (long start time, needs to run under context, env. variables). You cannot run sub. part of the system easily inside a test program or re-use for a different purpose.
+
 # Logging
 
 - Logs from ALL machines accessible / queryable in one place.
