@@ -30,6 +30,8 @@ On the procesing side the only thing to do is just remove the tags from the pres
 
 Could make this a broader rule with <action>::<parameter(s)>, could use "::", or ":::" (whatever is rare enough so that it does not conflict with another notation).
 
+Try to pick a notation that is intuitive, does not conflict and is extendable beyond tagging.
+
 
 
 
