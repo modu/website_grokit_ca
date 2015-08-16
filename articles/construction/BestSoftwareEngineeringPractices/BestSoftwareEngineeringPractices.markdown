@@ -67,6 +67,8 @@ eng. best: predict / expect: rule to test knowledge: should be able to predict. 
 
 engineering: signs that your application sucks: you cannot run your component easily (long start time, needs to run under context, env. variables). You cannot run sub. part of the system easily inside a test program or re-use for a different purpose.
 
+- Joe Armstrong (Erlang creator): "The problem with object-oriented languages is they’ve got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana... and the entire jungle".
+
 # Logging
 
 - Logs from ALL machines accessible / queryable in one place.
