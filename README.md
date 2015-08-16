@@ -22,3 +22,16 @@ It is built using Django and Google App Engine. In order to deploy you will have
 (https://gist.github.com/vzvenyach/7278543)
 unoconv -f html test.docx
 pandoc -f html -t markdown -o test.md test.html
+
+## Improving Tagging System
+
+tag::<tag> inline may be better than keeping seperate metadata in the file.
+On the procesing side the only thing to do is just remove the tags from the presented text.
+
+Could make this a broader rule with <action>::<parameter(s)>, could use "::", or ":::" (whatever is rare enough so that it does not conflict with another notation).
+
+
+
+
+
+
