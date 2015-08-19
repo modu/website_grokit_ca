@@ -61,6 +61,10 @@ It seems reasonable to instigate metric systems in software companies, but becau
 
 - Dependency injection, micro-services : beware the buzzwords. Does it reduce complexity
 
+a short story of OO: inheritance (too strong, messy, lots of data, hard to understand), polymorphism (casting everywhere) and encapsulation (hides mutable state, result in violation of the least surprise principle; as the code changes over time, the objects typically make less and less sense; sometimes just exposing data as it is is a better idea)
+
+good engineering: measure of quality if you can take code from a project and use it in an unrelated project without too many changes. [quote with the banana, monkey, jungle]: “The problem with object-oriented languages is they’ve got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana and the entire jungle.” – Joe Armstrong
+
 b.end(social): ask yourself: what can I do to help them achieve their goals?
 b.eng talk with intent: do not say anything unless the result of talking is clear in your head. This eliminate the blah blah.
 eng. best: predict / expect: rule to test knowledge: should be able to predict. if can't predict, update model. If model is too complicated, then the system needs to be simplified
