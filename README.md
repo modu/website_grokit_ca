@@ -34,6 +34,11 @@ Could make this a broader rule with <action>::<parameter(s)>, could use "::", or
 
 Try to pick a notation that is intuitive, does not conflict and is extendable beyond tagging.
 
+## Blogging Directly Markdown
+
+marked.min.js
+
+
 
 
 
