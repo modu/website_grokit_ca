@@ -22,3 +22,9 @@ It is built using Django and Google App Engine. In order to deploy you will have
 (https://gist.github.com/vzvenyach/7278543)
 unoconv -f html test.docx
 pandoc -f html -t markdown -o test.md test.html
+
+# Dependencies
+
+- http://www.djangoproject.com/download/1.1.3/tarball/
+- http://googleappengine.googlecode.com/files/google_appengine_1.4.0.zip
+

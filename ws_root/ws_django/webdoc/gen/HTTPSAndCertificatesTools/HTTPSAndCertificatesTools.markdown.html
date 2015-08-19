@@ -1,17 +1,22 @@
 <h1>HTTPS And Certificates Tools</h1>
+<p>This is not really an article but a dump of different tools and commands that are useful when dealing with HTTPS and certificates.</p>
 <h1>OpenSSL Commands</h1>
 <h2>Dump Private Key + Public Certificate from Password Protected .pfx File</h2>
-<p>openssl pkcs12 -in certificate.pfx -nodes
-(You will be prompted for password.)</p>
+<pre><code>    openssl pkcs12 -in certificate.pfx -nodes
+</code></pre>
+<p>(You will be prompted for password.)</p>
 <h2>Dump Private Key Only to File from Password Protected .pfx File</h2>
-<p>openssl pkcs12 -in certificate.pfx -nocerts -out privateKey.pem -nodes</p>
+<pre><code>    openssl pkcs12 -in certificate.pfx -nocerts -out privateKey.pem -nodes
+</code></pre>
 <h2>Dump Certificate and Public Key from Password Protected .pfx File</h2>
-<p>openssl pkcs12 -in yourP12File.pfx -clcerts -nokeys -out publicCert.pem
-openssl x509 -pubkey -noout -in publicCert.pem</p>
+<pre><code>    openssl pkcs12 -in yourP12File.pfx -clcerts -nokeys -out publicCert.pem
+    openssl x509 -pubkey -noout -in publicCert.pem
+</code></pre>
 <h2>Generate Cert (another way)</h2>
-<p>openssl genrsa 2048 &gt; private.pem
-openssl req -x509 -new -key private.pem -out public.pem
-openssl pkcs12 -export -in public.pem -inkey private.pem -out mycert.pfx</p>
+<pre><code>    openssl genrsa 2048 &gt; private.pem
+    openssl req -x509 -new -key private.pem -out public.pem
+    openssl pkcs12 -export -in public.pem -inkey private.pem -out mycert.pfx
+</code></pre>
 <p>Note: .pem files are same as .cer files.</p>
 <h1>Check Certificate Served by HTTPS Server</h1>
 <h2>Simple CURL Command</h2>
@@ -31,20 +36,20 @@ openssl pkcs12 -export -in public.pem -inkey private.pem -out mycert.pfx</p>
 </code></pre>
 <h2>C# Code That Juices HTTPS Server Certificate Info</h2>
 <pre><code>    private static bool ValidateServerCertficate(
-    object sender,
-    X509Certificate cert,
-    X509Chain chain,
-    SslPolicyErrors sslPolicyErrors)
+                    object sender,
+                    X509Certificate cert,
+                    X509Chain chain,
+                    SslPolicyErrors sslPolicyErrors)
     {
-    System.Console.WriteLine(cert.GetCertHashString());
-    return true;
+        System.Console.WriteLine(cert.GetCertHashString());
+        return true;
     }
 
     static void Main(string[] args)
     {
-    HttpClient httpClient = new HttpClient();
-    ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertficate;
-    HttpRequestMessage http = new HttpRequestMessage(HttpMethod.Get, "https://bank.com");
-    httpClient.SendAsync(http).Wait();
+        HttpClient httpClient = new HttpClient();
+        ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertficate;
+        HttpRequestMessage http = new HttpRequestMessage(HttpMethod.Get, "https://www.yahoo.com");
+        httpClient.SendAsync(http).Wait();
     }
 </code></pre>
