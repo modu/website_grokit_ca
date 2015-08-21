@@ -12,7 +12,8 @@ changelist
 
 jumplist
 
-    ctrl-o
-    ctrl-b
+    ctrl-I
+    ctrl-B
+    (Capitalization matters.)
     :jumps
 
