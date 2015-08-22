@@ -79,8 +79,18 @@ It is unimaginably hard to do this, to stay conscious and alive in the adult wor
 
 I wish you way more than luck."
 
+# Appendix
+
 ## David's Ending
 
 David [killed himself](http://en.wikipedia.org/wiki/David_Foster_Wallace#Death) in 2008, after a lifelong struggle with depression. This may somewhat diminish the authority of the advice given in the speech (looks like even with all the wisdom that he displayed in the speech, he was not able to become "well-adjusted" as recommended by his own advice).
 
 This is a sad reminder that good advice and wisdom is not always relevant to the person giving it, even if it can remain valid for others.
+
+## Links
+
+Two articles about his life definitely worth reading:
+
+- http://www.newyorker.com/magazine/2009/03/09/the-unfinished
+- http://www.newyorker.com/books/page-turner/david-foster-wallace-in-recovery-an-excerpt-from-the-new-biography
+
